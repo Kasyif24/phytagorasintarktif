@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pythagoras Explorer - Belajar Interaktif Teorema Pythagoras</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: { display: ['Space Grotesk','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+      colors: {
+        deep: { 50:'#f0f7ff',100:'#e0effe',200:'#b9dffc',300:'#7cc8f8',400:'#36adf2',500:'#0c8ede',600:'#0070b7',700:'#015a93',800:'#064b78',900:'#0a3d65',950:'#0a1628' },
+        surface: { 50:'#f8fafc',100:'#f1f5f9',200:'#e2e8f0',300:'#cbd5e1',400:'#94a3b8',500:'#64748b',600:'#475569',700:'#334155',800:'#1e293b',900:'#111d32',950:'#0d1520' },
+        cyan: { 400:'#22d3ee',500:'#06b6d4',600:'#0891b2' },
+        gold: { 400:'#fbbf24',500:'#f59e0b',600:'#d97706' },
+        coral: { 400:'#f87171',500:'#ef4444',600:'#dc2626' },
+        mint: { 400:'#34d399',500:'#10b981',600:'#059669' }
+      }
+    }
+  }
+}
+</script>
+<style>
+  :root {
+    --bg-deep:#f0f4f8;--bg-surface:#ffffff;--bg-elevated:#f8fafc;
+    --text-primary:#0d1b2a;--text-secondary:#5a6b7f;--text-muted:#8896a6;
+    --accent-cyan:#06b6d4;--accent-gold:#f59e0b;--accent-coral:#ef4444;--accent-mint:#10b981;
+    --border:#e2e8f0;--glow:rgba(6,182,212,0.15);--shadow:rgba(0,0,0,0.08);
+  }
+  html.dark {
+    --bg-deep:#0a1628;--bg-surface:#111d32;--bg-elevated:#162236;
+    --text-primary:#e8edf5;--text-secondary:#8b9bb4;--text-muted:#5a6a80;
+    --border:#1e3050;--glow:rgba(6,182,212,0.1);--shadow:rgba(0,0,0,0.4);
+  }
+  * { margin:0;padding:0;box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Space Grotesk',sans-serif; background:var(--bg-deep); color:var(--text-primary); transition:background .4s,color .4s; overflow-x:hidden; }
+  .section { display:none; min-height:calc(100vh - 64px); padding:2rem 1rem; animation:fadeUp .5s ease; }
+  .section.active { display:block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-20px) rotate(3deg)} }
+  @keyframes pulse-glow { 0%,100%{box-shadow:0 0 20px var(--glow)} 50%{box-shadow:0 0 40px var(--glow),0 0 60px var(--glow)} }
+  @keyframes spin-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes dash { to{stroke-dashoffset:0} }
+  .float-anim { animation:float 6s ease-in-out infinite; }
+  .float-anim-delay { animation:float 7s ease-in-out 1s infinite; }
+  .pulse-glow { animation:pulse-glow 3s ease-in-out infinite; }
+  .glass { background:color-mix(in srgb,var(--bg-surface) 80%,transparent); backdrop-filter:blur(16px); border:1px solid var(--border); }
+  .card { background:var(--bg-surface); border:1px solid var(--border); border-radius:16px; transition:transform .3s,box-shadow .3s; }
+  .card:hover { transform:translateY(-4px); box-shadow:0 12px 40px var(--shadow); }
+  .btn-primary { background:linear-gradient(135deg,#06b6d4,#0891b2); color:#fff; border:none; padding:12px 28px; border-radius:12px; font-weight:600; cursor:pointer; transition:all .3s; font-family:inherit; font-size:1rem; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(6,182,212,0.3); }
+  .btn-secondary { background:var(--bg-elevated); color:var(--text-primary); border:1px solid var(--border); padding:10px 24px; border-radius:12px; font-weight:500; cursor:pointer; transition:all .3s; font-family:inherit; font-size:.9rem; }
+  .btn-secondary:hover { border-color:var(--accent-cyan); color:var(--accent-cyan); }
+  .input-field { background:var(--bg-elevated); border:1px solid var(--border); color:var(--text-primary); padding:10px 16px; border-radius:10px; font-family:'JetBrains Mono',monospace; font-size:1rem; outline:none; transition:border-color .3s; width:100%; }
+  .input-field:focus { border-color:var(--accent-cyan); box-shadow:0 0 0 3px var(--glow); }
+  .nav-link { position:relative; padding:8px 16px; border-radius:10px; transition:all .3s; cursor:pointer; color:var(--text-secondary); font-weight:500; white-space:nowrap; }
+  .nav-link:hover,.nav-link.active { color:var(--accent-cyan); background:var(--glow); }
+  .nav-link.active::after { content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:20px; height:3px; background:var(--accent-cyan); border-radius:2px; }
+  .formula-box { background:var(--bg-elevated); border:2px solid var(--border); border-radius:16px; padding:1.5rem; text-align:center; font-family:'JetBrains Mono',monospace; }
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:4px 12px; border-radius:20px; font-size:.75rem; font-weight:600; }
+  .toast-container { position:fixed; top:80px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+  .toast { padding:12px 20px; border-radius:12px; font-weight:500; animation:slideIn .3s ease; max-width:320px; }
+  @keyframes slideIn { from{opacity:0;transform:translateX(100px)} to{opacity:1;transform:translateX(0)} }
+  .toast-success { background:#065f46; color:#a7f3d0; border:1px solid #10b981; }
+  .toast-error { background:#7f1d1d; color:#fca5a5; border:1px solid #ef4444; }
+  .toast-info { background:#164e63; color:#a5f3fc; border:1px solid #06b6d4; }
+  .tab-btn { padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all .3s; border:1px solid transparent; background:transparent; color:var(--text-secondary); font-family:inherit; }
+  .tab-btn.active { background:var(--accent-cyan); color:#fff; border-color:var(--accent-cyan); }
+  .tab-btn:hover:not(.active) { border-color:var(--border); color:var(--text-primary); }
+  .progress-bar { height:6px; border-radius:3px; background:var(--border); overflow:hidden; }
+  .progress-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,#06b6d4,#22d3ee); transition:width .5s ease; }
+  .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:40; }
+  .sidebar-overlay.show { display:block; }
+  @media(max-width:768px) {
+    .desktop-nav { display:none !important; }
+    .mobile-toggle { display:flex !important; }
+    .mobile-sidebar { position:fixed; left:-280px; top:0; bottom:0; width:280px; z-index:50; transition:left .3s ease; background:var(--bg-surface); border-right:1px solid var(--border); padding:80px 20px 20px; }
+    .mobile-sidebar.open { left:0; }
+  }
+  @media(min-width:769px) {
+    .mobile-toggle { display:none !important; }
+    .mobile-sidebar { display:none !important; }
+    .sidebar-overlay { display:none !important; }
+  }
+  @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
+  canvas { display:block; }
+  .hero-triangle { filter:drop-shadow(0 0 30px rgba(6,182,212,0.3)); }
+  .step-card { border-left:4px solid var(--accent-cyan); padding-left:1.5rem; margin-bottom:1.5rem; }
+  .option-btn { background:var(--bg-elevated); border:2px solid var(--border); padding:12px 20px; border-radius:12px; cursor:pointer; transition:all .3s; text-align:left; width:100%; font-family:inherit; font-size:.95rem; color:var(--text-primary); }
+  .option-btn:hover { border-color:var(--accent-cyan); }
+  .option-btn.selected { border-color:var(--accent-cyan); background:var(--glow); }
+  .option-btn.correct { border-color:var(--accent-mint); background:rgba(16,185,129,0.1); }
+  .option-btn.wrong { border-color:var(--accent-coral); background:rgba(239,68,68,0.1); }
+</style>
+</head>
+<body>
+<!-- Canvas Latar Belakang -->
+<canvas id="bgCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></canvas>
+
+<!-- Navigasi -->
+<nav class="glass fixed top-0 left-0 right-0 z-30" style="border-bottom:1px solid var(--border)">
+  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+      <div style="width:36px;height:36px;background:linear-gradient(135deg,#06b6d4,#f59e0b);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-shapes text-white text-sm"></i>
+      </div>
+      <span class="font-bold text-lg hidden sm:block" style="color:var(--text-primary)">Pythagoras Explorer</span>
+    </div>
+    <div class="desktop-nav flex items-center gap-1" id="desktopNav"></div>
+    <div class="flex items-center gap-3">
+      <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-110" style="background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-secondary)" aria-label="Toggle tema">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="mobile-toggle w-10 h-10 rounded-xl items-center justify-center" style="background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-secondary);display:none" onclick="toggleSidebar()" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar Mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="mobile-sidebar" id="mobileSidebar">
+  <div class="flex flex-col gap-2" id="mobileNav"></div>
+</div>
+
+<!-- Konten Utama -->
+<main class="relative z-10 pt-16">
+
+<!-- ===== HOME ===== -->
+<section id="sec-home" class="section active">
+  <div class="max-w-6xl mx-auto">
+    <!-- Hero -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 py-12 lg:py-20">
+      <div class="flex-1 text-center lg:text-left">
+        <div class="badge mb-4" style="background:var(--glow);color:var(--accent-cyan)"><i class="fas fa-graduation-cap"></i> Pembelajaran Interaktif</div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6" style="line-height:1.1">
+          Jelajahi <span style="background:linear-gradient(135deg,#06b6d4,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Teorema Pythagoras</span>
+        </h1>
+        <p class="text-lg mb-8" style="color:var(--text-secondary);max-width:520px">
+          Temukan konsep, eksplorasi visualisasi dinamis, tantang dirimu dengan game dan quiz, dan kembangkan berpikir kreatif matematika secara mandiri.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+          <button class="btn-primary text-lg" onclick="navigateTo('materi')"><i class="fas fa-play mr-2"></i>Mulai Belajar</button>
+          <button class="btn-secondary text-lg" onclick="navigateTo('simulasi')"><i class="fas fa-flask mr-2"></i>Eksplorasi</button>
+        </div>
+      </div>
+      <div class="flex-1 flex justify-center">
+        <svg class="hero-triangle float-anim" width="360" height="320" viewBox="0 0 360 320">
+          <defs>
+            <linearGradient id="triGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.8"/>
+              <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.8"/>
+            </linearGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <polygon points="60,270 300,270 60,60" fill="url(#triGrad)" stroke="#22d3ee" stroke-width="3" filter="url(#glow)" opacity="0.9"/>
+          <!-- Sisi labels -->
+          <text x="170" y="295" fill="#06b6d4" font-size="22" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">a</text>
+          <text x="38" y="170" fill="#f59e0b" font-size="22" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">b</text>
+          <text x="195" y="150" fill="#ef4444" font-size="22" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">c</text>
+          <!-- Sudut siku-siku -->
+          <rect x="60" y="245" width="25" height="25" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.7"/>
+          <!-- Titik -->
+          <circle cx="60" cy="270" r="6" fill="#06b6d4"/>
+          <circle cx="300" cy="270" r="6" fill="#06b6d4"/>
+          <circle cx="60" cy="60" r="6" fill="#f59e0b"/>
+          <!-- Rumus -->
+          <rect x="140" y="195" width="140" height="44" rx="10" fill="rgba(10,22,40,0.85)" stroke="#22d3ee" stroke-width="1"/>
+          <text x="210" y="224" fill="#e8edf5" font-size="20" font-weight="600" font-family="JetBrains Mono" text-anchor="middle">a² + b² = c²</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Motivasi -->
+    <div class="card p-8 mb-12 text-center" style="background:linear-gradient(135deg,rgba(6,182,212,0.08),rgba(245,158,11,0.08))">
+      <i class="fas fa-quote-left text-3xl mb-4" style="color:var(--accent-cyan);opacity:0.5"></i>
+      <p class="text-xl font-medium mb-3" style="max-width:700px;margin:0 auto">"Matematika bukan tentang angka, persamaan, atau algoritma. Matematika tentang pemahaman."</p>
+      <p class="font-semibold" style="color:var(--accent-gold)">— William Paul Thurston</p>
+    </div>
+
+    <!-- Tujuan Pembelajaran -->
+    <h2 class="text-2xl font-bold mb-6 text-center">Tujuan Pembelajaran</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+      <div class="card p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:var(--glow)"><i class="fas fa-lightbulb text-2xl" style="color:var(--accent-cyan)"></i></div><h3 class="font-bold mb-2">Memahami Konsep</h3><p class="text-sm" style="color:var(--text-secondary)">Menjelaskan Teorema Pythagoras dan hubungan sisi segitiga siku-siku</p></div>
+      <div class="card p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(245,158,11,0.12)"><i class="fas fa-calculator text-2xl" style="color:var(--accent-gold)"></i></div><h3 class="font-bold mb-2">Menghitung</h3><p class="text-sm" style="color:var(--text-secondary)">Menghitung panjang sisi segitiga siku-siku menggunakan rumus</p></div>
+      <div class="card p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(239,68,68,0.12)"><i class="fas fa-puzzle-piece text-2xl" style="color:var(--accent-coral)"></i></div><h3 class="font-bold mb-2">Berpikir Kreatif</h3><p class="text-sm" style="color:var(--text-secondary)">Mengembangkan fluency, flexibility, originality, dan elaborasi</p></div>
+      <div class="card p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(16,185,129,0.12)"><i class="fas fa-world text-2xl" style="color:var(--accent-mint)"></i></div><h3 class="font-bold mb-2">Penerapan</h3><p class="text-sm" style="color:var(--text-secondary)">Menerapkan dalam pemecahan masalah kehidupan sehari-hari</p></div>
+    </div>
+
+    <!-- Fitur -->
+    <h2 class="text-2xl font-bold mb-6 text-center">Fitur Pembelajaran</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+      <div class="card p-5 cursor-pointer" onclick="navigateTo('materi')"><div class="flex items-center gap-3 mb-3"><i class="fas fa-book-open" style="color:var(--accent-cyan)"></i><h3 class="font-bold">Materi Interaktif</h3></div><p class="text-sm" style="color:var(--text-secondary)">Penjelasan visual dengan animasi dan langkah bertahap</p></div>
+      <div class="card p-5 cursor-pointer" onclick="navigateTo('simulasi')"><div class="flex items-center gap-3 mb-3"><i class="fas fa-draw-polygon" style="color:var(--accent-gold)"></i><h3 class="font-bold">Simulasi Dinamis</h3></div><p class="text-sm" style="color:var(--text-secondary)">Drag-and-drop segitiga dengan visualisasi luas real-time</p></div>
+      <div class="card p-5 cursor-pointer" onclick="navigateTo('latihan')"><div class="flex items-center gap-3 mb-3"><i class="fas fa-brain" style="color:var(--accent-coral)"></i><h3 class="font-bold">Latihan Kreatif</h3></div><p class="text-sm" style="color:var(--text-secondary)">Soal kontekstual, open-ended, dan buat soal sendiri</p></div>
+      <div class="card p-5 cursor-pointer" onclick="navigateTo('game')"><div class="flex items-center gap-3 mb-3"><i class="fas fa-gamepad" style="color:var(--accent-mint)"></i><h3 class="font-bold">Game Edukasi</h3></div><p class="text-sm" style="color:var(--text-secondary)">Tantangan kecepatan dan puzzle dengan skor serta leaderboard</p></div>
+      <div class="card p-5 cursor-pointer" onclick="navigateTo('quiz')"><div class="flex items-center gap-3 mb-3"><i class="fas fa-clipboard-check" style="color:#a78bfa"></i><h3 class="font-bold">Quiz Interaktif</h3></div><p class="text-sm" style="color:var(--text-secondary)">Soal HOTS dengan penilaian otomatis dan pembahasan</p></div>
+      <div class="card p-5 cursor-pointer" onclick="navigateTo('profil')"><div class="flex items-center gap-3 mb-3"><i class="fas fa-chart-line" style="color:#f472b6"></i><h3 class="font-bold">Dashboard</h3></div><p class="text-sm" style="color:var(--text-secondary)">Pantau perkembangan dan statistik belajarmu</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MATERI ===== -->
+<section id="sec-materi" class="section">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">Materi Teorema Pythagoras</h1>
+    <p class="mb-8" style="color:var(--text-secondary)">Pelajari konsep dasar, rumus, dan penerapannya secara interaktif</p>
+
+    <!-- Konsep Dasar -->
+    <div class="card p-6 sm:p-8 mb-8">
+      <h2 class="text-xl font-bold mb-4"><i class="fas fa-info-circle mr-2" style="color:var(--accent-cyan)"></i>Apa itu Teorema Pythagoras?</h2>
+      <p class="mb-4" style="color:var(--text-secondary);line-height:1.8">Teorema Pythagoras menyatakan bahwa pada <strong style="color:var(--text-primary)">segitiga siku-siku</strong>, kuadrat panjang sisi miring (hipotenusa) sama dengan jumlah kuadrat panjang kedua sisi lainnya (sisi-sisi siku-siku).</p>
+      <div class="flex justify-center my-8">
+        <svg width="300" height="250" viewBox="0 0 300 250">
+          <polygon points="50,210 260,210 50,40" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2.5"/>
+          <rect x="50" y="185" width="25" height="25" fill="none" stroke="#06b6d4" stroke-width="2"/>
+          <text x="155" y="235" fill="#06b6d4" font-size="20" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">a (alas)</text>
+          <text x="28" y="130" fill="#f59e0b" font-size="20" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">b</text>
+          <text x="165" y="115" fill="#ef4444" font-size="20" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">c (hipotenusa)</text>
+          <circle cx="50" cy="210" r="5" fill="#06b6d4"/><circle cx="260" cy="210" r="5" fill="#06b6d4"/><circle cx="50" cy="40" r="5" fill="#f59e0b"/>
+          <text x="260" y="230" fill="#06b6d4" font-size="14" font-family="JetBrains Mono" text-anchor="middle">C</text>
+          <text x="35" y="230" fill="#06b6d4" font-size="14" font-family="JetBrains Mono" text-anchor="middle">B</text>
+          <text x="35" y="35" fill="#f59e0b" font-size="14" font-family="JetBrains Mono" text-anchor="middle">A</text>
+        </svg>
+      </div>
+      <p style="color:var(--text-secondary)">Pada segitiga siku-siku ABC di atas, sudut siku-siku berada di titik <strong style="color:var(--text-primary)">B</strong>. Sisi <span style="color:#06b6d4;font-weight:700">a</span> dan <span style="color:#f59e0b;font-weight:700">b</span> adalah sisi-sisi siku-siku, sedangkan <span style="color:#ef4444;font-weight:700">c</span> adalah hipotenusa (sisi terpanjang, berhadapan dengan sudut siku-siku).</p>
+    </div>
+
+    <!-- Rumus -->
+    <div class="formula-box pulse-glow mb-8">
+      <p class="text-sm font-semibold mb-2" style="color:var(--text-muted)">RUMUS UTAMA</p>
+      <p class="text-3xl sm:text-4xl font-bold" style="color:var(--accent-cyan)">a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></p>
+      <p class="mt-3 text-sm" style="color:var(--text-muted)">c = √(a<sup>2</sup> + b<sup>2</sup>)</p>
+    </div>
+
+    <!-- Contoh Interaktif -->
+    <div class="card p-6 sm:p-8 mb-8">
+      <h2 class="text-xl font-bold mb-4"><i class="fas fa-pen-ruler mr-2" style="color:var(--accent-gold)"></i>Contoh Soal Interaktif</h2>
+      <p class="mb-4" style="color:var(--text-secondary)">Sebuah tangga bersandar pada dinding. Jarak kaki tangga ke dinding adalah <strong style="color:var(--accent-cyan)">6 m</strong> dan tinggi tangga di dinding adalah <strong style="color:var(--accent-gold)">8 m</strong>. Berapa panjang tangga?</p>
+      <div id="materiSteps">
+        <div class="step-card"><p class="font-semibold mb-1">Langkah 1: Identifikasi sisi</p><p class="text-sm" style="color:var(--text-secondary)">a = 6 m (alas), b = 8 m (tinggi), c = ? (hipotenusa = panjang tangga)</p></div>
+        <div class="step-card" style="display:none"><p class="font-semibold mb-1">Langkah 2: Tulis rumus</p><p class="text-sm" style="color:var(--text-secondary)">c<sup>2</sup> = a<sup>2</sup> + b<sup>2</sup></p></div>
+        <div class="step-card" style="display:none"><p class="font-semibold mb-1">Langkah 3: Substitusi</p><p class="text-sm" style="color:var(--text-secondary)">c<sup>2</sup> = 6<sup>2</sup> + 8<sup>2</sup> = 36 + 64 = 100</p></div>
+        <div class="step-card" style="display:none"><p class="font-semibold mb-1">Langkah 4: Akarkan</p><p class="text-sm" style="color:var(--text-secondary)">c = √100 = <strong style="color:var(--accent-mint);font-size:1.2em">10 m</strong></p></div>
+      </div>
+      <div class="flex gap-3 mt-4">
+        <button class="btn-primary" id="materiNextBtn" onclick="showNextStep()">Langkah Berikutnya <i class="fas fa-arrow-right ml-2"></i></button>
+        <button class="btn-secondary" onclick="resetMateriSteps()"><i class="fas fa-redo mr-2"></i>Reset</button>
+      </div>
+    </div>
+
+    <!-- Metode Lain -->
+    <div class="card p-6 sm:p-8 mb-8">
+      <h2 class="text-xl font-bold mb-4"><i class="fas fa-route mr-2" style="color:var(--accent-mint)"></i>Metode Lain (Flexibility)</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)">
+          <h3 class="font-bold mb-2 text-sm" style="color:var(--accent-cyan)">Metode 1: Aljabar Langsung</h3>
+          <p class="text-sm" style="color:var(--text-secondary)">Substitusi nilai a dan b langsung ke rumus c = √(a²+b²)</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)">
+          <h3 class="font-bold mb-2 text-sm" style="color:var(--accent-gold)">Metode 2: Visualisasi Persegi</h3>
+          <p class="text-sm" style="color:var(--text-secondary)">Gambar persegi pada setiap sisi, hitung luas, bandingkan a²+b² dengan c²</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)">
+          <h3 class="font-bold mb-2 text-sm" style="color:var(--accent-coral)">Metode 3: Bukti Geometris</h3>
+          <p class="text-sm" style="color:var(--text-secondary)">Susun 4 segitiga siku-siku membentuk persegi besar, bandingkan luas</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)">
+          <h3 class="font-bold mb-2 text-sm" style="color:#a78bfa">Metode 4: Numerik/Eksplorasi</h3>
+          <p class="text-sm" style="color:var(--text-secondary)">Coba berbagai nilai a dan b, amati pola hubungan a²+b² dan c²</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kalkulator Cepat -->
+    <div class="card p-6 sm:p-8 mb-8">
+      <h2 class="text-xl font-bold mb-4"><i class="fas fa-calculator mr-2" style="color:var(--accent-coral)"></i>Kalkulator Cepat</h2>
+      <p class="text-sm mb-4" style="color:var(--text-secondary)">Masukkan dua sisi yang diketahui, biarkan satu kosong untuk dihitung:</p>
+      <div class="grid grid-cols-3 gap-4 mb-4">
+        <div><label class="text-sm font-semibold mb-1 block" style="color:var(--accent-cyan)">Sisi a</label><input type="number" id="calcA" class="input-field" placeholder="alas" min="0" step="any"></div>
+        <div><label class="text-sm font-semibold mb-1 block" style="color:var(--accent-gold)">Sisi b</label><input type="number" id="calcB" class="input-field" placeholder="tinggi" min="0" step="any"></div>
+        <div><label class="text-sm font-semibold mb-1 block" style="color:var(--accent-coral)">Sisi c</label><input type="number" id="calcC" class="input-field" placeholder="hipotenusa" min="0" step="any"></div>
+      </div>
+      <button class="btn-primary w-full" onclick="calculatePythagoras()"><i class="fas fa-equals mr-2"></i>Hitung</button>
+      <div id="calcResult" class="mt-4 p-4 rounded-xl text-center font-mono font-bold text-lg" style="display:none;background:var(--bg-elevated);border:1px solid var(--border)"></div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn-primary text-lg" onclick="navigateTo('simulasi')"><i class="fas fa-flask mr-2"></i>Coba Simulasi Interaktif</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EKSPLORASI ===== -->
+<section id="sec-eksplorasi" class="section">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">Eksplorasi Mandiri</h1>
+    <p class="mb-8" style="color:var(--text-secondary)">Geser slider untuk mengubah nilai sisi dan amati hubungannya secara real-time</p>
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="card p-6">
+        <div class="mb-6">
+          <label class="flex justify-between mb-2"><span class="font-semibold" style="color:var(--accent-cyan)">Sisi a (alas)</span><span class="font-mono font-bold" id="expValA">3</span></label>
+          <input type="range" id="expSliderA" min="1" max="15" value="3" step="0.5" class="w-full accent-cyan-500" oninput="updateExploration()">
+        </div>
+        <div class="mb-6">
+          <label class="flex justify-between mb-2"><span class="font-semibold" style="color:var(--accent-gold)">Sisi b (tinggi)</span><span class="font-mono font-bold" id="expValB">4</span></label>
+          <input type="range" id="expSliderB" min="1" max="15" value="4" step="0.5" class="w-full accent-amber-500" oninput="updateExploration()">
+        </div>
+        <canvas id="expCanvas" width="400" height="300" class="w-full rounded-xl" style="background:var(--bg-elevated)"></canvas>
+      </div>
+      <div>
+        <div class="card p-6 mb-4">
+          <h3 class="font-bold mb-3">Hasil Perhitungan</h3>
+          <div class="space-y-3 font-mono text-sm">
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span style="color:var(--accent-cyan)">a =</span><span class="font-bold" id="expResA">3</span></div>
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span style="color:var(--accent-gold)">b =</span><span class="font-bold" id="expResB">4</span></div>
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span style="color:var(--accent-coral)">c = √(a²+b²) =</span><span class="font-bold" id="expResC">5</span></div>
+            <hr style="border-color:var(--border)">
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span>a² =</span><span id="expResA2">9</span></div>
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span>b² =</span><span id="expResB2">16</span></div>
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span>a² + b² =</span><span class="font-bold" id="expResSum">25</span></div>
+            <div class="flex justify-between p-3 rounded-lg" style="background:var(--bg-elevated)"><span>c² =</span><span class="font-bold" id="expResC2">25</span></div>
+          </div>
+          <div id="expVerification" class="mt-4 p-3 rounded-lg text-center font-bold"></div>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold mb-2">Tripel Pythagoras Terkenal</h3>
+          <p class="text-sm mb-3" style="color:var(--text-secondary)">Klik untuk mencoba:</p>
+          <div class="flex flex-wrap gap-2" id="tripleButtons"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SIMULASI ===== -->
+<section id="sec-simulasi" class="section">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">Simulasi Interaktif</h1>
+    <p class="mb-6" style="color:var(--text-secondary)">Seret titik-titik segitiga untuk mengubah bentuk. Amati hubungan luas persegi pada setiap sisi.</p>
+    <div class="grid lg:grid-cols-4 gap-4">
+      <div class="lg:col-span-3">
+        <div class="card p-2 sm:p-4">
+          <canvas id="simCanvas" class="w-full rounded-xl cursor-crosshair" style="background:var(--bg-elevated);touch-action:none"></canvas>
+        </div>
+        <div class="formula-box mt-4">
+          <p class="text-2xl sm:text-3xl font-bold"><span style="color:var(--accent-cyan)" id="simFA">9</span> + <span style="color:var(--accent-gold)" id="simFB">16</span> = <span style="color:var(--accent-coral)" id="simFC">25</span></p>
+          <p class="text-sm mt-1" style="color:var(--text-muted)">a² + b² = c²</p>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="card p-4">
+          <h3 class="font-bold mb-3 text-sm">Kontrol</h3>
+          <label class="flex items-center gap-2 mb-3 cursor-pointer text-sm"><input type="checkbox" id="simShowSquares" checked onchange="simDraw()" class="accent-cyan-500"><span>Tampilkan Persegi</span></label>
+          <label class="flex items-center gap-2 mb-3 cursor-pointer text-sm"><input type="checkbox" id="simShowLabels" checked onchange="simDraw()" class="accent-cyan-500"><span>Tampilkan Label</span></label>
+          <label class="flex items-center gap-2 mb-3 cursor-pointer text-sm"><input type="checkbox" id="simShowGrid" checked onchange="simDraw()" class="accent-cyan-500"><span>Tampilkan Grid</span></label>
+          <label class="flex items-center gap-2 mb-3 cursor-pointer text-sm"><input type="checkbox" id="simShowAreas" checked onchange="simDraw()" class="accent-cyan-500"><span>Tampilkan Luas</span></label>
+          <button class="btn-secondary w-full text-sm mt-2" onclick="simReset()"><i class="fas fa-redo mr-1"></i>Reset</button>
+        </div>
+        <div class="card p-4">
+          <h3 class="font-bold mb-3 text-sm">Info Segitiga</h3>
+          <div class="space-y-2 text-sm font-mono">
+            <div class="flex justify-between"><span style="color:var(--accent-cyan)">a</span><span id="simInfoA">3.00</span></div>
+            <div class="flex justify-between"><span style="color:var(--accent-gold)">b</span><span id="simInfoB">4.00</span></div>
+            <div class="flex justify-between"><span style="color:var(--accent-coral)">c</span><span id="simInfoC">5.00</span></div>
+            <hr style="border-color:var(--border)">
+            <div class="flex justify-between"><span>Luas △</span><span id="simInfoArea">6.00</span></div>
+            <div class="flex justify-between"><span>Keliling</span><span id="simInfoPeri">12.00</span></div>
+          </div>
+        </div>
+        <div class="card p-4">
+          <h3 class="font-bold mb-3 text-sm">Petunjuk</h3>
+          <p class="text-xs" style="color:var(--text-secondary)"><i class="fas fa-hand-pointer mr-1" style="color:var(--accent-cyan)"></i> Seret <strong>titik biru</strong> untuk mengubah sisi a (horizontal)</p>
+          <p class="text-xs mt-2" style="color:var(--text-secondary)"><i class="fas fa-hand-pointer mr-1" style="color:var(--accent-gold)"></i> Seret <strong>titik kuning</strong> untuk mengubah sisi b (vertikal)</p>
+          <p class="text-xs mt-2" style="color:var(--text-secondary)"><i class="fas fa-lock mr-1" style="color:var(--text-muted)"></i> Sudut siku-siku tetap di titik hijau</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LATIHAN KREATIF ===== -->
+<section id="sec-latihan" class="section">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">Latihan Kreatif</h1>
+    <p class="mb-6" style="color:var(--text-secondary)">Kembangkan berpikir kreatif matematikamu melalui berbagai jenis soal</p>
+    <div class="flex flex-wrap gap-2 mb-6" id="latihanTabs"></div>
+    <div id="latihanContent"></div>
+  </div>
+</section>
+
+<!-- ===== GAME ===== -->
+<section id="sec-game" class="section">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">Game Edukasi</h1>
+    <p class="mb-6" style="color:var(--text-secondary)">Tantang dirimu dan raih skor tertinggi</p>
+    <div class="flex flex-wrap gap-2 mb-6" id="gameTabs"></div>
+    <div id="gameContent"></div>
+  </div>
+</section>
+
+<!-- ===== QUIZ ===== -->
+<section id="sec-quiz" class="section">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">Quiz Interaktif</h1>
+    <p class="mb-6" style="color:var(--text-secondary)">Uji pemahamanmu dengan soal-soal bervariasi tingkat kesulitan</p>
+    <div id="quizArea"></div>
+  </div>
+</section>
+
+<!-- ===== PROFIL ===== -->
+<section id="sec-profil" class="section">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-extrabold mb-6">Dashboard Pembelajaran</h1>
+    <div class="card p-6 mb-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-bold" style="background:linear-gradient(135deg,#06b6d4,#f59e0b);color:#fff" id="profilAvatar">P</div>
+        <div class="flex-1">
+          <input type="text" id="profilName" class="text-2xl font-bold bg-transparent border-b-2 outline-none w-full" style="border-color:var(--border);color:var(--text-primary)" value="Peserta" onchange="saveProfile()">
+          <p class="text-sm" style="color:var(--text-secondary)">Klik nama untuk mengedit</p>
+        </div>
+        <div class="flex gap-2">
+          <span class="badge" style="background:rgba(6,182,212,0.12);color:var(--accent-cyan)"><i class="fas fa-fire mr-1"></i><span id="profilStreak">0</span> streak</span>
+        </div>
+      </div>
+    </div>
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="profilStats"></div>
+    <!-- Charts -->
+    <div class="grid lg:grid-cols-2 gap-6 mb-6">
+      <div class="card p-6"><h3 class="font-bold mb-4">Riwayat Skor Quiz</h3><canvas id="chartQuiz" height="200"></canvas></div>
+      <div class="card p-6"><h3 class="font-bold mb-4">Performa per Kategori</h3><canvas id="chartCategory" height="200"></canvas></div>
+    </div>
+    <!-- Indikator Kreativitas -->
+    <div class="card p-6 mb-6">
+      <h3 class="font-bold mb-4">Indikator Berpikir Kreatif</h3>
+      <div class="space-y-4" id="kreativitasBars"></div>
+    </div>
+    <!-- Leaderboard -->
+    <div class="card p-6">
+      <h3 class="font-bold mb-4"><i class="fas fa-trophy mr-2" style="color:var(--accent-gold)"></i>Leaderboard Game</h3>
+      <div id="leaderboardList" class="space-y-2"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ===================== STATE & DATA =====================
+const NAV_ITEMS = [
+  {id:'home',label:'Home',icon:'fa-house'},
+  {id:'materi',label:'Materi',icon:'fa-book-open'},
+  {id:'eksplorasi',label:'Eksplorasi',icon:'fa-magnifying-glass'},
+  {id:'simulasi',label:'Simulasi',icon:'fa-draw-polygon'},
+  {id:'latihan',label:'Latihan Kreatif',icon:'fa-brain'},
+  {id:'game',label:'Game',icon:'fa-gamepad'},
+  {id:'quiz',label:'Quiz',icon:'fa-clipboard-check'},
+  {id:'profil',label:'Profil',icon:'fa-chart-line'}
+];
+
+const PYTHAGOREAN_TRIPLES = [
+  [3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15],
+  [9,40,41],[10,24,26],[12,16,20],[12,35,37],[15,20,25],[15,36,39],
+  [20,21,29],[20,48,52],[21,28,35],[24,32,40],[27,36,45],[30,40,50]
+];
+
+const QUIZ_QUESTIONS = [
+  {type:'mc',q:'Pada segitiga siku-siku, sisi yang terpanjang disebut...',opts:['Alas','Tinggi','Hipotenusa','Sisi miring dan hipotenusa'],ans:3,diff:'lots',exp:'Sisi terpanjang pada segitiga siku-siku yang berhadapan dengan sudut siku-siku disebut hipotenusa.'},
+  {type:'mc',q:'Jika a = 5 dan b = 12, berapakah c?',opts:['13','14','15','17'],ans:0,diff:'lots',exp:'c = √(5² + 12²) = √(25 + 144) = √169 = 13'},
+  {type:'fill',q:'Hitung c jika a = 8 dan b = 6. Jawab (angka saja):',ans:'10',diff:'lots',exp:'c = √(64 + 36) = √100 = 10'},
+  {type:'mc',q:'Manakah yang BUKAN tripel Pythagoras?',opts:['(3,4,5)','(5,12,13)','(6,7,8)','(8,15,17)'],ans:2,diff:'mots',exp:'6² + 7² = 36 + 49 = 85, bukan 64 (8²). Jadi (6,7,8) bukan tripel Pythagoras.'},
+  {type:'fill',q:'Sebuah tangga 13 m bersandar di dinding. Jarak kaki tangga ke dinding 5 m. Berapa tinggi dinding yang dicapai tangga? (angka saja, satuan m):',ans:'12',diff:'mots',exp:'b = √(13² - 5²) = √(169 - 25) = √144 = 12 m'},
+  {type:'mc',q:'Jika c = 25 dan a = 7, berapakah b?',opts:['24','25','26','18'],ans:0,diff:'mots',exp:'b = √(c² - a²) = √(625 - 49) = √576 = 24'},
+  {type:'mc',q:'Diagonal sebuah persegi panjang berukuran 9 cm × 12 cm adalah...',opts:['15 cm','21 cm','18 cm','13 cm'],ans:0,diff:'mots',exp:'Diagonal = √(9² + 12²) = √(81 + 144) = √225 = 15 cm'},
+  {type:'fill',q:'Sebuah taman berbentuk segitiga siku-siku dengan sisi siku-siku 30 m dan 40 m. Berapa panjang pagar sekeliling taman? (angka saja, satuan m):',ans:'120',diff:'hots',exp:'c = √(900+1600) = 50. Keliling = 30+40+50 = 120 m'},
+  {type:'mc',q:'Dua kapal berlayar dari pelabuhan yang sama. Kapal A ke utara 48 km, Kapal B ke timur 14 km. Jarak kedua kapal adalah...',opts:['50 km','62 km','34 km','55 km'],ans:0,diff:'hots',exp:'Jarak = √(48² + 14²) = √(2304 + 196) = √2500 = 50 km'},
+  {type:'fill',q:'Berapakah nilai a jika b = 9 dan c = 41? (angka saja):',ans:'40',diff:'hots',exp:'a = √(c² - b²) = √(1681 - 81) = √1600 = 40'}
+];
+
+const LATIHAN_DATA = {
+  kontekstual: {
+    title:'Soal Kontekstual',
+    icon:'fa-building',
+    problems:[
+      {q:'Sebuah jemuran berbentuk segitiga siku-siku dengan tinggi 1,5 m dan panjang kaki 2 m. Berapa panjang tali pengikat diagonal jemuran?',hint:'Gunakan rumus c = √(a² + b²)',ans:'2.5',step:'a=1.5, b=2, c=√(2.25+4)=√6.25=2.5 m'},
+      {q:'Seorang anak bermain layang-layang. Tali layang-layang sepanjang 50 m membentuk sudut 90° dengan bayang-bayang. Jika bayang-bayang 30 m, berapa tinggi layang-layang?',hint:'Cari sisi b dengan rumus b = √(c² - a²)',ans:'40',step:'b=√(2500-900)=√1600=40 m'},
+      {q:'Diagonal sebuah layar TV berukuran 55 inch. Jika lebar TV 44 inch, berapa tinggi TV tersebut?',hint:'Tinggi = √(diagonal² - lebar²)',ans:'33',step:'t=√(3025-1936)=√1089=33 inch'}
+    ]
+  },
+  openended: {
+    title:'Soal Open-Ended',
+    icon:'fa-lightbulb',
+    problems:[
+      {q:'Temukan semua tripel Pythagoras (a, b, c) di mana a, b, c bilangan bulat dan c ≤ 30. Sebutkan sebanyak mungkin!',hint:'Coba kombinasi a dari 1-20, hitung b² = c² - a², cek apakah b² sempurna',acceptMultiple:true,validAnswers:[[3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15],[10,24,26],[12,16,20],[15,20,25],[18,24,30],[20,21,29]]},
+      {q:'Sebuah taman berbentuk segitiga siku-siku memiliki keliling 60 cm. Tentukan kemungkinan panjang ketiga sisinya! (sebutkan satu kemungkinan)',hint:'a + b + c = 60, dengan c² = a² + b². Coba beberapa nilai.',acceptMultiple:true,validAnswers:[[12,16,20],[15,20,25],[10,24,26],[18,24,30],[20,21,29]]},
+      {q:'Jelaskan mengapa (6,8,10) disebut "kelipatan" dari (3,4,5). Apa hubungannya dengan Teorema Pythagoras?',hint:'Pikirkan apa yang terjadi jika semua sisi dikalikan bilangan yang sama',acceptText:true}
+    ]
+  },
+  buatsoal: {
+    title:'Buat Soal Sendiri',
+    icon:'fa-pen-fancy',
+    isCreator:true
+  }
+};
+
+let state = {
+  currentSection: 'home',
+  theme: localStorage.getItem('pyTheme') || 'dark',
+  materiStep: 0,
+  quiz: { current:0, answers:[], submitted:false, startTime:0 },
+  game: { type:'speed', score:0, round:0, totalRounds:10, timer:30, interval:null, active:false, a:0, b:0, answer:'' },
+  puzzle: { pairs:[], selected:null, matched:0, total:0, score:0, timer:60, interval:null, active:false },
+  latihanTab: 'kontekstual',
+  gameTab: 'speed',
+  sim: { a:150, b:200, dragging:null, scale:1 },
+  profile: JSON.parse(localStorage.getItem('pyProfile') || '{"name":"Peserta","quizHistory":[],"gameScores":[],"kreativitas":{"fluency":0,"flexibility":0,"originality":0,"elaboration":0}}')
+};
+
+// ===================== UTILITAS =====================
+function $(sel){ return document.querySelector(sel); }
+function $$(sel){ return document.querySelectorAll(sel); }
+function toast(msg, type='info'){
+  const c = $('#toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(100px)'; setTimeout(()=>t.remove(),300); },3000);
+}
+function saveProfile(){
+  state.profile.name = $('#profilName').value || 'Peserta';
+  localStorage.setItem('pyProfile', JSON.stringify(state.profile));
+}
+function saveState(){
+  localStorage.setItem('pyProfile', JSON.stringify(state.profile));
+}
+
+// ===================== NAVIGASI =====================
+function buildNav(){
+  const dn = $('#desktopNav');
+  const mn = $('#mobileNav');
+  dn.innerHTML = ''; mn.innerHTML = '';
+  NAV_ITEMS.forEach(item => {
+    const d = document.createElement('div');
+    d.className = `nav-link${state.currentSection===item.id?' active':''}`;
+    d.innerHTML = `<i class="fas ${item.icon} mr-1.5 text-sm"></i><span class="hidden xl:inline">${item.label}</span>`;
+    d.onclick = ()=>navigateTo(item.id);
+    dn.appendChild(d);
+    const m = d.cloneNode(true);
+    m.className = `nav-link block${state.currentSection===item.id?' active':''}`;
+    m.innerHTML = `<i class="fas ${item.icon} mr-2"></i>${item.label}`;
+    m.onclick = ()=>{navigateTo(item.id);toggleSidebar();};
+    mn.appendChild(m);
+  });
+}
+function navigateTo(id){
+  $$('.section').forEach(s=>s.classList.remove('active'));
+  const sec = $(`#sec-${id}`);
+  if(sec){sec.classList.add('active');}
+  state.currentSection = id;
+  buildNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Inisialisasi section-specific
+  if(id==='eksplorasi') initExploration();
+  if(id==='simulasi') initSimulation();
+  if(id==='latihan') initLatihan();
+  if(id==='game') initGame();
+  if(id==='quiz') initQuiz();
+  if(id==='profil') initProfil();
+}
+function toggleSidebar(){
+  $('#mobileSidebar').classList.toggle('open');
+  $('#sidebarOverlay').classList.toggle('show');
+}
+function toggleTheme(){
+  state.theme = state.theme==='dark'?'light':'dark';
+  document.documentElement.classList.toggle('dark', state.theme==='dark');
+  $('#themeIcon').className = state.theme==='dark'?'fas fa-moon':'fas fa-sun';
+  localStorage.setItem('pyTheme', state.theme);
+}
+
+// ===================== BACKGROUND CANVAS =====================
+function initBgCanvas(){
+  const c = $('#bgCanvas');
+  const ctx = c.getContext('2d');
+  let w, h, shapes = [];
+  function resize(){ w=c.width=window.innerWidth; h=c.height=window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  for(let i=0;i<25;i++){
+    shapes.push({
+      x:Math.random()*2000, y:Math.random()*2000,
+      size:10+Math.random()*30, rot:Math.random()*Math.PI*2,
+      vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3,
+      vr:(Math.random()-0.5)*0.005,
+      type:['tri','sq','circle'][Math.floor(Math.random()*3)],
+      opacity:0.03+Math.random()*0.06
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const isDark = state.theme==='dark';
+    shapes.forEach(s=>{
+      s.x+=s.vx; s.y+=s.vy; s.rot+=s.vr;
+      if(s.x<-50) s.x=w+50; if(s.x>w+50) s.x=-50;
+      if(s.y<-50) s.y=h+50; if(s.y>h+50) s.y=-50;
+      ctx.save();
+      ctx.translate(s.x,s.y);
+      ctx.rotate(s.rot);
+      ctx.globalAlpha=s.opacity;
+      ctx.strokeStyle=isDark?'#06b6d4':'#0891b2';
+      ctx.lineWidth=1.5;
+      ctx.beginPath();
+      if(s.type==='tri'){
+        ctx.moveTo(0,-s.size); ctx.lineTo(s.size*0.866,s.size*0.5); ctx.lineTo(-s.size*0.866,s.size*0.5); ctx.closePath();
+      } else if(s.type==='sq'){
+        ctx.rect(-s.size/2,-s.size/2,s.size,s.size);
+      } else {
+        ctx.arc(0,0,s.size/2,0,Math.PI*2);
+      }
+      ctx.stroke();
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ===================== MATERI =====================
+function showNextStep(){
+  const steps = $$('#materiSteps .step-card');
+  if(state.materiStep < steps.length-1){
+    state.materiStep++;
+    steps[state.materiStep].style.display='block';
+    steps[state.materiStep].style.animation='fadeUp .4s ease';
+  }
+  if(state.materiStep >= steps.length-1) $('#materiNextBtn').disabled=true;
+}
+function resetMateriSteps(){
+  state.materiStep=0;
+  const steps = $$('#materiSteps .step-card');
+  steps.forEach((s,i)=>{ s.style.display=i===0?'block':'none'; });
+  $('#materiNextBtn').disabled=false;
+}
+function calculatePythagoras(){
+  const a=parseFloat($('#calcA').value), b=parseFloat($('#calcB').value), c=parseFloat($('#calcC').value);
+  const r=$('#calcResult'); r.style.display='block';
+  const filled = [!isNaN(a),!isNaN(b),!isNaN(c)].filter(Boolean).length;
+  if(filled<2){ r.innerHTML='<span style="color:var(--accent-coral)">Isi minimal 2 sisi!</span>'; return; }
+  if(!isNaN(a)&&!isNaN(b)){
+    const res=Math.sqrt(a*a+b*b);
+    r.innerHTML=`c = √(${a}² + ${b}²) = √${(a*a+b*b).toFixed(2)} = <span style="color:var(--accent-mint)">${res.toFixed(4)}</span>`;
+  } else if(!isNaN(a)&&!isNaN(c)){
+    if(c<=a){ r.innerHTML='<span style="color:var(--accent-coral)">c harus lebih besar dari a!</span>'; return; }
+    const res=Math.sqrt(c*c-a*a);
+    r.innerHTML=`b = √(${c}² - ${a}²) = √${(c*c-a*a).toFixed(2)} = <span style="color:var(--accent-mint)">${res.toFixed(4)}</span>`;
+  } else {
+    if(c<=b){ r.innerHTML='<span style="color:var(--accent-coral)">c harus lebih besar dari b!</span>'; return; }
+    const res=Math.sqrt(c*c-b*b);
+    r.innerHTML=`a = √(${c}² - ${b}²) = √${(c*c-b*b).toFixed(2)} = <span style="color:var(--accent-mint)">${res.toFixed(4)}</span>`;
+  }
+}
+
+// ===================== EKSPLORASI =====================
+function initExploration(){
+  updateExploration();
+  // Tombol tripel
+  const cont = $('#tripleButtons');
+  if(cont.children.length) return;
+  PYTHAGOREAN_TRIPLES.slice(0,8).forEach(t=>{
+    const btn = document.createElement('button');
+    btn.className='btn-secondary text-xs';
+    btn.textContent=`(${t[0]}, ${t[1]}, ${t[2]})`;
+    btn.onclick=()=>{
+      $('#expSliderA').value=t[0]; $('#expSliderB').value=t[1];
+      updateExploration();
+    };
+    cont.appendChild(btn);
+  });
+}
+function updateExploration(){
+  const a=parseFloat($('#expSliderA').value), b=parseFloat($('#expSliderB').value);
+  const c=Math.sqrt(a*a+b*b);
+  $('#expValA').textContent=a; $('#expValB').textContent=b;
+  $('#expResA').textContent=a; $('#expResB').textContent=b;
+  $('#expResC').textContent=c.toFixed(4);
+  $('#expResA2').textContent=(a*a).toFixed(2);
+  $('#expResB2').textContent=(b*b).toFixed(2);
+  $('#expResSum').textContent=(a*a+b*b).toFixed(2);
+  $('#expResC2').textContent=(c*c).toFixed(2);
+  const v=$('#expVerification');
+  v.innerHTML = Math.abs(a*a+b*b-c*c)<0.01 ?
+    `<span style="color:var(--accent-mint)"><i class="fas fa-check-circle mr-1"></i>Terbukti! a² + b² = c²</span>` :
+    `<span style="color:var(--accent-coral)"><i class="fas fa-times-circle mr-1"></i>Tidak terbukti</span>`;
+  // Gambar segitiga di canvas
+  const canvas = $('#expCanvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width*dpr; canvas.height = rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const W=rect.width, H=rect.height;
+  ctx.clearRect(0,0,W,H);
+  const scale = Math.min((W-80)/a, (H-80)/b);
+  const ox=40, oy=H-40;
+  const ax=a*scale, by=b*scale;
+  // Grid
+  ctx.strokeStyle = state.theme==='dark'?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';
+  ctx.lineWidth=1;
+  for(let x=ox;x<=ox+ax+20;x+=20){ctx.beginPath();ctx.moveTo(x,oy-by-20);ctx.lineTo(x,oy+5);ctx.stroke();}
+  for(let y=oy-by-20;y<=oy;y+=20){ctx.beginPath();ctx.moveTo(ox-5,y);ctx.lineTo(ox+ax+20,y);ctx.stroke();}
+  // Segitiga
+  ctx.beginPath();
+  ctx.moveTo(ox,oy); ctx.lineTo(ox+ax,oy); ctx.lineTo(ox,oy-by); ctx.closePath();
+  ctx.fillStyle='rgba(6,182,212,0.1)'; ctx.fill();
+  ctx.strokeStyle='#06b6d4'; ctx.lineWidth=2.5; ctx.stroke();
+  // Sudut siku-siku
+  const sq=15;
+  ctx.strokeStyle='#06b6d4'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(ox+sq,oy); ctx.lineTo(ox+sq,oy-sq); ctx.lineTo(ox,oy-sq); ctx.stroke();
+  // Labels
+  ctx.font='bold 16px JetBrains Mono';
+  ctx.fillStyle='#06b6d4'; ctx.textAlign='center'; ctx.fillText(`a = ${a}`,ox+ax/2,oy+22);
+  ctx.fillStyle='#f59e0b'; ctx.textAlign='right'; ctx.fillText(`b = ${b}`,ox-10,oy-by/2+5);
+  ctx.fillStyle='#ef4444'; ctx.textAlign='left'; ctx.fillText(`c = ${c.toFixed(2)}`,ox+ax/2+15,oy-by/2-5);
+  // Titik
+  [[ox,oy],[ox+ax,oy],[ox,oy-by]].forEach(p=>{
+    ctx.beginPath();ctx.arc(p[0],p[1],5,0,Math.PI*2);ctx.fillStyle='#06b6d4';ctx.fill();
+  });
+}
+
+// ===================== SIMULASI =====================
+let simCanvas, simCtx;
+function initSimulation(){
+  simCanvas = $('#simCanvas');
+  simCtx = simCanvas.getContext('2d');
+  resizeSimCanvas();
+  if(!simCanvas._init){
+    simCanvas._init=true;
+    simCanvas.addEventListener('pointerdown', simPointerDown);
+    simCanvas.addEventListener('pointermove', simPointerMove);
+    simCanvas.addEventListener('pointerup', simPointerUp);
+    simCanvas.addEventListener('pointerleave', simPointerUp);
+    window.addEventListener('resize', ()=>{resizeSimCanvas();simDraw();});
+  }
+  simDraw();
+}
+function resizeSimCanvas(){
+  const dpr=window.devicePixelRatio||1;
+  const rect=simCanvas.parentElement.getBoundingClientRect();
+  const w=rect.width-32, h=Math.max(400,Math.min(600,w*0.65));
+  simCanvas.style.width=w+'px'; simCanvas.style.height=h+'px';
+  simCanvas.width=w*dpr; simCanvas.height=h*dpr;
+  simCtx.scale(dpr,dpr);
+  state.sim.W=w; state.sim.H=h;
+  // Posisi titik sudut siku-siku di tengah
+  state.sim.cx=w*0.4; state.sim.cy=h*0.55;
+  state.sim.scale = Math.min((w*0.45)/15,(h*0.7)/15);
+}
+function simGetPoints(){
+  const s=state.sim;
+  const aVal=s.a/s.scale, bVal=s.b/s.scale;
+  const cx=s.cx, cy=s.cy;
+  return {
+    C:{x:cx,y:cy}, // Sudut siku-siku
+    B:{x:cx+s.a,y:cy}, // Ujung sisi a (horizontal)
+    A:{x:cx,y:cy-s.b}  // Ujung sisi b (vertikal)
+  };
+}
+function simDraw(){
+  if(!simCtx) return;
+  const ctx=simCtx, s=state.sim, W=s.W, H=s.H;
+  ctx.save();
+  ctx.setTransform(window.devicePixelRatio||1,0,0,window.devicePixelRatio||1,0,0);
+  ctx.clearRect(0,0,W,H);
+  const pts=simGetPoints();
+  const aVal=(s.a/s.scale), bVal=(s.b/s.scale), cVal=Math.sqrt(aVal*aVal+bVal*bVal);
+  const showSq=$('#simShowSquares')?.checked??true;
+  const showLbl=$('#simShowLabels')?.checked??true;
+  const showGrid=$('#simShowGrid')?.checked??true;
+  const showArea=$('#simShowAreas')?.checked??true;
+  // Grid
+  if(showGrid){
+    ctx.strokeStyle=state.theme==='dark'?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.04)';
+    ctx.lineWidth=1;
+    const gs=s.scale;
+    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  }
+  if(showSq){
+    // Persegi pada sisi a (BC) - ke bawah
+    drawSquare(ctx, pts.C, pts.B, 'rgba(6,182,212,0.12)', '#06b6d4', showArea, aVal*aVal, 'a²');
+    // Persegi pada sisi b (AC) - ke kiri
+    drawSquare(ctx, pts.C, pts.A, 'rgba(245,158,11,0.12)', '#f59e0b', showArea, bVal*bVal, 'b²');
+    // Persegi pada sisi c (AB) - menjauhi C
+    drawHypSquare(ctx, pts.A, pts.B, pts.C, 'rgba(239,68,68,0.12)', '#ef4444', showArea, cVal*cVal, 'c²');
+  }
+  // Segitiga
+  ctx.beginPath();
+  ctx.moveTo(pts.C.x,pts.C.y); ctx.lineTo(pts.B.x,pts.B.y); ctx.lineTo(pts.A.x,pts.A.y); ctx.closePath();
+  ctx.fillStyle='rgba(6,182,212,0.08)'; ctx.fill();
+  ctx.strokeStyle='#22d3ee'; ctx.lineWidth=3; ctx.stroke();
+  // Sudut siku-siku
+  const sqSize=Math.min(20,s.a*0.15,s.b*0.15);
+  ctx.strokeStyle='#22d3ee'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(pts.C.x+sqSize,pts.C.y); ctx.lineTo(pts.C.x+sqSize,pts.C.y-sqSize); ctx.lineTo(pts.C.x,pts.C.y-sqSize); ctx.stroke();
+  // Titik-titik
+  [[pts.B,'#06b6d4',8],[pts.A,'#f59e0b',8],[pts.C,'#10b981',6]].forEach(([p,col,r])=>{
+    ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);
+    ctx.fillStyle=col;ctx.fill();
+    ctx.strokeStyle=state.theme==='dark'?'#0a1628':'#ffffff';ctx.lineWidth=2;ctx.stroke();
+  });
+  // Labels sisi
+  if(showLbl){
+    ctx.font='bold 15px JetBrains Mono';
+    ctx.fillStyle='#06b6d4'; ctx.textAlign='center';
+    ctx.fillText(`a = ${aVal.toFixed(1)}`,(pts.C.x+pts.B.x)/2, pts.C.y+25);
+    ctx.fillStyle='#f59e0b'; ctx.textAlign='right';
+    ctx.fillText(`b = ${bVal.toFixed(1)}`,pts.C.x-12,(pts.C.y+pts.A.y)/2+5);
+    ctx.fillStyle='#ef4444'; ctx.textAlign='left';
+    const mx=(pts.A.x+pts.B.x)/2+15, my=(pts.A.y+pts.B.y)/2-10;
+    ctx.fillText(`c = ${cVal.toFixed(2)}`,mx,my);
+  }
+  ctx.restore();
+  // Update info
+  $('#simFA').textContent=(aVal*aVal).toFixed(2);
+  $('#simFB').textContent=(bVal*bVal).toFixed(2);
+  $('#simFC').textContent=(cVal*cVal).toFixed(2);
+  $('#simInfoA').textContent=aVal.toFixed(2);
+  $('#simInfoB').textContent=bVal.toFixed(2);
+  $('#simInfoC').textContent=cVal.toFixed(2);
+  $('#simInfoArea').textContent=(0.5*aVal*bVal).toFixed(2);
+  $('#simInfoPeri').textContent=(aVal+bVal+cVal).toFixed(2);
+}
+function drawSquare(ctx, p1, p2, fill, stroke, showArea, area, label){
+  const dx=p2.x-p1.x, dy=p2.y-p1.y;
+  const len=Math.sqrt(dx*dx+dy*dy);
+  if(len<1) return;
+  const nx=-dy/len, ny=dx/len;
+  // Pilih arah outward (menjauhi titik ketiga)
+  const s3=simGetPoints().A;
+  const mid={x:(p1.x+p2.x)/2,y:(p1.y+p2.y)/2};
+  const toThird={x:s3.x-mid.x,y:s3.y-mid.y};
+  const dot=toThird.x*nx+toThird.y*ny;
+  const dir=dot>0?-1:1;
+  const dnx=nx*dir, dny=ny*dir;
+  const corners=[p1,p2,{x:p2.x+dnx*len,y:p2.y+dny*len},{x:p1.x+dnx*len,y:p1.y+dny*len}];
+  ctx.beginPath();ctx.moveTo(corners[0].x,corners[0].y);
+  for(let i=1;i<4;i++) ctx.lineTo(corners[i].x,corners[i].y);
+  ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();
+  if(showArea){
+    const cx=(corners[0].x+corners[2].x)/2, cy=(corners[0].y+corners[2].y)/2;
+    ctx.font='bold 13px JetBrains Mono';ctx.fillStyle=stroke;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(`${label}=${area.toFixed(1)}`,cx,cy);
+  }
+}
+function drawHypSquare(ctx, pA, pB, pC, fill, stroke, showArea, area, label){
+  const dx=pB.x-pA.x, dy=pB.y-pA.y;
+  const len=Math.sqrt(dx*dx+dy*dy);
+  if(len<1) return;
+  const nx=dx/len, ny=dy/len;
+  const px=-ny, py=nx;
+  const mid={x:(pA.x+pB.x)/2,y:(pA.y+pB.y)/2};
+  const toC={x:pC.x-mid.x,y:pC.y-mid.y};
+  const dot=toC.x*px+toC.y*py;
+  const dir=dot>0?-1:1;
+  const dpx=px*dir, dpy=py*dir;
+  const corners=[pA,pB,{x:pB.x+dpx*len,y:pB.y+dpy*len},{x:pA.x+dpx*len,y:pA.y+dpy*len}];
+  ctx.beginPath();ctx.moveTo(corners[0].x,corners[0].y);
+  for(let i=1;i<4;i++) ctx.lineTo(corners[i].x,corners[i].y);
+  ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();
+  if(showArea){
+    const cx=(corners[0].x+corners[2].x)/2, cy=(corners[0].y+corners[2].y)/2;
+    ctx.font='bold 13px JetBrains Mono';ctx.fillStyle=stroke;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(`${label}=${area.toFixed(1)}`,cx,cy);
+  }
+}
+function simPointerDown(e){
+  const rect=simCanvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  const pts=simGetPoints();
+  if(Math.hypot(mx-pts.B.x,my-pts.B.y)<20){state.sim.dragging='B';simCanvas.setPointerCapture(e.pointerId);}
+  else if(Math.hypot(mx-pts.A.x,my-pts.A.y)<20){state.sim.dragging='A';simCanvas.setPointerCapture(e.pointerId);}
+}
+function simPointerMove(e){
+  if(!state.sim.dragging) return;
+  const rect=simCanvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  const s=state.sim;
+  if(s.dragging==='B'){
+    s.a=Math.max(s.scale,Math.min(mx-s.cx, 15*s.scale));
+  } else if(s.dragging==='A'){
+    s.b=Math.max(s.scale,Math.min(s.cy-my, 15*s.scale));
+  }
+  simDraw();
+}
+function simPointerUp(){ state.sim.dragging=null; }
+function simReset(){ state.sim.a=3*state.sim.scale; state.sim.b=4*state.sim.scale; simDraw(); }
+
+// ===================== LATIHAN KREATIF =====================
+function initLatihan(){
+  const tabs=$('#latihanTabs');
+  if(!tabs.children.length){
+    Object.keys(LATIHAN_DATA).forEach(key=>{
+      const d=LATIHAN_DATA[key];
+      const btn=document.createElement('button');
+      btn.className=`tab-btn${state.latihanTab===key?' active':''}`;
+      btn.innerHTML=`<i class="fas ${d.icon} mr-1"></i> ${d.title}`;
+      btn.onclick=()=>{state.latihanTab=key;initLatihan();};
+      tabs.appendChild(btn);
+    });
+  }
+  $$('#latihanTabs .tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',Object.keys(LATIHAN_DATA)[i]===state.latihanTab);
+  });
+  const cont=$('#latihanContent');
+  const data=LATIHAN_DATA[state.latihanTab];
+  if(data.isCreator){ renderBuatSoal(cont); }
+  else { renderLatihanProblems(cont, data); }
+}
+function renderLatihanProblems(cont, data){
+  let html=`<div class="space-y-6">`;
+  data.problems.forEach((p,i)=>{
+    const indikator = state.latihanTab==='kontekstual'?'Elaboration':(state.latihanTab==='openended'?'Fluency':'Originality');
+    const indColor = {Fluency:'#06b6d4',Flexibility:'#f59e0b',Originality:'#ef4444',Elaboration:'#10b981'}[indikator];
+    html+=`
+    <div class="card p-6">
+      <div class="flex items-start gap-3 mb-3">
+        <span class="badge mt-1" style="background:${indColor}20;color:${indColor}">${indikator}</span>
+        <span class="text-sm font-mono" style="color:var(--text-muted)">Soal ${i+1}</span>
+      </div>
+      <p class="font-semibold mb-3">${p.q}</p>
+      ${p.hint?`<p class="text-sm mb-3" style="color:var(--text-muted)"><i class="fas fa-lightbulb mr-1" style="color:var(--accent-gold)"></i>Petunjuk: ${p.hint}</p>`:''}
+      ${p.acceptText?
+        `<textarea class="input-field mb-3" rows="4" placeholder="Tuliskan penjelasanmu..." id="latOpen${i}"></textarea>
+         <button class="btn-primary" onclick="checkOpenText(${i})">Kirim Jawaban</button>
+         <div id="latFeedback${i}" class="mt-3"></div>`
+        :`<div class="flex gap-2 mb-3">
+           <input type="text" class="input-field flex-1" placeholder="Jawaban..." id="latInput${i}">
+           <button class="btn-primary" onclick="checkLatihan(${i},'${state.latihanTab}')">Cek</button>
+         </div>
+         <div id="latFeedback${i}" class="mt-3"></div>`
+      }
+    </div>`;
+  });
+  html+=`</div>`;
+  cont.innerHTML=html;
+}
+function checkLatihan(idx, tab){
+  const data=LATIHAN_DATA[tab];
+  const p=data.problems[idx];
+  const input=$('#latInput'+idx).value.trim();
+  const fb=$('#latFeedback'+idx);
+  if(!input){fb.innerHTML=`<p style="color:var(--accent-coral)">Silakan isi jawaban terlebih dahulu</p>`;return;}
+  if(p.acceptMultiple){
+    const nums=input.replace(/[\[\]\(\)\s]/g,'').split(',').map(Number).filter(n=>!isNaN(n));
+    const found=p.validAnswers.some(ans=>ans.every((v,i)=>Math.abs(v-nums[i])<0.5));
+    if(found){
+      fb.innerHTML=`<div class="p-3 rounded-lg" style="background:rgba(16,185,129,0.1);border:1px solid #10b981"><i class="fas fa-check-circle mr-1" style="color:var(--accent-mint)"></i><strong>Benar!</strong> ${p.step||''}</div>`;
+      updateKreativitas(tab==='openended'?'fluency':'elaboration',10);
+    } else {
+      fb.innerHTML=`<div class="p-3 rounded-lg" style="background:rgba(239,68,68,0.1);border:1px solid #ef4444"><i class="fas fa-times-circle mr-1" style="color:var(--accent-coral)"></i>Belum tepat. Coba periksa kembali perhitunganmu.</div>`;
+    }
+  } else {
+    if(Math.abs(parseFloat(input)-parseFloat(p.ans))<0.5){
+      fb.innerHTML=`<div class="p-3 rounded-lg" style="background:rgba(16,185,129,0.1);border:1px solid #10b981"><i class="fas fa-check-circle mr-1" style="color:var(--accent-mint)"></i><strong>Benar!</strong> Pembahasan: ${p.step}</div>`;
+      updateKreativitas('elaboration',10);
+    } else {
+      fb.innerHTML=`<div class="p-3 rounded-lg" style="background:rgba(239,68,68,0.1);border:1px solid #ef4444"><i class="fas fa-times-circle mr-1" style="color:var(--accent-coral)"></i>Belum tepat. Petunjuk: ${p.hint}</div>`;
+    }
+  }
+}
+function checkOpenText(idx){
+  const text=$('#latOpen'+idx).value.trim();
+  const fb=$('#latFeedback'+idx);
+  if(text.length<20){fb.innerHTML=`<p style="color:var(--accent-coral)">Jelaskan lebih detail (minimal 20 karakter)</p>`;return;}
+  fb.innerHTML=`<div class="p-3 rounded-lg" style="background:rgba(16,185,129,0.1);border:1px solid #10b981"><i class="fas fa-check-circle mr-1" style="color:var(--accent-mint)"></i><strong>Jawaban tersimpan!</strong> Kamu menunjukkan kemampuan elaborasi yang baik. Jawabanmu: "${text.substring(0,100)}..."</div>`;
+  updateKreativitas('originality',15);
+}
+function renderBuatSoal(cont){
+  cont.innerHTML=`
+  <div class="card p-6">
+    <div class="flex items-start gap-3 mb-4">
+      <span class="badge mt-1" style="background:rgba(239,68,68,0.15);color:var(--accent-coral)">Originality</span>
+    </div>
+    <p class="mb-4" style="color:var(--text-secondary)">Buat soal Teorema Pythagoras sendiri berdasarkan kehidupan sehari-hari!</p>
+    <div class="space-y-4">
+      <div><label class="text-sm font-semibold mb-1 block">Konteks / Cerita Soal</label>
+        <textarea class="input-field" rows="4" id="buatSoalCerita" placeholder="Contoh: Sebuah pesawat layang terbang setinggi 120 m dan terbang mendatar 50 m dari titik lepas landas..."></textarea></div>
+      <div class="grid grid-cols-3 gap-4">
+        <div><label class="text-sm font-semibold mb-1 block" style="color:var(--accent-cyan)">Sisi a</label><input type="number" class="input-field" id="buatA" placeholder="50" min="0"></div>
+        <div><label class="text-sm font-semibold mb-1 block" style="color:var(--accent-gold)">Sisi b</label><input type="number" class="input-field" id="buatB" placeholder="120" min="0"></div>
+        <div><label class="text-sm font-semibold mb-1 block" style="color:var(--accent-coral)">Sisi c (opsional)</label><input type="number" class="input-field" id="buatC" placeholder="?" min="0"></div>
+      </div>
+      <div><label class="text-sm font-semibold mb-1 block">Langkah Penyelesaian</label>
+        <textarea class="input-field" rows="3" id="buatLangkah" placeholder="Tuliskan langkah-langkah penyelesaian soalmu..."></textarea></div>
+      <div><label class="text-sm font-semibold mb-1 block">Jawaban</label>
+        <input type="text" class="input-field" id="buatJawaban" placeholder="130"></div>
+      <button class="btn-primary w-full" onclick="submitBuatSoal()"><i class="fas fa-paper-plane mr-2"></i>Simpan Soal</button>
+      <div id="buatFeedback"></div>
+    </div>
+  </div>`;
+}
+function submitBuatSoal(){
+  const cerita=$('#buatSoalCerita').value.trim();
+  const a=parseFloat($('#buatA').value), b=parseFloat($('#buatB').value);
+  const langkah=$('#buatLangkah').value.trim();
+  const jawaban=parseFloat($('#buatJawaban').value);
+  const fb=$('#buatFeedback');
+  if(!cerita||isNaN(a)||isNaN(b)||isNaN(jawaban)||!langkah){
+    fb.innerHTML=`<p class="mt-3" style="color:var(--accent-coral)"><i class="fas fa-exclamation-triangle mr-1"></i>Lengkapi semua field (cerita, sisi a, sisi b, langkah, jawaban)</p>`;return;
+  }
+  const expected=Math.sqrt(a*a+b*b);
+  const close=Math.abs(jawaban-expected)<1;
+  fb.innerHTML=close?
+    `<div class="mt-3 p-4 rounded-xl" style="background:rgba(16,185,129,0.1);border:1px solid #10b981">
+      <p class="font-bold mb-1" style="color:var(--accent-mint)"><i class="fas fa-star mr-1"></i>Soal Kreatif Tersimpan!</p>
+      <p class="text-sm" style="color:var(--text-secondary)">Jawabanmu (${jawaban}) sesuai dengan perhitungan (${expected.toFixed(2)}). Soal ini menunjukkan kreativitasmu dalam membuat konteks matematika!</p>
+    </div>`:
+    `<div class="mt-3 p-4 rounded-xl" style="background:rgba(245,158,11,0.1);border:1px solid #f59e0b">
+      <p class="font-bold mb-1" style="color:var(--accent-gold)"><i class="fas fa-exclamation-circle mr-1"></i>Soal Tersimpan, Tapi Periksa Jawaban</p>
+      <p class="text-sm" style="color:var(--text-secondary)">Berdasarkan a=${a} dan b=${b}, jawaban seharusnya ≈${expected.toFixed(2)}, bukan ${jawaban}. Periksa kembali soalmu!</p>
+    </div>`;
+  if(close) updateKreativitas('originality',20);
+  else updateKreativitas('originality',5);
+}
+
+// ===================== GAME =====================
+function initGame(){
+  const tabs=$('#gameTabs');
+  if(!tabs.children.length){
+    [{key:'speed',label:'Speed Challenge',icon:'fa-bolt'},{key:'puzzle',label:'Puzzle Match',icon:'fa-puzzle-piece'}].forEach(g=>{
+      const btn=document.createElement('button');
+      btn.className=`tab-btn${state.gameTab===g.key?' active':''}`;
+      btn.innerHTML=`<i class="fas ${g.icon} mr-1"></i> ${g.label}`;
+      btn.onclick=()=>{state.gameTab=g.key;initGame();};
+      tabs.appendChild(btn);
+    });
+  }
+  $$('#gameTabs .tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['speed','puzzle'][i]===state.gameTab);
+  });
+  if(state.gameTab==='speed') renderSpeedGame();
+  else renderPuzzleGame();
+}
+function renderSpeedGame(){
+  const g=state.game;
+  const cont=$('#gameContent');
+  if(!g.active){
+    cont.innerHTML=`
+    <div class="card p-8 text-center">
+      <div class="w-20 h-20 rounded-3xl mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(6,182,212,0.15),rgba(245,158,11,0.15))">
+        <i class="fas fa-bolt text-3xl" style="color:var(--accent-gold)"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Speed Challenge</h2>
+      <p class="mb-6" style="color:var(--text-secondary)">Hitung hipotenusa secepat mungkin! 10 ronde, 30 detik per ronde.</p>
+      <button class="btn-primary text-lg" onclick="startSpeedGame()"><i class="fas fa-play mr-2"></i>Mulai</button>
+    </div>`;
+  } else {
+    cont.innerHTML=`
+    <div class="card p-6">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex gap-4">
+          <span class="font-mono font-bold" style="color:var(--accent-gold)"><i class="fas fa-star mr-1"></i>${g.score}</span>
+          <span class="font-mono" style="color:var(--text-secondary)">Ronde ${g.round}/${g.totalRounds}</span>
+        </div>
+        <div class="font-mono font-bold text-2xl" style="color:${g.timer<=10?'var(--accent-coral)':'var(--accent-cyan)'}">${g.timer}s</div>
+      </div>
+      <div class="progress-bar mb-6"><div class="progress-fill" style="width:${(g.round/g.totalRounds)*100}%"></div></div>
+      <div class="text-center py-8">
+        <p class="text-lg mb-2" style="color:var(--text-secondary)">Hitung c dari segitiga siku-siku:</p>
+        <p class="text-4xl font-mono font-bold mb-6">
+          <span style="color:var(--accent-cyan)">a = ${g.a}</span> &nbsp;
+          <span style="color:var(--accent-gold)">b = ${g.b}</span>
+        </p>
+        <p class="text-lg mb-4" style="color:var(--text-secondary)">c = ? <span class="text-sm">(bulatkan 2 desimal)</span></p>
+        <div class="flex justify-center gap-3 max-w-xs mx-auto">
+          <input type="number" step="any" class="input-field text-center text-2xl" id="speedInput" placeholder="?" onkeydown="if(event.key==='Enter')checkSpeedAnswer()" autofocus>
+          <button class="btn-primary text-xl px-6" onclick="checkSpeedAnswer()"><i class="fas fa-check"></i></button>
+        </div>
+        <div id="speedFeedback" class="mt-4"></div>
+      </div>
+    </div>`;
+    setTimeout(()=>$('#speedInput')?.focus(),100);
+  }
+}
+function startSpeedGame(){
+  const g=state.game;
+  g.score=0; g.round=0; g.timer=30; g.active=true;
+  nextSpeedRound();
+}
+function nextSpeedRound(){
+  const g=state.game;
+  g.round++;
+  if(g.round>g.totalRounds){endSpeedGame();return;}
+  g.a=Math.floor(Math.random()*15)+1;
+  g.b=Math.floor(Math.random()*15)+1;
+  g.timer=30;
+  g.answer=Math.sqrt(g.a*g.a+g.b*g.b).toFixed(2);
+  clearInterval(g.interval);
+  g.interval=setInterval(()=>{
+    g.timer--;
+    const te=$('[style*="var(--accent-coral)"],[style*="var(--accent-cyan)"]');
+    if(g.timer<=0){clearInterval(g.interval);checkSpeedAnswer(true);}
+    renderSpeedGame();
+  },1000);
+  renderSpeedGame();
+}
+function checkSpeedAnswer(timeout=false){
+  const g=state.game;
+  clearInterval(g.interval);
+  const input=parseFloat($('#speedInput')?.value);
+  const fb=$('#speedFeedback');
+  if(timeout||isNaN(input)){
+    fb.innerHTML=`<span style="color:var(--accent-coral)">Waktu habis! Jawaban: ${g.answer}</span>`;
+  } else if(Math.abs(input-parseFloat(g.answer))<0.05){
+    const bonus=g.timer;
+    g.score+=10+bonus;
+    fb.innerHTML=`<span style="color:var(--accent-mint)"><i class="fas fa-check-circle mr-1"></i>Benar! +${10+bonus} poin</span>`;
+  } else {
+    g.score=Math.max(0,g.score-5);
+    fb.innerHTML=`<span style="color:var(--accent-coral)"><i class="fas fa-times-circle mr-1"></i>Salah! Jawaban: ${g.answer} (-5 poin)</span>`;
+  }
+  setTimeout(()=>nextSpeedRound(),1200);
+}
+function endSpeedGame(){
+  const g=state.game;
+  g.active=false;
+  clearInterval(g.interval);
+  state.profile.gameScores.push({type:'speed',score:g.score,date:new Date().toISOString()});
+  saveState();
+  const cont=$('#gameContent');
+  cont.innerHTML=`
+  <div class="card p-8 text-center">
+    <div class="w-20 h-20 rounded-3xl mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(239,68,68,0.2))">
+      <i class="fas fa-trophy text-3xl" style="color:var(--accent-gold)"></i>
+    </div>
+    <h2 class="text-2xl font-bold mb-2">Permainan Selesai!</h2>
+    <p class="text-5xl font-mono font-bold my-4" style="color:var(--accent-gold)">${g.score}</p>
+    <p class="mb-6" style="color:var(--text-secondary)">Total poin dari ${g.totalRounds} ronde</p>
+    <div class="flex justify-center gap-4">
+      <button class="btn-primary" onclick="startSpeedGame()"><i class="fas fa-redo mr-2"></i>Main Lagi</button>
+      <button class="btn-secondary" onclick="navigateTo('profil')"><i class="fas fa-chart-line mr-2"></i>Lihat Skor</button>
+    </div>
+  </div>`;
+  toast(`Skor Speed: ${g.score} poin!`,'success');
+}
+
+// Puzzle Match Game
+function renderPuzzleGame(){
+  const p=state.puzzle;
+  const cont=$('#gameContent');
+  if(!p.active){
+    cont.innerHTML=`
+    <div class="card p-8 text-center">
+      <div class="w-20 h-20 rounded-3xl mx-auto mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.15))">
+        <i class="fas fa-puzzle-piece text-3xl" style="color:var(--accent-mint)"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Puzzle Match</h2>
+      <p class="mb-6" style="color:var(--text-secondary)">Cocokkan segitiga dengan hipotenusa yang benar!</p>
+      <button class="btn-primary text-lg" onclick="startPuzzleGame()"><i class="fas fa-play mr-2"></i>Mulai</button>
+    </div>`;
+  } else {
+    let html=`<div class="card p-6">
+      <div class="flex justify-between items-center mb-4">
+        <span class="font-mono font-bold" style="color:var(--accent-gold)"><i class="fas fa-star mr-1"></i>${p.score}</span>
+        <span class="font-mono" style="color:var(--text-secondary)">Cocokkan: ${p.matched}/${p.total}</span>
+        <div class="font-mono font-bold text-xl" style="color:${p.timer<=10?'var(--accent-coral)':'var(--accent-cyan)'}">${p.timer}s</div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">`;
+    // Kolom kiri: segitiga
+    html+=`<div class="space-y-3"><p class="text-sm font-bold text-center mb-2" style="color:var(--text-muted)">Segitiga</p>`;
+    p.pairs.forEach((pair,i)=>{
+      const matched=pair.matched;
+      html+=`<button class="option-btn ${matched?'correct':''} ${p.selected?.type==='tri'&&p.selected.idx===i?'selected':''}" 
+        ${matched?'disabled':''} onclick="selectPuzzle('tri',${i})">
+        <span class="font-mono">a=${pair.a}, b=${pair.b}</span>
+      </button>`;
+    });
+    html+=`</div>`;
+    // Kolom kanan: hipotenusa
+    html+=`<div class="space-y-3"><p class="text-sm font-bold text-center mb-2" style="color:var(--text-muted)">Hipotenusa</p>`;
+    // Acak urutan jawaban
+    const shuffled=[...p.pairs].sort(()=>Math.random()-0.5);
+    shuffled.forEach
