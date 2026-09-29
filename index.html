@@ -28,10 +28,11 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg-deep);color:var(
 @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(2deg)}}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 20px var(--glow)}50%{box-shadow:0 0 40px var(--glow),0 0 60px var(--glow)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:translateX(0)}}
+@keyframes modalIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 .float-anim{animation:float 6s ease-in-out infinite}
 .navbar{position:fixed;top:0;left:0;right:0;z-index:30;background:color-mix(in srgb,var(--bg-surface) 85%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);transition:background .4s}
 .navbar-inner{max-width:1200px;margin:0 auto;padding:0 1rem;height:64px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
 .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#06b6d4,#f59e0b);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
 .logo-text{font-weight:700;font-size:1.1rem;color:var(--text-primary);white-space:nowrap}
 .nav-links{display:flex;align-items:center;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -45,7 +46,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg-deep);color:var(
 .menu-btn{display:none}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40}
 .sidebar-overlay.show{display:block}
-.sidebar{position:fixed;left:-280px;top:0;bottom:0;width:280px;z-index:50;transition:left .3s ease;background:var(--bg-surface);border-right:1px solid var(--border);padding:80px 16px 16px;display:flex;flex-direction:column;gap:4px}
+.sidebar{position:fixed;left:-280px;top:0;bottom:0;width:280px;z-index:50;transition:left .3s ease;background:var(--bg-surface);border-right:1px solid var(--border);padding:80px 16px 16px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
 .sidebar.open{left:0}
 .sidebar .nav-link{font-size:.95rem;padding:12px 16px;border-radius:12px}
 .card{background:var(--bg-surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:transform .3s,box-shadow .3s}
@@ -67,6 +68,8 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg-deep);color:var(
 .btn-outline:hover{border-color:var(--accent-cyan);color:var(--accent-cyan)}
 .btn-secondary{background:var(--bg-elevated);color:var(--text-primary);border:1px solid var(--border);padding:10px 22px;font-size:.9rem}
 .btn-secondary:hover{border-color:var(--accent-cyan);color:var(--accent-cyan)}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:10px 22px}
+.btn-danger:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(239,68,68,.3)}
 .btn-sm{padding:8px 16px;font-size:.82rem;border-radius:10px}
 .btn-lg{padding:14px 32px;font-size:1.05rem;border-radius:14px}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
@@ -115,7 +118,6 @@ textarea.input-field{font-family:'Space Grotesk',sans-serif;resize:vertical}
 .feedback{padding:12px 16px;border-radius:12px;margin-top:.75rem;font-size:.9rem;line-height:1.5}
 .feedback.success{background:rgba(16,185,129,.08);border:1px solid var(--accent-mint);color:var(--accent-mint)}
 .feedback.error{background:rgba(239,68,68,.08);border:1px solid var(--accent-coral);color:var(--accent-coral)}
-.feedback.warning{background:rgba(245,158,11,.08);border:1px solid var(--accent-gold);color:var(--accent-gold)}
 .toast-box{position:fixed;top:80px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .toast{padding:12px 20px;border-radius:12px;font-weight:500;font-size:.9rem;animation:slideIn .3s ease;max-width:340px;pointer-events:auto}
 .toast-success{background:#065f46;color:#a7f3d0;border:1px solid #10b981}
@@ -130,13 +132,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 input[type=range].gold::-webkit-slider-thumb{background:var(--accent-gold)}
 .canvas-wrap{border-radius:16px;overflow:hidden;background:var(--bg-elevated);border:1px solid var(--border)}
 .canvas-wrap canvas{display:block;width:100%;cursor:crosshair;touch-action:none}
-.lb-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;transition:background .2s}
-.lb-row:hover{background:var(--bg-elevated)}
-.lb-rank{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
-.lb-rank.gold{background:rgba(245,158,11,.15);color:var(--accent-gold)}
-.lb-rank.silver{background:rgba(148,163,184,.15);color:#94a3b8}
-.lb-rank.bronze{background:rgba(180,130,90,.15);color:#b4825a}
-.lb-rank.normal{background:var(--bg-elevated);color:var(--text-muted)}
 .mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}
 .text-center{text-align:center}
 .flex{display:flex}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}
@@ -147,11 +142,38 @@ input[type=range].gold::-webkit-slider-thumb{background:var(--accent-gold)}
 .text-sm{font-size:.85rem}.text-xs{font-size:.78rem}.text-lg{font-size:1.15rem}
 .w-full{width:100%}
 .space-y-3>*+*{margin-top:.75rem}.space-y-4>*+*{margin-top:1rem}
+/* Modal overlay */
+.modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;animation:fadeUp .3s ease}
+.modal-box{background:var(--bg-surface);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:480px;width:92%;animation:modalIn .35s ease;box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.modal-box h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
+.modal-box p{color:var(--text-secondary);font-size:.92rem;line-height:1.6;margin-bottom:1rem}
+/* YouTube floating player */
+.yt-float{position:fixed;bottom:24px;right:24px;z-index:90;width:420px;max-width:calc(100vw - 48px);border-radius:18px;overflow:hidden;background:var(--bg-surface);border:2px solid var(--accent-coral);box-shadow:0 16px 48px rgba(239,68,68,.25);animation:slideIn .4s ease}
+.yt-float-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(135deg,#cc0000,#990000);color:#fff;font-weight:700;font-size:.9rem}
+.yt-float-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.yt-float-close:hover{background:rgba(255,255,255,.35)}
+.yt-float-body{position:relative;padding-top:56.25%}
+.yt-float-body iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+/* YouTube button */
+.yt-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:14px;background:linear-gradient(135deg,#cc0000,#ff0000);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;border:none;transition:all .25s;box-shadow:0 4px 16px rgba(255,0,0,.2)}
+.yt-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 28px rgba(255,0,0,.35)}
+.yt-btn:active{transform:scale(.97)}
+/* Admin panel overlay */
+.admin-overlay{position:fixed;inset:0;z-index:95;background:var(--bg-deep);overflow-y:auto;animation:fadeUp .3s ease;padding:80px 1rem 2rem}
+.admin-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.admin-table th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);color:var(--accent-cyan);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.admin-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+.admin-table tr:hover td{background:var(--bg-elevated)}
+.admin-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700;margin:1px}
+.admin-badge.pass{background:rgba(16,185,129,.12);color:#10b981}
+.admin-badge.fail{background:rgba(239,68,68,.12);color:#ef4444}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 <canvas id="bgCanvas"></canvas>
+
+<!-- Navbar -->
 <nav class="navbar"><div class="navbar-inner">
   <div class="logo" id="logoBtn"><div class="logo-icon"><i class="fas fa-shapes"></i></div><span class="logo-text">Pythagoras Explorer</span></div>
   <div class="nav-links" id="navLinks"></div>
@@ -163,7 +185,19 @@ input[type=range].gold::-webkit-slider-thumb{background:var(--accent-gold)}
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="sidebar" id="sidebar"><div id="sidebarLinks"></div></div>
 <div class="toast-box" id="toastBox"></div>
+
+<!-- Name modal container -->
+<div id="nameModal" style="display:none"></div>
+<!-- YouTube floating player container -->
+<div id="ytFloatWrap"></div>
+<!-- Admin login modal container -->
+<div id="adminLoginModal" style="display:none"></div>
+<!-- Admin panel container -->
+<div id="adminPanel" style="display:none"></div>
+
 <main class="main-wrap" id="mainWrap">
+
+<!-- HOME -->
 <div class="page active" id="page-home"><div class="container">
   <div class="hero">
     <div class="hero-text">
@@ -171,8 +205,9 @@ input[type=range].gold::-webkit-slider-thumb{background:var(--accent-gold)}
       <h1 class="hero-title">Jelajahi <span class="gradient-text">Teorema Pythagoras</span></h1>
       <p class="hero-desc">Temukan konsep, eksplorasi visualisasi dinamis, tantang dirimu dengan game dan quiz, serta kembangkan berpikir kreatif matematika secara mandiri.</p>
       <div class="hero-actions">
-        <button class="btn btn-primary btn-lg" id="heroStartBtn"><i class="fas fa-play mr-2"></i>Mulai Belajar</button>
-        <button class="btn btn-outline btn-lg" id="heroExpBtn"><i class="fas fa-flask mr-2"></i>Eksplorasi</button>
+        <button class="btn btn-primary btn-lg" id="heroStartBtn"><i class="fas fa-play" style="margin-right:8px"></i>Mulai Belajar</button>
+        <button class="btn btn-outline btn-lg" id="heroExpBtn"><i class="fas fa-flask" style="margin-right:8px"></i>Eksplorasi</button>
+        <button class="yt-btn" id="ytBtn"><i class="fab fa-youtube"></i>Video Apersepsi</button>
       </div>
     </div>
     <div class="hero-visual">
@@ -185,11 +220,11 @@ input[type=range].gold::-webkit-slider-thumb{background:var(--accent-gold)}
         <text x="185" y="140" fill="#ef4444" font-size="22" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">c</text>
         <circle cx="50" cy="255" r="6" fill="#06b6d4"/><circle cx="290" cy="255" r="6" fill="#06b6d4"/><circle cx="50" cy="45" r="6" fill="#f59e0b"/>
         <rect x="130" y="185" width="140" height="44" rx="10" fill="rgba(10,22,40,0.88)" stroke="#22d3ee" stroke-width="1"/>
-        <text x="200" y="214" fill="#e8edf5" font-size="20" font-weight="600" font-family="JetBrains Mono" text-anchor="middle">a² + b² = c²</text>
+        <text x="200" y="214" fill="#e8edf5" font-size="20" font-weight="600" font-family="JetBrains Mono" text-anchor="middle">a&#xB2; + b&#xB2; = c&#xB2;</text>
       </svg>
     </div>
   </div>
-  <div class="quote-card"><i class="fas fa-quote-left"></i><p>"Matematika bukan tentang angka, persamaan, atau algoritma. Matematika tentang pemahaman."</p><span>— William Paul Thurston</span></div>
+  <div class="quote-card"><i class="fas fa-quote-left"></i><p>"Matematika bukan tentang angka, persamaan, atau algoritma. Matematika tentang pemahaman."</p><span>&#x2014; William Paul Thurston</span></div>
   <h2 class="section-title">Tujuan Pembelajaran</h2>
   <div class="grid-4 mb-6">
     <div class="card card-center"><div class="card-icon cyan"><i class="fas fa-lightbulb"></i></div><h3>Memahami Konsep</h3><p>Menjelaskan Teorema Pythagoras dan hubungan sisi segitiga siku-siku</p></div>
@@ -200,115 +235,483 @@ input[type=range].gold::-webkit-slider-thumb{background:var(--accent-gold)}
   <h2 class="section-title">Fitur Pembelajaran</h2>
   <div class="grid-3 mb-6" id="featureGrid"></div>
 </div></div>
+
+<!-- MATERI -->
 <div class="page" id="page-materi"><div class="container narrow"><h1 class="page-title">Materi Teorema Pythagoras</h1><p class="page-desc">Pelajari konsep dasar, rumus, dan penerapannya secara interaktif</p><div id="materiContent"></div></div></div>
+
+<!-- EKSPLORASI -->
 <div class="page" id="page-eksplorasi"><div class="container narrow"><h1 class="page-title">Eksplorasi Mandiri</h1><p class="page-desc">Geser slider untuk mengubah nilai sisi dan amati hubungannya secara real-time</p><div id="eksplorasiContent"></div></div></div>
+
+<!-- SIMULASI -->
 <div class="page" id="page-simulasi"><div class="container wide"><h1 class="page-title">Simulasi Interaktif</h1><p class="page-desc">Seret titik-titik segitiga untuk mengubah bentuk dan amati hubungan luas persegi</p><div id="simulasiContent"></div></div></div>
+
+<!-- LATIHAN -->
 <div class="page" id="page-latihan"><div class="container narrow"><h1 class="page-title">Latihan Kreatif</h1><p class="page-desc">Kembangkan berpikir kreatif matematikamu melalui berbagai jenis soal</p><div id="latihanContent"></div></div></div>
+
+<!-- GAME -->
 <div class="page" id="page-game"><div class="container narrow"><h1 class="page-title">Game Edukasi</h1><p class="page-desc">Tantang dirimu dan raih skor tertinggi</p><div id="gameContent"></div></div></div>
+
+<!-- QUIZ -->
 <div class="page" id="page-quiz"><div class="container narrow"><h1 class="page-title">Quiz Interaktif</h1><p class="page-desc">Uji pemahamanmu dengan soal-soal bervariasi</p><div id="quizContent"></div></div></div>
+
+<!-- PROFIL -->
 <div class="page" id="page-profil"><div class="container wide"><h1 class="page-title">Dashboard Pembelajaran</h1><div id="profilContent"></div></div></div>
+
 </main>
+
 <script>
-var NAV=[{id:'home',label:'Home',icon:'fa-house'},{id:'materi',label:'Materi',icon:'fa-book-open'},{id:'eksplorasi',label:'Eksplorasi',icon:'fa-magnifying-glass'},{id:'simulasi',label:'Simulasi',icon:'fa-draw-polygon'},{id:'latihan',label:'Latihan Kreatif',icon:'fa-brain'},{id:'game',label:'Game',icon:'fa-gamepad'},{id:'quiz',label:'Quiz',icon:'fa-clipboard-check'},{id:'profil',label:'Profil',icon:'fa-chart-line'}];
-var FEATURES=[{id:'materi',icon:'fa-book-open',cls:'cyan-text',title:'Materi Interaktif',desc:'Penjelasan visual dengan animasi dan langkah bertahap'},{id:'simulasi',icon:'fa-draw-polygon',cls:'gold-text',title:'Simulasi Dinamis',desc:'Drag-and-drop segitiga dengan visualisasi luas real-time'},{id:'latihan',icon:'fa-brain',cls:'coral-text',title:'Latihan Kreatif',desc:'Soal kontekstual, open-ended, dan buat soal sendiri'},{id:'game',icon:'fa-gamepad',cls:'mint-text',title:'Game Edukasi',desc:'Tantangan kecepatan dan puzzle dengan skor serta leaderboard'},{id:'quiz',icon:'fa-clipboard-check',cls:'purple-text',title:'Quiz Interaktif',desc:'Soal HOTS dengan penilaian otomatis dan pembahasan'},{id:'profil',icon:'fa-chart-line',cls:'pink-text',title:'Dashboard',desc:'Pantau perkembangan dan statistik belajarmu'}];
+/* ============================================================
+   DATA
+   ============================================================ */
+var NAV=[
+  {id:'home',label:'Home',icon:'fa-house'},
+  {id:'materi',label:'Materi',icon:'fa-book-open'},
+  {id:'eksplorasi',label:'Eksplorasi',icon:'fa-magnifying-glass'},
+  {id:'simulasi',label:'Simulasi',icon:'fa-draw-polygon'},
+  {id:'latihan',label:'Latihan',icon:'fa-brain'},
+  {id:'game',label:'Game',icon:'fa-gamepad'},
+  {id:'quiz',label:'Quiz',icon:'fa-clipboard-check'},
+  {id:'profil',label:'Profil',icon:'fa-chart-line'}
+];
+var FEATURES=[
+  {id:'materi',icon:'fa-book-open',cls:'cyan-text',title:'Materi Interaktif',desc:'Penjelasan visual dengan animasi dan langkah bertahap'},
+  {id:'simulasi',icon:'fa-draw-polygon',cls:'gold-text',title:'Simulasi Dinamis',desc:'Drag-and-drop segitiga dengan visualisasi luas real-time'},
+  {id:'latihan',icon:'fa-brain',cls:'coral-text',title:'Latihan Kreatif',desc:'Soal kontekstual, open-ended, dan buat soal sendiri'},
+  {id:'game',icon:'fa-gamepad',cls:'mint-text',title:'Game Edukasi',desc:'Tantangan kecepatan dan puzzle dengan skor serta leaderboard'},
+  {id:'quiz',icon:'fa-clipboard-check',cls:'purple-text',title:'Quiz Interaktif',desc:'Soal HOTS dengan penilaian otomatis dan pembahasan'},
+  {id:'profil',icon:'fa-chart-line',cls:'pink-text',title:'Dashboard',desc:'Pantau perkembangan dan statistik belajarmu'}
+];
 var TRIPLES=[[3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15],[9,40,41],[10,24,26],[12,16,20],[12,35,37],[15,20,25],[20,21,29],[30,40,50]];
 var QUIZ_DATA=[
   {type:'mc',q:'Pada segitiga siku-siku, sisi terpanjang disebut...',opts:['Alas','Tinggi','Hipotenusa','Sisi miring dan hipotenusa'],ans:3,diff:'LOTS',exp:'Sisi terpanjang yang berhadapan dengan sudut siku-siku disebut hipotenusa.'},
-  {type:'mc',q:'Jika a = 5 dan b = 12, berapakah c?',opts:['13','14','15','17'],ans:0,diff:'LOTS',exp:'c = √(5² + 12²) = √(25 + 144) = √169 = 13'},
-  {type:'fill',q:'Hitung c jika a = 8 dan b = 6. Jawab angka saja:',ans:'10',diff:'LOTS',exp:'c = √(64 + 36) = √100 = 10'},
-  {type:'mc',q:'Manakah yang BUKAN tripel Pythagoras?',opts:['(3,4,5)','(5,12,13)','(6,7,8)','(8,15,17)'],ans:2,diff:'MOTS',exp:'6² + 7² = 85 ≠ 64 (8²). Jadi (6,7,8) bukan tripel Pythagoras.'},
-  {type:'fill',q:'Tangga 13 m bersandar di dinding, jarak kaki tangga ke dinding 5 m. Berapa tinggi dinding? (angka saja):',ans:'12',diff:'MOTS',exp:'b = √(13² - 5²) = √(169 - 25) = √144 = 12 m'},
-  {type:'mc',q:'Jika c = 25 dan a = 7, berapakah b?',opts:['24','25','26','18'],ans:0,diff:'MOTS',exp:'b = √(c² - a²) = √(625 - 49) = √576 = 24'},
-  {type:'mc',q:'Diagonal persegi panjang 9 cm × 12 cm adalah...',opts:['15 cm','21 cm','18 cm','13 cm'],ans:0,diff:'MOTS',exp:'d = √(9² + 12²) = √(81 + 144) = √225 = 15 cm'},
-  {type:'fill',q:'Taman segitiga siku-siku sisi 30 m dan 40 m. Berapa keliling? (angka saja):',ans:'120',diff:'HOTS',exp:'c = √(900+1600) = 50. Keliling = 30+40+50 = 120 m'},
-  {type:'mc',q:'Dua kapal: A utara 48 km, B timur 14 km. Jarak kedua kapal?',opts:['50 km','62 km','34 km','55 km'],ans:0,diff:'HOTS',exp:'d = √(48² + 14²) = √(2304 + 196) = √2500 = 50 km'},
-  {type:'fill',q:'Nilai a jika b = 9 dan c = 41? (angka saja):',ans:'40',diff:'HOTS',exp:'a = √(c² - b²) = √(1681 - 81) = √1600 = 40'}
+  {type:'mc',q:'Jika a = 5 dan b = 12, berapakah c?',opts:['13','14','15','17'],ans:0,diff:'LOTS',exp:'c = \u221A(5\u00B2 + 12\u00B2) = \u221A(25 + 144) = \u221A169 = 13'},
+  {type:'fill',q:'Hitung c jika a = 8 dan b = 6. Jawab angka saja:',ans:'10',diff:'LOTS',exp:'c = \u221A(64 + 36) = \u221A100 = 10'},
+  {type:'mc',q:'Manakah yang BUKAN tripel Pythagoras?',opts:['(3,4,5)','(5,12,13)','(6,7,8)','(8,15,17)'],ans:2,diff:'MOTS',exp:'6\u00B2 + 7\u00B2 = 85 \u2260 64 (8\u00B2). Jadi (6,7,8) bukan tripel Pythagoras.'},
+  {type:'fill',q:'Tangga 13 m bersandar di dinding, jarak kaki tangga ke dinding 5 m. Berapa tinggi dinding? (angka saja):',ans:'12',diff:'MOTS',exp:'b = \u221A(13\u00B2 - 5\u00B2) = \u221A(169 - 25) = \u221A144 = 12 m'},
+  {type:'mc',q:'Jika c = 25 dan a = 7, berapakah b?',opts:['24','25','26','18'],ans:0,diff:'MOTS',exp:'b = \u221A(c\u00B2 - a\u00B2) = \u221A(625 - 49) = \u221A576 = 24'},
+  {type:'mc',q:'Diagonal persegi panjang 9 cm \u00D7 12 cm adalah...',opts:['15 cm','21 cm','18 cm','13 cm'],ans:0,diff:'MOTS',exp:'d = \u221A(9\u00B2 + 12\u00B2) = \u221A(81 + 144) = \u221A225 = 15 cm'},
+  {type:'fill',q:'Taman segitiga siku-siku sisi 30 m dan 40 m. Berapa keliling? (angka saja):',ans:'120',diff:'HOTS',exp:'c = \u221A(900+1600) = 50. Keliling = 30+40+50 = 120 m'},
+  {type:'mc',q:'Dua kapal: A utara 48 km, B timur 14 km. Jarak kedua kapal?',opts:['50 km','62 km','34 km','55 km'],ans:0,diff:'HOTS',exp:'d = \u221A(48\u00B2 + 14\u00B2) = \u221A(2304 + 196) = \u221A2500 = 50 km'},
+  {type:'fill',q:'Nilai a jika b = 9 dan c = 41? (angka saja):',ans:'40',diff:'HOTS',exp:'a = \u221A(c\u00B2 - b\u00B2) = \u221A(1681 - 81) = \u221A1600 = 40'}
 ];
 var LAT_DATA={
   kontekstual:{title:'Soal Kontekstual',icon:'fa-building',problems:[
-    {q:'Sebuah jemuran berbentuk segitiga siku-siku dengan tinggi 1,5 m dan panjang kaki 2 m. Berapa panjang tali pengikat diagonal?',hint:'c = √(a² + b²)',ans:'2.5',step:'a=1.5, b=2, c=√(2.25+4)=√6.25=2.5 m',ind:'Elaboration'},
-    {q:'Anak bermain layang-layang. Tali 50 m, bayang-bayang 30 m, sudut 90°. Berapa tinggi layang-layang?',hint:'b = √(c² - a²)',ans:'40',step:'b=√(2500-900)=√1600=40 m',ind:'Elaboration'},
-    {q:'Diagonal layar TV 55 inch, lebar 44 inch. Berapa tinggi TV?',hint:'t = √(d² - w²)',ans:'33',step:'t=√(3025-1936)=√1089=33 inch',ind:'Elaboration'}
+    {q:'Sebuah jemuran berbentuk segitiga siku-siku dengan tinggi 1,5 m dan panjang kaki 2 m. Berapa panjang tali pengikat diagonal?',hint:'c = \u221A(a\u00B2 + b\u00B2)',ans:'2.5',step:'a=1.5, b=2, c=\u221A(2.25+4)=\u221A6.25=2.5 m',ind:'Elaboration'},
+    {q:'Anak bermain layang-layang. Tali 50 m, bayang-bayang 30 m, sudut 90\u00B0. Berapa tinggi layang-layang?',hint:'b = \u221A(c\u00B2 - a\u00B2)',ans:'40',step:'b=\u221A(2500-900)=\u221A1600=40 m',ind:'Elaboration'},
+    {q:'Diagonal layar TV 55 inch, lebar 44 inch. Berapa tinggi TV?',hint:'t = \u221A(d\u00B2 - w\u00B2)',ans:'33',step:'t=\u221A(3025-1936)=\u221A1089=33 inch',ind:'Elaboration'}
   ]},
   openended:{title:'Soal Open-Ended',icon:'fa-lightbulb',problems:[
-    {q:'Sebutkan tripel Pythagoras (a,b,c) bilangan bulat dengan c ≤ 30! Format: a,b,c',hint:'Contoh: 3,4,5',multi:true,valid:[[3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15],[10,24,26],[12,16,20],[15,20,25],[18,24,30],[20,21,29]],ind:'Fluency'},
-    {q:'Taman segitiga siku-siku keliling 60 cm. Tentukan panjang sisinya! Format: a,b,c',hint:'a+b+c=60, c²=a²+b². Contoh: 12,16,20',multi:true,valid:[[12,16,20],[15,20,25],[10,24,26],[18,24,30],[20,21,29]],ind:'Fluency'},
+    {q:'Sebutkan tripel Pythagoras (a,b,c) bilangan bulat dengan c \u2264 30! Format: a,b,c',hint:'Contoh: 3,4,5',multi:true,valid:[[3,4,5],[5,12,13],[6,8,10],[7,24,25],[8,15,17],[9,12,15],[10,24,26],[12,16,20],[15,20,25],[18,24,30],[20,21,29]],ind:'Fluency'},
+    {q:'Taman segitiga siku-siku keliling 60 cm. Tentukan panjang sisinya! Format: a,b,c',hint:'a+b+c=60, c\u00B2=a\u00B2+b\u00B2. Contoh: 12,16,20',multi:true,valid:[[12,16,20],[15,20,25],[10,24,26],[18,24,30],[20,21,29]],ind:'Fluency'},
     {q:'Jelaskan mengapa (6,8,10) disebut "kelipatan" dari (3,4,5) dan hubungannya dengan Teorema Pythagoras!',text:true,ind:'Flexibility'}
   ]},
   buatsoal:{title:'Buat Soal Sendiri',icon:'fa-pen-fancy',creator:true}
 };
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
 function $(id){return document.getElementById(id)}
 function $$(sel){return document.querySelectorAll(sel)}
-function toast(msg,type){type=type||'info';var box=$('toastBox');var t=document.createElement('div');t.className='toast toast-'+type;t.textContent=msg;box.appendChild(t);setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(80px)';t.style.transition='all .3s';setTimeout(function(){t.remove()},300)},3000)}
+function toast(msg,type){
+  type=type||'info';
+  var box=$('toastBox');
+  var t=document.createElement('div');
+  t.className='toast toast-'+type;
+  t.textContent=msg;
+  box.appendChild(t);
+  setTimeout(function(){
+    t.style.opacity='0';t.style.transform='translateX(80px)';t.style.transition='all .3s';
+    setTimeout(function(){t.remove()},300);
+  },3000);
+}
+function nowStr(){return new Date().toLocaleString('id-ID')}
 
-/* ==========================================================
+/* ============================================================
+   SHARED USER RECORDS (for admin)
+   ============================================================ */
+var Records={
+  getAll:function(){
+    try{return JSON.parse(localStorage.getItem('pyAllUsers'))||[]}
+    catch(e){return[]}
+  },
+  save:function(all){localStorage.setItem('pyAllUsers',JSON.stringify(all))},
+  findOrCreate:function(name){
+    var all=this.getAll();
+    var u=all.find(function(x){return x.name===name});
+    if(u)return u;
+    u={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:name,joinedAt:nowStr(),quizResults:[],gameResults:[],latihanResults:[],kreativitas:{fluency:0,flexibility:0,originality:0,elaboration:0}};
+    all.push(u);this.save(all);return u;
+  },
+  addQuiz:function(name,score,total,detail){
+    var all=this.getAll();var u=all.find(function(x){return x.name===name});
+    if(!u){u=this.findOrCreate(name);all=this.getAll()}
+    var i=all.indexOf(u);u.quizResults.push({score:score,total:total,detail:detail,date:nowStr()});
+    all[i]=u;this.save(all);
+  },
+  addGame:function(name,score,detail){
+    var all=this.getAll();var u=all.find(function(x){return x.name===name});
+    if(!u){u=this.findOrCreate(name);all=this.getAll()}
+    var i=all.indexOf(u);u.gameResults.push({score:score,detail:detail,date:nowStr()});
+    all[i]=u;this.save(all);
+  },
+  addLatihan:function(name,detail){
+    var all=this.getAll();var u=all.find(function(x){return x.name===name});
+    if(!u){u=this.findOrCreate(name);all=this.getAll()}
+    var i=all.indexOf(u);u.latihanResults.push({detail:detail,date:nowStr()});
+    all[i]=u;this.save(all);
+  },
+  updateKreativitas:function(name,k,v){
+    var all=this.getAll();var u=all.find(function(x){return x.name===name});
+    if(!u)return;
+    u.kreativitas[k]=Math.min(100,(u.kreativitas[k]||0)+v);
+    var i=all.indexOf(u);all[i]=u;this.save(all);
+  },
+  clearAll:function(){localStorage.removeItem('pyAllUsers')}
+};
+
+/* ============================================================
    APP
-   ========================================================== */
+   ============================================================ */
 var App={
-  current:'home',theme:localStorage.getItem('pyTheme')||'dark',profile:null,
+  current:'home',
+  theme:localStorage.getItem('pyTheme')||'dark',
+  profile:null,
+  logoClicks:0,
+  logoTimer:null,
+  ytOpen:false,
+  adminOpen:false,
+
   init:function(){
-    this.loadProfile();this.applyTheme();this.buildNav();this.initBg();this.buildFeatures();
-    $('logoBtn').addEventListener('click',function(){App.go('home')});
+    this.loadProfile();
+    this.applyTheme();
+    this.buildNav();
+    this.initBg();
+    this.buildFeatures();
+
+    $('logoBtn').addEventListener('click',function(){App.handleLogoClick()});
     $('themeBtn').addEventListener('click',function(){App.toggleTheme()});
     $('menuBtn').addEventListener('click',function(){App.toggleMenu()});
     $('sidebarOverlay').addEventListener('click',function(){App.toggleMenu()});
     $('heroStartBtn').addEventListener('click',function(){App.go('materi')});
     $('heroExpBtn').addEventListener('click',function(){App.go('simulasi')});
+    $('ytBtn').addEventListener('click',function(){App.openYT()});
+
+    // Admin keyboard shortcut: Ctrl+Shift+A
+    document.addEventListener('keydown',function(e){
+      if(e.ctrlKey&&e.shiftKey&&e.key==='A'){e.preventDefault();App.showAdminLogin()}
+    });
+
+    // Show name prompt on first visit
+    if(!localStorage.getItem('pyUserName')){
+      this.showNameModal();
+    }else{
+      this.profile.name=localStorage.getItem('pyUserName');
+      this.saveProfile();
+      Records.findOrCreate(this.profile.name);
+    }
+
     this.go('home');
   },
-  loadProfile:function(){try{this.profile=JSON.parse(localStorage.getItem('pyProfile'))}catch(e){}if(!this.profile){this.profile={name:'Peserta',quizHistory:[],gameScores:[],kreativitas:{fluency:0,flexibility:0,originality:0,elaboration:0}};this.saveProfile()}},
+
+  /* ---- NAME MODAL ---- */
+  showNameModal:function(){
+    var w=$('nameModal');w.style.display='';
+    w.innerHTML='<div class="modal-overlay"><div class="modal-box" style="text-align:center">'+
+      '<div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#06b6d4,#f59e0b);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.6rem;color:#fff"><i class="fas fa-user-graduate"></i></div>'+
+      '<h2>Selamat Datang!</h2>'+
+      '<p>Masukkan namamu untuk memulai pembelajaran. Namamu dan hasil latihan akan direkam secara otomatis.</p>'+
+      '<input type="text" class="input-field" id="nameInput" placeholder="Nama lengkapmu..." style="text-align:center;font-size:1.1rem;padding:14px;margin-bottom:1rem">'+
+      '<button class="btn btn-primary w-full btn-lg" id="nameSubmit"><i class="fas fa-arrow-right" style="margin-right:8px"></i>Mulai</button>'+
+      '</div></div>';
+    var self=this;
+    $('nameSubmit').addEventListener('click',function(){self.submitName()});
+    $('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')self.submitName()});
+    setTimeout(function(){var inp=$('nameInput');if(inp)inp.focus()},100);
+  },
+  submitName:function(){
+    var val=$('nameInput').value.trim();
+    if(!val){toast('Silakan masukkan namamu terlebih dahulu.','error');return}
+    localStorage.setItem('pyUserName',val);
+    this.profile.name=val;this.saveProfile();
+    Records.findOrCreate(val);
+    $('nameModal').style.display='none';
+    toast('Halo, '+val+'! Selamat belajar Pythagoras!','success');
+  },
+
+  /* ---- YOUTUBE FLOATING VIDEO ---- */
+  openYT:function(){
+    if(this.ytOpen)return;this.ytOpen=true;
+    var w=$('ytFloatWrap');
+    // Ganti VIDEO_ID di bawah dengan ID YouTube apersepsi yang diinginkan
+    var VIDEO_ID='dQw4w9WgXcQ';
+    w.innerHTML='<div class="yt-float" id="ytFloat">'+
+      '<div class="yt-float-header"><span><i class="fab fa-youtube" style="margin-right:6px"></i>Video Apersepsi</span><button class="yt-float-close" id="ytClose"><i class="fas fa-times"></i></button></div>'+
+      '<div class="yt-float-body"><iframe src="https://www.youtube.com/embed/'+VIDEO_ID+'?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen></iframe></div>'+
+      '</div>';
+    $('ytClose').addEventListener('click',function(){App.closeYT()});
+  },
+  closeYT:function(){this.ytOpen=false;$('ytFloatWrap').innerHTML=''},
+
+  /* ---- ADMIN LOGIN (hidden) ---- */
+  handleLogoClick:function(){
+    this.logoClicks++;
+    if(this.logoTimer)clearTimeout(this.logoTimer);
+    this.logoTimer=setTimeout(function(){App.logoClicks=0},800);
+    if(this.logoClicks>=3){this.logoClicks=0;this.showAdminLogin()}
+  },
+  showAdminLogin:function(){
+    if(this.adminOpen)return;
+    var w=$('adminLoginModal');w.style.display='';
+    w.innerHTML='<div class="modal-overlay"><div class="modal-box">'+
+      '<h2><i class="fas fa-shield-halved" style="margin-right:8px;color:var(--accent-coral)"></i>Admin Login</h2>'+
+      '<p>Masukkan password administrator untuk mengakses panel admin dan melihat semua data pengguna.</p>'+
+      '<input type="password" class="input-field" id="adminPwd" placeholder="Password..." style="margin-bottom:1rem">'+
+      '<div style="display:flex;gap:.5rem"><button class="btn btn-primary flex-1" id="adminLoginBtn"><i class="fas fa-sign-in-alt" style="margin-right:6px"></i>Login</button><button class="btn btn-secondary" id="adminCancelBtn">Batal</button></div>'+
+      '</div></div>';
+    var self=this;
+    $('adminLoginBtn').addEventListener('click',function(){self.doAdminLogin()});
+    $('adminCancelBtn').addEventListener('click',function(){w.style.display='none'});
+    $('adminPwd').addEventListener('keydown',function(e){if(e.key==='Enter')self.doAdminLogin()});
+    setTimeout(function(){var inp=$('adminPwd');if(inp)inp.focus()},100);
+  },
+  doAdminLogin:function(){
+    var pwd=$('adminPwd').value;
+    if(pwd==='12345678'){
+      $('adminLoginModal').style.display='none';
+      this.openAdminPanel();
+    }else{
+      toast('Password salah!','error');
+    }
+  },
+
+  /* ---- ADMIN PANEL ---- */
+  openAdminPanel:function(){
+    this.adminOpen=true;
+    var w=$('adminPanel');w.style.display='';
+    var users=Records.getAll();
+    var rows='';
+    if(users.length===0){
+      rows='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">Belum ada data pengguna.</td></tr>';
+    }
+    users.forEach(function(u,i){
+      var quizS=u.quizResults.length>0?u.quizResults.map(function(q){return'<span class="admin-badge '+(q.score>=q.total*0.7?'pass':'fail')+'">'+q.score+'/'+q.total+'</span>'}).join(' '):'\u2014';
+      var gameS=u.gameResults.length>0?u.gameResults.map(function(g){return g.score}).join(', '):'\u2014';
+      var latC=u.latihanResults?u.latihanResults.length:0;
+      var k=u.kreativitas;
+      var kS='<span style="font-size:.75rem">F:'+k.fluency+' X:'+k.flexibility+' O:'+k.originality+' E:'+k.elaboration+'</span>';
+      rows+='<tr><td>'+(i+1)+'</td><td><strong>'+u.name+'</strong><br><span style="font-size:.72rem;color:var(--text-muted)">'+u.joinedAt+'</span></td><td>'+quizS+'</td><td>'+gameS+'</td><td>'+latC+' latihan<br>'+kS+'</td></tr>';
+    });
+    w.innerHTML='<div class="admin-overlay"><div class="container" style="max-width:1000px">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">'+
+        '<div><h1 style="font-size:1.8rem;font-weight:800"><i class="fas fa-shield-halved" style="margin-right:10px;color:var(--accent-coral)"></i>Admin Panel</h1><p style="color:var(--text-secondary);font-size:.9rem">Kelola dan pantau semua data pengguna</p></div>'+
+        '<div style="display:flex;gap:.5rem"><button class="btn btn-danger btn-sm" id="adminClearBtn"><i class="fas fa-trash" style="margin-right:4px"></i>Hapus Semua Data</button><button class="btn btn-secondary btn-sm" id="adminCloseBtn"><i class="fas fa-times" style="margin-right:4px"></i>Tutup</button></div>'+
+      '</div>'+
+      '<div class="grid-3" style="margin-bottom:2rem">'+
+        '<div class="stat-card"><div class="stat-icon" style="background:var(--glow);color:var(--accent-cyan)"><i class="fas fa-users"></i></div><div><div class="stat-value">'+users.length+'</div><div class="stat-label">Total Pengguna</div></div></div>'+
+        '<div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--accent-gold)"><i class="fas fa-clipboard-check"></i></div><div><div class="stat-value">'+users.reduce(function(s,u){return s+u.quizResults.length},0)+'</div><div class="stat-label">Quiz Diselesaikan</div></div></div>'+
+        '<div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,.12);color:var(--accent-mint)"><i class="fas fa-gamepad"></i></div><div><div class="stat-value">'+users.reduce(function(s,u){return s+u.gameResults.length},0)+'</div><div class="stat-label">Game Dimainkan</div></div></div>'+
+      '</div>'+
+      '<div class="card" style="overflow-x:auto"><h3 style="font-weight:700;margin-bottom:1rem"><i class="fas fa-table" style="margin-right:6px;color:var(--accent-cyan)"></i>Data Pengguna</h3>'+
+        '<table class="admin-table"><thead><tr><th>#</th><th>Nama & Waktu Masuk</th><th>Quiz</th><th>Game Skor</th><th>Latihan & Kreativitas</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+      '</div>'+
+    '</div></div>';
+    var self=this;
+    $('adminCloseBtn').addEventListener('click',function(){self.closeAdminPanel()});
+    $('adminClearBtn').addEventListener('click',function(){
+      if(confirm('Yakin hapus SEMUA data pengguna?')){Records.clearAll();self.closeAdminPanel();toast('Semua data pengguna dihapus.','info')}
+    });
+  },
+  closeAdminPanel:function(){this.adminOpen=false;$('adminPanel').style.display='none'},
+
+  /* ---- ORIGINAL METHODS ---- */
+  loadProfile:function(){
+    try{this.profile=JSON.parse(localStorage.getItem('pyProfile'))}catch(e){}
+    if(!this.profile){
+      this.profile={name:localStorage.getItem('pyUserName')||'Peserta',quizHistory:[],gameScores:[],kreativitas:{fluency:0,flexibility:0,originality:0,elaboration:0}};
+      this.saveProfile();
+    }
+  },
   saveProfile:function(){localStorage.setItem('pyProfile',JSON.stringify(this.profile))},
-  addKreatif:function(k,v){if(this.profile.kreativitas[k]!==undefined){this.profile.kreativitas[k]=Math.min(100,this.profile.kreativitas[k]+v);this.saveProfile()}},
-  applyTheme:function(){document.documentElement.classList.toggle('dark',this.theme==='dark');var ic=$('themeIcon');if(ic)ic.className=this.theme==='dark'?'fas fa-moon':'fas fa-sun'},
-  toggleTheme:function(){this.theme=this.theme==='dark'?'light':'dark';localStorage.setItem('pyTheme',this.theme);this.applyTheme()},
-  buildNav:function(){var d=$('navLinks'),m=$('sidebarLinks');d.innerHTML='';m.innerHTML='';var self=this;NAV.forEach(function(item){var nd=document.createElement('div');nd.className='nav-link'+(self.current===item.id?' active':'');nd.innerHTML='<i class="fas '+item.icon+'"></i><span style="display:none" class="nav-lbl">'+item.label+'</span>';nd.addEventListener('click',function(){self.go(item.id)});d.appendChild(nd);var nm=document.createElement('div');nm.className='nav-link'+(self.current===item.id?' active':'');nm.innerHTML='<i class="fas '+item.icon+'"></i> '+item.label;nm.addEventListener('click',function(){self.go(item.id);self.toggleMenu()});m.appendChild(nm)});if(window.innerWidth>900)$$('.nav-lbl').forEach(function(l){l.style.display='inline'})},
-  go:function(id){$$('.page').forEach(function(p){p.classList.remove('active')});var t=$('page-'+id);if(t)t.classList.add('active');this.current=id;this.buildNav();window.scrollTo({top:0,behavior:'smooth'});switch(id){case'materi':Materi.init();break;case'eksplorasi':Eksplorasi.init();break;case'simulasi':Simulasi.init();break;case'latihan':Latihan.init();break;case'game':Game.init();break;case'quiz':Quiz.init();break;case'profil':Profil.init();break}},
-  toggleMenu:function(){$('sidebar').classList.toggle('open');$('sidebarOverlay').classList.toggle('show')},
-  buildFeatures:function(){var g=$('featureGrid');g.innerHTML='';FEATURES.forEach(function(f){var c=document.createElement('div');c.className='card card-click';c.innerHTML='<div class="flex items-center gap-3 mb-2"><i class="fas '+f.icon+' '+f.cls+'"></i><h3 class="font-bold">'+f.title+'</h3></div><p class="text-sm muted">'+f.desc+'</p>';c.addEventListener('click',function(){App.go(f.id)});g.appendChild(c)})},
-  initBg:function(){var c=$('bgCanvas'),ctx=c.getContext('2d'),w,h,shapes=[],self=this;function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}resize();window.addEventListener('resize',resize);for(var i=0;i<20;i++)shapes.push({x:Math.random()*2000,y:Math.random()*2000,size:10+Math.random()*28,rot:Math.random()*Math.PI*2,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,vr:(Math.random()-.5)*.004,type:['tri','sq','circle'][Math.floor(Math.random()*3)],opacity:.03+Math.random()*.05});(function draw(){ctx.clearRect(0,0,w,h);var col=self.theme==='dark'?'#06b6d4':'#0891b2';shapes.forEach(function(s){s.x+=s.vx;s.y+=s.vy;s.rot+=s.vr;if(s.x<-50)s.x=w+50;if(s.x>w+50)s.x=-50;if(s.y<-50)s.y=h+50;if(s.y>h+50)s.y=-50;ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.rot);ctx.globalAlpha=s.opacity;ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.beginPath();if(s.type==='tri'){ctx.moveTo(0,-s.size);ctx.lineTo(s.size*.866,s.size*.5);ctx.lineTo(-s.size*.866,s.size*.5);ctx.closePath()}else if(s.type==='sq')ctx.rect(-s.size/2,-s.size/2,s.size,s.size);else ctx.arc(0,0,s.size/2,0,Math.PI*2);ctx.stroke();ctx.restore()});requestAnimationFrame(draw)})()}
+  addKreativ:function(k,v){
+    if(this.profile.kreativitas[k]!==undefined){
+      this.profile.kreativitas[k]=Math.min(100,this.profile.kreativitas[k]+v);
+      this.saveProfile();
+      Records.updateKreativitas(this.profile.name,k,v);
+    }
+  },
+  applyTheme:function(){
+    document.documentElement.classList.toggle('dark',this.theme==='dark');
+    var ic=$('themeIcon');if(ic)ic.className=this.theme==='dark'?'fas fa-moon':'fas fa-sun';
+  },
+  toggleTheme:function(){
+    this.theme=this.theme==='dark'?'light':'dark';
+    localStorage.setItem('pyTheme',this.theme);
+    this.applyTheme();
+  },
+  buildNav:function(){
+    var d=$('navLinks'),m=$('sidebarLinks');d.innerHTML='';m.innerHTML='';
+    var self=this;
+    NAV.forEach(function(item){
+      var nd=document.createElement('div');
+      nd.className='nav-link'+(self.current===item.id?' active':'');
+      nd.innerHTML='<i class="fas '+item.icon+'"></i><span style="display:none" class="nav-lbl">'+item.label+'</span>';
+      nd.addEventListener('click',function(){self.go(item.id)});
+      d.appendChild(nd);
+      var nm=document.createElement('div');
+      nm.className='nav-link'+(self.current===item.id?' active':'');
+      nm.innerHTML='<i class="fas '+item.icon+'"></i> '+item.label;
+      nm.addEventListener('click',function(){self.go(item.id);self.toggleMenu()});
+      m.appendChild(nm);
+    });
+    if(window.innerWidth>900)$$('.nav-lbl').forEach(function(l){l.style.display='inline'});
+  },
+  go:function(id){
+    $$('.page').forEach(function(p){p.classList.remove('active')});
+    var t=$('page-'+id);if(t)t.classList.add('active');
+    this.current=id;this.buildNav();
+    window.scrollTo({top:0,behavior:'smooth'});
+    switch(id){
+      case'materi':Materi.init();break;
+      case'eksplorasi':Eksplorasi.init();break;
+      case'simulasi':Simulasi.init();break;
+      case'latihan':Latihan.init();break;
+      case'game':Game.init();break;
+      case'quiz':Quiz.init();break;
+      case'profil':Profil.init();break;
+    }
+  },
+  toggleMenu:function(){
+    $('sidebar').classList.toggle('open');
+    $('sidebarOverlay').classList.toggle('show');
+  },
+  buildFeatures:function(){
+    var g=$('featureGrid');g.innerHTML='';
+    FEATURES.forEach(function(f){
+      var c=document.createElement('div');c.className='card card-click';
+      c.innerHTML='<div class="flex items-center gap-3 mb-2"><i class="fas '+f.icon+' '+f.cls+'"></i><h3 class="font-bold">'+f.title+'</h3></div><p class="text-sm muted">'+f.desc+'</p>';
+      c.addEventListener('click',function(){App.go(f.id)});
+      g.appendChild(c);
+    });
+  },
+  initBg:function(){
+    var c=$('bgCanvas'),ctx=c.getContext('2d'),w,h,shapes=[],self=this;
+    function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}
+    resize();window.addEventListener('resize',resize);
+    for(var i=0;i<20;i++)shapes.push({x:Math.random()*2000,y:Math.random()*2000,size:10+Math.random()*28,rot:Math.random()*Math.PI*2,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,vr:(Math.random()-.5)*.004,type:['tri','sq','circle'][Math.floor(Math.random()*3)],opacity:.03+Math.random()*.05});
+    (function draw(){
+      ctx.clearRect(0,0,w,h);
+      var col=self.theme==='dark'?'#06b6d4':'#0891b2';
+      shapes.forEach(function(s){
+        s.x+=s.vx;s.y+=s.vy;s.rot+=s.vr;
+        if(s.x<-50)s.x=w+50;if(s.x>w+50)s.x=-50;
+        if(s.y<-50)s.y=h+50;if(s.y>h+50)s.y=-50;
+        ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.rot);ctx.globalAlpha=s.opacity;ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.beginPath();
+        if(s.type==='tri'){ctx.moveTo(0,-s.size);ctx.lineTo(s.size*.866,s.size*.5);ctx.lineTo(-s.size*.866,s.size*.5);ctx.closePath()}
+        else if(s.type==='sq')ctx.rect(-s.size/2,-s.size/2,s.size,s.size);
+        else ctx.arc(0,0,s.size/2,0,Math.PI*2);
+        ctx.stroke();ctx.restore();
+      });
+      requestAnimationFrame(draw);
+    })();
+  }
 };
 
-/* ==========================================================
+/* ============================================================
    MATERI
-   ========================================================== */
+   ============================================================ */
 var Materi={step:0,
   init:function(){this.step=0;var el=$('materiContent');el.innerHTML=this.html();this.bindEvents()},
-  html:function(){var s='';var steps=[{t:'Langkah 1: Identifikasi sisi',b:'a = 6 m (alas), b = 8 m (tinggi), c = ? (hipotenusa = panjang tangga)'},{t:'Langkah 2: Tulis rumus',b:'c² = a² + b²'},{t:'Langkah 3: Substitusi nilai',b:'c² = 6² + 8² = 36 + 64 = 100'},{t:'Langkah 4: Akarkan',b:'c = √100 = <strong class="mint-text" style="font-size:1.15em">10 m</strong>'}];steps.forEach(function(st,i){s+='<div class="step-card" id="ms'+i+'" style="display:'+(i===0?'block':'none')+'"><p class="st">'+st.t+'</p><p class="sb">'+st.b+'</p></div>'});
-    return'<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-info-circle cyan-text mr-2"></i>Apa itu Teorema Pythagoras?</h2><p class="muted mb-4" style="line-height:1.8">Teorema Pythagoras menyatakan bahwa pada <strong>segitiga siku-siku</strong>, kuadrat panjang sisi miring (hipotenusa) sama dengan jumlah kuadrat panjang kedua sisi lainnya.</p><div class="text-center my-6"><svg width="260" height="210" viewBox="0 0 260 210"><polygon points="40,180 220,180 40,30" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2.5"/><rect x="40" y="155" width="25" height="25" fill="none" stroke="#06b6d4" stroke-width="2"/><text x="130" y="200" fill="#06b6d4" font-size="17" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">a (alas)</text><text x="22" y="110" fill="#f59e0b" font-size="17" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">b</text><text x="145" y="95" fill="#ef4444" font-size="17" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">c (hipotenusa)</text><circle cx="40" cy="180" r="4" fill="#06b6d4"/><circle cx="220" cy="180" r="4" fill="#06b6d4"/><circle cx="40" cy="30" r="4" fill="#f59e0b"/></svg></div><p class="text-sm muted">Sisi <span class="cyan-text font-bold">a</span> dan <span class="gold-text font-bold">b</span> adalah sisi siku-siku, <span class="coral-text font-bold">c</span> adalah hipotenusa.</p></div>'+
-    '<div class="formula-box"><p class="text-xs font-bold mb-1 muted">RUMUS UTAMA</p><p class="text-3xl font-bold cyan-text">a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></p><p class="mt-2 text-sm muted">c = &radic;(a<sup>2</sup> + b<sup>2</sup>)</p></div>'+
-    '<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-pen-ruler gold-text mr-2"></i>Contoh Soal Interaktif</h2><p class="muted mb-4">Tangga bersandar di dinding. Jarak kaki tangga <strong class="cyan-text">6 m</strong>, tinggi <strong class="gold-text">8 m</strong>. Berapa panjang tangga?</p><div id="materiSteps">'+s+'</div><div class="flex gap-3 mt-4"><button class="btn btn-primary" id="mNextBtn">Langkah Berikutnya <i class="fas fa-arrow-right ml-2"></i></button><button class="btn btn-secondary" id="mResetBtn"><i class="fas fa-redo mr-2"></i>Reset</button></div></div>'+
-    '<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-route mint-text mr-2"></i>Metode Lain (Flexibility)</h2><div class="grid-2"><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm cyan-text mb-1">Aljabar Langsung</h3><p class="text-xs muted">Substitusi a dan b ke rumus</p></div><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm gold-text mb-1">Visualisasi Persegi</h3><p class="text-xs muted">Gambar persegi tiap sisi, bandingkan luas</p></div><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm coral-text mb-1">Bukti Geometris</h3><p class="text-xs muted">Susun 4 segitiga jadi persegi besar</p></div><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm purple-text mb-1">Numerik / Eksplorasi</h3><p class="text-xs muted">Coba berbagai nilai, amati pola</p></div></div></div>'+
-    '<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-calculator coral-text mr-2"></i>Kalkulator Cepat</h2><p class="text-sm muted mb-3">Masukkan dua sisi, biarkan satu kosong:</p><div class="grid-2 gap-4 mb-4"><div><label class="text-sm font-bold mb-1 block cyan-text">Sisi a</label><input type="number" class="input-field" id="cA" placeholder="alas" min="0" step="any"></div><div><label class="text-sm font-bold mb-1 block gold-text">Sisi b</label><input type="number" class="input-field" id="cB" placeholder="tinggi" min="0" step="any"></div></div><div class="mb-4"><label class="text-sm font-bold mb-1 block coral-text">Sisi c</label><input type="number" class="input-field" id="cC" placeholder="hipotenusa" min="0" step="any"></div><button class="btn btn-primary w-full" id="cBtn"><i class="fas fa-equals mr-2"></i>Hitung</button><div id="cRes" class="mt-4 p-4 rounded-xl text-center font-mono font-bold text-lg" style="display:none;background:var(--bg-elevated);border:1px solid var(--border)"></div></div>'+
-    '<div class="text-center mb-6"><button class="btn btn-primary btn-lg" id="mGoExp"><i class="fas fa-flask mr-2"></i>Coba Eksplorasi Interaktif</button></div>'},
-  bindEvents:function(){var self=this;$('mNextBtn').addEventListener('click',function(){self.next()});$('mResetBtn').addEventListener('click',function(){self.reset()});$('cBtn').addEventListener('click',function(){self.calc()});$('mGoExp').addEventListener('click',function(){App.go('eksplorasi')})},
+  html:function(){
+    var s='';
+    var steps=[
+      {t:'Langkah 1: Identifikasi sisi',b:'a = 6 m (alas), b = 8 m (tinggi), c = ? (hipotenusa = panjang tangga)'},
+      {t:'Langkah 2: Tulis rumus',b:'c\u00B2 = a\u00B2 + b\u00B2'},
+      {t:'Langkah 3: Substitusi nilai',b:'c\u00B2 = 6\u00B2 + 8\u00B2 = 36 + 64 = 100'},
+      {t:'Langkah 4: Akarkan',b:'c = \u221A100 = <strong class="mint-text" style="font-size:1.15em">10 m</strong>'}
+    ];
+    steps.forEach(function(st,i){s+='<div class="step-card" id="ms'+i+'" style="display:'+(i===0?'block':'none')+'"><p class="st">'+st.t+'</p><p class="sb">'+st.b+'</p></div>'});
+    return'<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-info-circle cyan-text" style="margin-right:8px"></i>Apa itu Teorema Pythagoras?</h2><p class="muted mb-4" style="line-height:1.8">Teorema Pythagoras menyatakan bahwa pada <strong>segitiga siku-siku</strong>, kuadrat panjang sisi miring (hipotenusa) sama dengan jumlah kuadrat panjang kedua sisi lainnya.</p><div class="text-center my-6"><svg width="260" height="210" viewBox="0 0 260 210"><polygon points="40,180 220,180 40,30" fill="rgba(6,182,212,0.1)" stroke="#06b6d4" stroke-width="2.5"/><rect x="40" y="155" width="25" height="25" fill="none" stroke="#06b6d4" stroke-width="2"/><text x="130" y="200" fill="#06b6d4" font-size="17" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">a (alas)</text><text x="22" y="110" fill="#f59e0b" font-size="17" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">b</text><text x="145" y="95" fill="#ef4444" font-size="17" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">c (hipotenusa)</text><circle cx="40" cy="180" r="4" fill="#06b6d4"/><circle cx="220" cy="180" r="4" fill="#06b6d4"/><circle cx="40" cy="30" r="4" fill="#f59e0b"/></svg></div><p class="text-sm muted">Sisi <span class="cyan-text font-bold">a</span> dan <span class="gold-text font-bold">b</span> adalah sisi siku-siku, <span class="coral-text font-bold">c</span> adalah hipotenusa.</p></div>'+
+    '<div class="formula-box"><p class="text-xs font-bold mb-1 muted">RUMUS UTAMA</p><p class="text-3xl font-bold cyan-text">a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></p><p class="mt-2 text-sm muted">c = \u221A(a<sup>2</sup> + b<sup>2</sup>)</p></div>'+
+    '<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-pen-ruler gold-text" style="margin-right:8px"></i>Contoh Soal Interaktif</h2><p class="muted mb-4">Tangga bersandar di dinding. Jarak kaki tangga <strong class="cyan-text">6 m</strong>, tinggi <strong class="gold-text">8 m</strong>. Berapa panjang tangga?</p><div id="materiSteps">'+s+'</div><div class="flex gap-3 mt-4"><button class="btn btn-primary" id="mNextBtn">Langkah Berikutnya <i class="fas fa-arrow-right" style="margin-left:8px"></i></button><button class="btn btn-secondary" id="mResetBtn"><i class="fas fa-redo" style="margin-right:8px"></i>Reset</button></div></div>'+
+    '<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-route mint-text" style="margin-right:8px"></i>Metode Lain (Flexibility)</h2><div class="grid-2"><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm cyan-text mb-1">Aljabar Langsung</h3><p class="text-xs muted">Substitusi a dan b ke rumus</p></div><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm gold-text mb-1">Visualisasi Persegi</h3><p class="text-xs muted">Gambar persegi tiap sisi, bandingkan luas</p></div><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm coral-text mb-1">Bukti Geometris</h3><p class="text-xs muted">Susun 4 segitiga jadi persegi besar</p></div><div class="p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><h3 class="font-bold text-sm purple-text mb-1">Numerik / Eksplorasi</h3><p class="text-xs muted">Coba berbagai nilai, amati pola</p></div></div></div>'+
+    '<div class="card mb-6"><h2 class="text-lg font-bold mb-3"><i class="fas fa-calculator coral-text" style="margin-right:8px"></i>Kalkulator Cepat</h2><p class="text-sm muted mb-3">Masukkan dua sisi, biarkan satu kosong:</p><div class="grid-2 gap-4 mb-4"><div><label class="text-sm font-bold mb-1 block cyan-text">Sisi a</label><input type="number" class="input-field" id="cA" placeholder="alas" min="0" step="any"></div><div><label class="text-sm font-bold mb-1 block gold-text">Sisi b</label><input type="number" class="input-field" id="cB" placeholder="tinggi" min="0" step="any"></div></div><div class="mb-4"><label class="text-sm font-bold mb-1 block coral-text">Sisi c</label><input type="number" class="input-field" id="cC" placeholder="hipotenusa" min="0" step="any"></div><button class="btn btn-primary w-full" id="cBtn"><i class="fas fa-equals" style="margin-right:8px"></i>Hitung</button><div id="cRes" class="mt-4 p-4 rounded-xl text-center font-mono font-bold text-lg" style="display:none;background:var(--bg-elevated);border:1px solid var(--border)"></div></div>'+
+    '<div class="text-center mb-6"><button class="btn btn-primary btn-lg" id="mGoExp"><i class="fas fa-flask" style="margin-right:8px"></i>Coba Eksplorasi Interaktif</button></div>';
+  },
+  bindEvents:function(){
+    var self=this;
+    $('mNextBtn').addEventListener('click',function(){self.next()});
+    $('mResetBtn').addEventListener('click',function(){self.reset()});
+    $('cBtn').addEventListener('click',function(){self.calc()});
+    $('mGoExp').addEventListener('click',function(){App.go('eksplorasi')});
+  },
   next:function(){this.step++;if(this.step<4){var e=$('ms'+this.step);if(e)e.style.display='block'}if(this.step>=3)$('mNextBtn').disabled=true},
   reset:function(){this.step=0;for(var i=0;i<4;i++){var e=$('ms'+i);if(e)e.style.display=i===0?'block':'none'}$('mNextBtn').disabled=false},
-  calc:function(){var a=parseFloat($('cA').value),b=parseFloat($('cB').value),c=parseFloat($('cC').value),r=$('cRes');r.style.display='block';var f=0;if(!isNaN(a))f++;if(!isNaN(b))f++;if(!isNaN(c))f++;if(f<2){r.innerHTML='<span class="coral-text">Isi minimal 2 sisi!</span>';return}if(!isNaN(a)&&!isNaN(b)){var v=Math.sqrt(a*a+b*b);r.innerHTML='c = &radic;('+a+'&sup2; + '+b+'&sup2;) = &radic;'+(a*a+b*b).toFixed(2)+' = <span class="mint-text">'+v.toFixed(4)+'</span>'}else if(!isNaN(a)&&!isNaN(c)){if(c<=a){r.innerHTML='<span class="coral-text">c harus > a!</span>';return}var v=Math.sqrt(c*c-a*a);r.innerHTML='b = &radic;('+c+'&sup2; - '+a+'&sup2;) = &radic;'+(c*c-a*a).toFixed(2)+' = <span class="mint-text">'+v.toFixed(4)+'</span>'}else{if(c<=b){r.innerHTML='<span class="coral-text">c harus > b!</span>';return}var v=Math.sqrt(c*c-b*b);r.innerHTML='a = &radic;('+c+'&sup2; - '+b+'&sup2;) = &radic;'+(c*c-b*b).toFixed(2)+' = <span class="mint-text">'+v.toFixed(4)+'</span>'}}
+  calc:function(){
+    var a=parseFloat($('cA').value),b=parseFloat($('cB').value),c=parseFloat($('cC').value),r=$('cRes');r.style.display='block';
+    var f=0;if(!isNaN(a))f++;if(!isNaN(b))f++;if(!isNaN(c))f++;
+    if(f<2){r.innerHTML='<span class="coral-text">Isi minimal 2 sisi!</span>';return}
+    if(!isNaN(a)&&!isNaN(b)){var v=Math.sqrt(a*a+b*b);r.innerHTML='c = \u221A('+a+'\u00B2 + '+b+'\u00B2) = \u221A'+(a*a+b*b).toFixed(2)+' = <span class="mint-text">'+v.toFixed(4)+'</span>'}
+    else if(!isNaN(a)&&!isNaN(c)){if(c<=a){r.innerHTML='<span class="coral-text">c harus > a!</span>';return}var v=Math.sqrt(c*c-a*a);r.innerHTML='b = \u221A('+c+'\u00B2 - '+a+'\u00B2) = \u221A'+(c*c-a*a).toFixed(2)+' = <span class="mint-text">'+v.toFixed(4)+'</span>'}
+    else{if(c<=b){r.innerHTML='<span class="coral-text">c harus > b!</span>';return}var v=Math.sqrt(c*c-b*b);r.innerHTML='a = \u221A('+c+'\u00B2 - '+b+'\u00B2) = \u221A'+(c*c-b*b).toFixed(2)+' = <span class="mint-text">'+v.toFixed(4)+'</span>'}
+  }
 };
 
-/* ==========================================================
+/* ============================================================
    EKSPLORASI
-   ========================================================== */
-var Eksplorasi={init:function(){var el=$('eksplorasiContent');el.innerHTML=this.html();this.bindEvents();this.update()},
-  html:function(){return'<div class="grid-2"><div class="card"><div class="mb-4"><label class="flex justify-between mb-2"><span class="font-bold cyan-text">Sisi a (alas)</span><span class="font-mono font-bold" id="eVA">3</span></label><input type="range" id="eSA" min="1" max="15" value="3" step="0.5" class="w-full"></div><div class="mb-4"><label class="flex justify-between mb-2"><span class="font-bold gold-text">Sisi b (tinggi)</span><span class="font-mono font-bold" id="eVB">4</span></label><input type="range" id="eSB" min="1" max="15" value="4" step="0.5" class="w-full gold"></div><div class="canvas-wrap"><canvas id="expCvs" height="280"></canvas></div></div><div><div class="card mb-4"><h3 class="font-bold mb-3">Hasil Perhitungan</h3><div class="space-y-2 font-mono text-sm"><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span class="cyan-text">a =</span><span class="font-bold" id="eRA">3</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span class="gold-text">b =</span><span class="font-bold" id="eRB">4</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span class="coral-text">c =</span><span class="font-bold" id="eRC">5</span></div><hr style="border-color:var(--border)"><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>a&sup2; =</span><span id="eRA2">9</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>b&sup2; =</span><span id="eRB2">16</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>a&sup2;+b&sup2; =</span><span class="font-bold" id="eRSum">25</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>c&sup2; =</span><span class="font-bold" id="eRC2">25</span></div></div><div id="eVer" class="mt-3 p-3 rounded-lg text-center font-bold"></div></div><div class="card"><h3 class="font-bold mb-2 text-sm">Tripel Pythagoras</h3><p class="text-xs muted mb-2">Klik untuk mencoba:</p><div class="flex flex-wrap gap-2" id="tBtns"></div></div></div></div>'},
-  bindEvents:function(){var self=this;$('eSA').addEventListener('input',function(){self.update()});$('eSB').addEventListener('input',function(){self.update()});var c=$('tBtns');TRIPLES.slice(0,10).forEach(function(t){var b=document.createElement('button');b.className='btn btn-secondary btn-sm';b.textContent='('+t[0]+', '+t[1]+', '+t[2]+')';b.addEventListener('click',function(){$('eSA').value=t[0];$('eSB').value=t[1];self.update()});c.appendChild(b)})},
-  update:function(){var a=parseFloat($('eSA').value),b=parseFloat($('eSB').value),c=Math.sqrt(a*a+b*b);$('eVA').textContent=a;$('eVB').textContent=b;$('eRA').textContent=a;$('eRB').textContent=b;$('eRC').textContent=c.toFixed(4);$('eRA2').textContent=(a*a).toFixed(2);$('eRB2').textContent=(b*b).toFixed(2);$('eRSum').textContent=(a*a+b*b).toFixed(2);$('eRC2').textContent=(c*c).toFixed(2);var v=$('eVer');v.innerHTML=Math.abs(a*a+b*b-c*c)<.01?'<span class="mint-text"><i class="fas fa-check-circle mr-1"></i>Terbukti! a&sup2; + b&sup2; = c&sup2;</span>':'<span class="coral-text"><i class="fas fa-times-circle mr-1"></i>Tidak terbukti</span>';
-    var cvs=$('expCvs'),ctx=cvs.getContext('2d'),dpr=window.devicePixelRatio||1,rect=cvs.getBoundingClientRect();cvs.width=rect.width*dpr;cvs.height=rect.height*dpr;ctx.scale(dpr,dpr);var W=rect.width,H=rect.height;ctx.clearRect(0,0,W,H);var sc=Math.min((W-80)/a,(H-80)/b),ox=40,oy=H-40,ax=a*sc,by=b*sc;
-    ctx.strokeStyle=App.theme==='dark'?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.04)';ctx.lineWidth=1;for(var x=ox;x<=ox+ax+20;x+=20){ctx.beginPath();ctx.moveTo(x,oy-by-20);ctx.lineTo(x,oy+5);ctx.stroke()}for(var y=oy-by-20;y<=oy;y+=20){ctx.beginPath();ctx.moveTo(ox-5,y);ctx.lineTo(ox+ax+20,y);ctx.stroke()}
-    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ox+ax,oy);ctx.lineTo(ox,oy-by);ctx.closePath();ctx.fillStyle='rgba(6,182,212,0.1)';ctx.fill();ctx.strokeStyle='#06b6d4';ctx.lineWidth=2.5;ctx.stroke();
+   ============================================================ */
+var Eksplorasi={
+  init:function(){var el=$('eksplorasiContent');el.innerHTML=this.html();this.bindEvents();this.update()},
+  html:function(){
+    return'<div class="grid-2"><div class="card"><div class="mb-4"><label class="flex justify-between mb-2"><span class="font-bold cyan-text">Sisi a (alas)</span><span class="font-mono font-bold" id="eVA">3</span></label><input type="range" id="eSA" min="1" max="15" value="3" step="0.5" class="w-full"></div><div class="mb-4"><label class="flex justify-between mb-2"><span class="font-bold gold-text">Sisi b (tinggi)</span><span class="font-mono font-bold" id="eVB">4</span></label><input type="range" id="eSB" min="1" max="15" value="4" step="0.5" class="w-full gold"></div><div class="canvas-wrap"><canvas id="expCvs" height="280"></canvas></div></div><div><div class="card mb-4"><h3 class="font-bold mb-3">Hasil Perhitungan</h3><div class="space-y-2 font-mono text-sm"><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span class="cyan-text">a =</span><span class="font-bold" id="eRA">3</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span class="gold-text">b =</span><span class="font-bold" id="eRB">4</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span class="coral-text">c =</span><span class="font-bold" id="eRC">5</span></div><hr style="border-color:var(--border)"><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>a\u00B2 =</span><span id="eRA2">9</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>b\u00B2 =</span><span id="eRB2">16</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>a\u00B2+b\u00B2 =</span><span class="font-bold" id="eRSum">25</span></div><div class="flex justify-between p-2 rounded-lg" style="background:var(--bg-elevated)"><span>c\u00B2 =</span><span class="font-bold" id="eRC2">25</span></div></div><div id="eVer" class="mt-3 p-3 rounded-lg text-center font-bold"></div></div><div class="card"><h3 class="font-bold mb-2 text-sm">Tripel Pythagoras</h3><p class="text-xs muted mb-2">Klik untuk mencoba:</p><div class="flex flex-wrap gap-2" id="tBtns"></div></div></div></div>';
+  },
+  bindEvents:function(){
+    var self=this;
+    $('eSA').addEventListener('input',function(){self.update()});
+    $('eSB').addEventListener('input',function(){self.update()});
+    var c=$('tBtns');
+    TRIPLES.slice(0,10).forEach(function(t){
+      var b=document.createElement('button');b.className='btn btn-secondary btn-sm';
+      b.textContent='('+t[0]+', '+t[1]+', '+t[2]+')';
+      b.addEventListener('click',function(){$('eSA').value=t[0];$('eSB').value=t[1];self.update()});
+      c.appendChild(b);
+    });
+  },
+  update:function(){
+    var a=parseFloat($('eSA').value),b=parseFloat($('eSB').value),c=Math.sqrt(a*a+b*b);
+    $('eVA').textContent=a;$('eVB').textContent=b;
+    $('eRA').textContent=a;$('eRB').textContent=b;$('eRC').textContent=c.toFixed(4);
+    $('eRA2').textContent=(a*a).toFixed(2);$('eRB2').textContent=(b*b).toFixed(2);
+    $('eRSum').textContent=(a*a+b*b).toFixed(2);$('eRC2').textContent=(c*c).toFixed(2);
+    var v=$('eVer');
+    v.innerHTML=Math.abs(a*a+b*b-c*c)<.01?'<span class="mint-text"><i class="fas fa-check-circle" style="margin-right:4px"></i>Terbukti! a\u00B2 + b\u00B2 = c\u00B2</span>':'<span class="coral-text"><i class="fas fa-times-circle" style="margin-right:4px"></i>Tidak terbukti</span>';
+
+    var cvs=$('expCvs'),ctx=cvs.getContext('2d'),dpr=window.devicePixelRatio||1,rect=cvs.getBoundingClientRect();
+    cvs.width=rect.width*dpr;cvs.height=rect.height*dpr;ctx.scale(dpr,dpr);
+    var W=rect.width,H=rect.height;ctx.clearRect(0,0,W,H);
+    var sc=Math.min((W-80)/a,(H-80)/b),ox=40,oy=H-40,ax=a*sc,by=b*sc;
+    ctx.strokeStyle=App.theme==='dark'?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.04)';ctx.lineWidth=1;
+    for(var x=ox;x<=ox+ax+20;x+=20){ctx.beginPath();ctx.moveTo(x,oy-by-20);ctx.lineTo(x,oy+5);ctx.stroke()}
+    for(var y=oy-by-20;y<=oy;y+=20){ctx.beginPath();ctx.moveTo(ox-5,y);ctx.lineTo(ox+ax+20,y);ctx.stroke()}
+    ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(ox+ax,oy);ctx.lineTo(ox,oy-by);ctx.closePath();
+    ctx.fillStyle='rgba(6,182,212,0.1)';ctx.fill();ctx.strokeStyle='#06b6d4';ctx.lineWidth=2.5;ctx.stroke();
     ctx.strokeStyle='#06b6d4';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(ox+15,oy);ctx.lineTo(ox+15,oy-15);ctx.lineTo(ox,oy-15);ctx.stroke();
-    ctx.font='bold 14px JetBrains Mono';ctx.fillStyle='#06b6d4';ctx.textAlign='center';ctx.fillText('a = '+a,ox+ax/2,oy+22);ctx.fillStyle='#f59e0b';ctx.textAlign='right';ctx.fillText('b = '+b,ox-10,oy-by/2+5);ctx.fillStyle='#ef4444';ctx.textAlign='left';ctx.fillText('c = '+c.toFixed(2),ox+ax/2+14,oy-by/2-5);
-    [[ox,oy],[ox+ax,oy],[ox,oy-by]].forEach(function(p){ctx.beginPath();ctx.arc(p[0],p[1],5,0,Math.PI*2);ctx.fillStyle='#06b6d4';ctx.fill()})}
+    ctx.font='bold 14px JetBrains Mono';
+    ctx.fillStyle='#06b6d4';ctx.textAlign='center';ctx.fillText('a = '+a,ox+ax/2,oy+22);
+    ctx.fillStyle='#f59e0b';ctx.textAlign='right';ctx.fillText('b = '+b,ox-10,oy-by/2+5);
+    ctx.fillStyle='#ef4444';ctx.textAlign='left';ctx.fillText('c = '+c.toFixed(2),ox+ax/2+14,oy-by/2-5);
+    [[ox,oy],[ox+ax,oy],[ox,oy-by]].forEach(function(p){ctx.beginPath();ctx.arc(p[0],p[1],5,0,Math.PI*2);ctx.fillStyle='#06b6d4';ctx.fill()});
+  }
 };
 
-/* ==========================================================
-   SIMULASI — DIPERBAIKI: persegi b² sekarang ke arah yang benar
-   ========================================================== */
+/* ============================================================
+   SIMULASI
+   ============================================================ */
 var Simulasi={a:150,b:200,dragging:null,sc:30,cx:0,cy:0,W:0,H:0,ready:false,
   init:function(){
     var el=$('simulasiContent');el.innerHTML=this.html();
-    var cvs=$('simCvs'),dpr=window.devicePixelRatio||1,rect=cvs.parentElement.getBoundingClientRect(),
-    w=rect.width-4,h=Math.max(380,Math.min(550,w*.6));
+    var cvs=$('simCvs'),dpr=window.devicePixelRatio||1,rect=cvs.parentElement.getBoundingClientRect();
+    var w=rect.width-4,h=Math.max(380,Math.min(550,w*.6));
     cvs.style.width=w+'px';cvs.style.height=h+'px';cvs.width=w*dpr;cvs.height=h*dpr;
     this.W=w;this.H=h;this.cx=w*.38;this.cy=h*.55;
     this.sc=Math.min(w*.4/15,h*.65/15);this.a=3*this.sc;this.b=4*this.sc;
@@ -319,85 +722,44 @@ var Simulasi={a:150,b:200,dragging:null,sc:30,cx:0,cy:0,W:0,H:0,ready:false,
     cvs.addEventListener('pointerleave',function(){self.up()});
     ['simSq','simLbl','simGrd','simAr'].forEach(function(id){var cb=$(id);if(cb)cb.addEventListener('change',function(){self.draw()})});
     $('simRst').addEventListener('click',function(){self.reset()});
-    this.ready=true;this.draw()
+    this.ready=true;this.draw();
   },
-  html:function(){return'<div class="grid-2" style="grid-template-columns:1fr 250px;gap:1rem"><div><div class="canvas-wrap mb-4"><canvas id="simCvs"></canvas></div><div class="formula-box"><p class="text-2xl font-bold"><span class="cyan-text" id="sFA">9</span> + <span class="gold-text" id="sFB">16</span> = <span class="coral-text" id="sFC">25</span></p><p class="text-sm mt-1 muted">a&sup2; + b&sup2; = c&sup2;</p></div></div><div class="space-y-4"><div class="card"><h3 class="font-bold mb-3 text-sm">Kontrol</h3><label class="flex items-center gap-2 mb-2 cursor-pointer text-sm"><input type="checkbox" id="simSq" checked class="accent-cyan-500">Tampilkan Persegi</label><label class="flex items-center gap-2 mb-2 cursor-pointer text-sm"><input type="checkbox" id="simLbl" checked class="accent-cyan-500">Tampilkan Label</label><label class="flex items-center gap-2 mb-2 cursor-pointer text-sm"><input type="checkbox" id="simGrd" checked class="accent-cyan-500">Tampilkan Grid</label><label class="flex items-center gap-2 mb-3 cursor-pointer text-sm"><input type="checkbox" id="simAr" checked class="accent-cyan-500">Tampilkan Luas</label><button class="btn btn-secondary w-full btn-sm" id="simRst"><i class="fas fa-redo mr-1"></i>Reset</button></div><div class="card"><h3 class="font-bold mb-3 text-sm">Info Segitiga</h3><div class="space-y-2 text-sm font-mono"><div class="flex justify-between"><span class="cyan-text">a</span><span id="sIA">3.00</span></div><div class="flex justify-between"><span class="gold-text">b</span><span id="sIB">4.00</span></div><div class="flex justify-between"><span class="coral-text">c</span><span id="sIC">5.00</span></div><hr style="border-color:var(--border)"><div class="flex justify-between"><span>Luas</span><span id="sIAr">6.00</span></div><div class="flex justify-between"><span>Keliling</span><span id="sIPe">12.00</span></div></div></div><div class="card text-xs muted"><p><i class="fas fa-hand-pointer cyan-text mr-1"></i> Seret <strong>titik biru</strong> = ubah sisi a</p><p class="mt-1"><i class="fas fa-hand-pointer gold-text mr-1"></i> Seret <strong>titik kuning</strong> = ubah sisi b</p><p class="mt-1"><i class="fas fa-lock muted mr-1"></i> Sudut siku-siku tetap di hijau</p></div></div></div>'},
+  html:function(){
+    return'<div class="grid-2" style="grid-template-columns:1fr 250px;gap:1rem"><div><div class="canvas-wrap mb-4"><canvas id="simCvs"></canvas></div><div class="formula-box"><p class="text-2xl font-bold"><span class="cyan-text" id="sFA">9</span> + <span class="gold-text" id="sFB">16</span> = <span class="coral-text" id="sFC">25</span></p><p class="text-sm mt-1 muted">a\u00B2 + b\u00B2 = c\u00B2</p></div></div><div class="space-y-4"><div class="card"><h3 class="font-bold mb-3 text-sm">Kontrol</h3><label class="flex items-center gap-2 mb-2 cursor-pointer text-sm"><input type="checkbox" id="simSq" checked> Tampilkan Persegi</label><label class="flex items-center gap-2 mb-2 cursor-pointer text-sm"><input type="checkbox" id="simLbl" checked> Tampilkan Label</label><label class="flex items-center gap-2 mb-2 cursor-pointer text-sm"><input type="checkbox" id="simGrd" checked> Tampilkan Grid</label><label class="flex items-center gap-2 mb-3 cursor-pointer text-sm"><input type="checkbox" id="simAr" checked> Tampilkan Luas</label><button class="btn btn-secondary w-full btn-sm" id="simRst"><i class="fas fa-redo" style="margin-right:4px"></i>Reset</button></div><div class="card"><h3 class="font-bold mb-3 text-sm">Info Segitiga</h3><div class="space-y-2 text-sm font-mono"><div class="flex justify-between"><span class="cyan-text">a</span><span id="sIA">3.00</span></div><div class="flex justify-between"><span class="gold-text">b</span><span id="sIB">4.00</span></div><div class="flex justify-between"><span class="coral-text">c</span><span id="sIC">5.00</span></div><hr style="border-color:var(--border)"><div class="flex justify-between"><span>Luas</span><span id="sIAr">6.00</span></div><div class="flex justify-between"><span>Keliling</span><span id="sIPe">12.00</span></div></div></div><div class="card text-xs muted"><p><i class="fas fa-hand-pointer cyan-text" style="margin-right:4px"></i> Seret <strong>titik biru</strong> = ubah sisi a</p><p class="mt-1"><i class="fas fa-hand-pointer gold-text" style="margin-right:4px"></i> Seret <strong>titik kuning</strong> = ubah sisi b</p><p class="mt-1"><i class="fas fa-lock muted" style="margin-right:4px"></i> Sudut siku-siku tetap di hijau</p></div></div></div>';
+  },
   pts:function(){return{C:{x:this.cx,y:this.cy},B:{x:this.cx+this.a,y:this.cy},A:{x:this.cx,y:this.cy-this.b}}},
   down:function(e){var r=$('simCvs').getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top,p=this.pts();if(Math.hypot(mx-p.B.x,my-p.B.y)<24){this.dragging='B';$('simCvs').setPointerCapture(e.pointerId)}else if(Math.hypot(mx-p.A.x,my-p.A.y)<24){this.dragging='A';$('simCvs').setPointerCapture(e.pointerId)}},
   move:function(e){if(!this.dragging)return;var r=$('simCvs').getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;if(this.dragging==='B')this.a=Math.max(this.sc,Math.min(mx-this.cx,15*this.sc));else if(this.dragging==='A')this.b=Math.max(this.sc,Math.min(this.cy-my,15*this.sc));this.draw()},
   up:function(){this.dragging=null},
   reset:function(){this.a=3*this.sc;this.b=4*this.sc;this.draw()},
-
   draw:function(){
     if(!this.ready)return;
     var cvs=$('simCvs'),ctx=cvs.getContext('2d'),dpr=window.devicePixelRatio||1;
     ctx.save();ctx.setTransform(dpr,0,0,dpr,0,0);
     var W=this.W,H=this.H;ctx.clearRect(0,0,W,H);
     var p=this.pts(),aV=this.a/this.sc,bV=this.b/this.sc,cV=Math.sqrt(aV*aV+bV*bV);
-    var showSq=$('simSq')&&$('simSq').checked,
-        showLbl=$('simLbl')&&$('simLbl').checked,
-        showGrd=$('simGrd')&&$('simGrd').checked,
-        showAr=$('simAr')&&$('simAr').checked,
-        isDk=App.theme==='dark';
-
-    // Grid
-    if(showGrd){
-      ctx.strokeStyle=isDk?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.04)';ctx.lineWidth=1;var gs=this.sc;
-      for(var x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
-      for(var y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
-    }
-
-    // 3 persegi — PERBAIKAN: parameter ketiga (p3) adalah titik yang BUKAN bagian sisi
+    var showSq=$('simSq')&&$('simSq').checked;
+    var showLbl=$('simLbl')&&$('simLbl').checked;
+    var showGrd=$('simGrd')&&$('simGrd').checked;
+    var showAr=$('simAr')&&$('simAr').checked;
+    var isDk=App.theme==='dark';
+    if(showGrd){ctx.strokeStyle=isDk?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.04)';ctx.lineWidth=1;var gs=this.sc;for(var x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(var y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}}
     if(showSq){
-      // Sisi a: C→B, titik ketiga = A
       this._sq(ctx,p.C,p.B,p.A,'rgba(6,182,212,0.1)','#06b6d4',showAr,aV*aV,'a\u00B2');
-      // Sisi b: C→A, titik ketiga = B  ← INI YANG DIPERBAIKI
       this._sq(ctx,p.C,p.A,p.B,'rgba(245,158,11,0.1)','#f59e0b',showAr,bV*bV,'b\u00B2');
-      // Hipotenusa: A→B, titik ketiga = C
       this._sq(ctx,p.A,p.B,p.C,'rgba(239,68,68,0.1)','#ef4444',showAr,cV*cV,'c\u00B2');
     }
-
-    // Segitiga
     ctx.beginPath();ctx.moveTo(p.C.x,p.C.y);ctx.lineTo(p.B.x,p.B.y);ctx.lineTo(p.A.x,p.A.y);ctx.closePath();
     ctx.fillStyle='rgba(6,182,212,0.06)';ctx.fill();ctx.strokeStyle='#22d3ee';ctx.lineWidth=3;ctx.stroke();
-
-    // Sudut siku-siku
     var sq=Math.min(18,this.a*.12,this.b*.12);
-    ctx.strokeStyle='#22d3ee';ctx.lineWidth=2;
-    ctx.beginPath();ctx.moveTo(p.C.x+sq,p.C.y);ctx.lineTo(p.C.x+sq,p.C.y-sq);ctx.lineTo(p.C.x,p.C.y-sq);ctx.stroke();
-
-    // Titik
-    [[p.B,'#06b6d4',8],[p.A,'#f59e0b',8],[p.C,'#10b981',6]].forEach(function(d){
-      ctx.beginPath();ctx.arc(d[0].x,d[0].y,d[2],0,Math.PI*2);ctx.fillStyle=d[1];ctx.fill();
-      ctx.strokeStyle=isDk?'#0a1628':'#ffffff';ctx.lineWidth=2;ctx.stroke();
-    });
-
-    // Label
-    if(showLbl){
-      ctx.font='bold 14px JetBrains Mono';
-      ctx.fillStyle='#06b6d4';ctx.textAlign='center';
-      ctx.fillText('a = '+aV.toFixed(1),(p.C.x+p.B.x)/2,p.C.y+24);
-      ctx.fillStyle='#f59e0b';ctx.textAlign='right';
-      ctx.fillText('b = '+bV.toFixed(1),p.C.x-12,(p.C.y+p.A.y)/2+5);
-      ctx.fillStyle='#ef4444';ctx.textAlign='left';
-      ctx.fillText('c = '+cV.toFixed(2),(p.A.x+p.B.x)/2+14,(p.A.y+p.B.y)/2-8);
-    }
+    ctx.strokeStyle='#22d3ee';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.C.x+sq,p.C.y);ctx.lineTo(p.C.x+sq,p.C.y-sq);ctx.lineTo(p.C.x,p.C.y-sq);ctx.stroke();
+    [[p.B,'#06b6d4',8],[p.A,'#f59e0b',8],[p.C,'#10b981',6]].forEach(function(d){ctx.beginPath();ctx.arc(d[0].x,d[0].y,d[2],0,Math.PI*2);ctx.fillStyle=d[1];ctx.fill();ctx.strokeStyle=isDk?'#0a1628':'#ffffff';ctx.lineWidth=2;ctx.stroke()});
+    if(showLbl){ctx.font='bold 14px JetBrains Mono';ctx.fillStyle='#06b6d4';ctx.textAlign='center';ctx.fillText('a = '+aV.toFixed(1),(p.C.x+p.B.x)/2,p.C.y+24);ctx.fillStyle='#f59e0b';ctx.textAlign='right';ctx.fillText('b = '+bV.toFixed(1),p.C.x-12,(p.C.y+p.A.y)/2+5);ctx.fillStyle='#ef4444';ctx.textAlign='left';ctx.fillText('c = '+cV.toFixed(2),(p.A.x+p.B.x)/2+14,(p.A.y+p.B.y)/2-8)}
     ctx.restore();
-
-    // Update DOM info
     $('sFA').textContent=(aV*aV).toFixed(2);$('sFB').textContent=(bV*bV).toFixed(2);$('sFC').textContent=(cV*cV).toFixed(2);
     $('sIA').textContent=aV.toFixed(2);$('sIB').textContent=bV.toFixed(2);$('sIC').textContent=cV.toFixed(2);
     $('sIAr').textContent=(.5*aV*bV).toFixed(2);$('sIPe').textContent=(aV+bV+cV).toFixed(2);
   },
-
-  /*
-   * PERBAIKAN UTAMA: fungsi _sq sekarang menerima p3 (titik ketiga)
-   * sebagai parameter, bukan selalu menggunakan pts.A
-   *
-   * p1, p2 = ujung-ujung sisi
-   * p3 = titik ketiga segitiga (yang BUKAN bagian dari sisi ini)
-   *      digunakan untuk menentukan arah "menjauhi" yang benar
-   */
   _sq:function(ctx,p1,p2,p3,fill,stroke,showAr,area,label){
     var dx=p2.x-p1.x,dy=p2.y-p1.y,len=Math.sqrt(dx*dx+dy*dy);
     if(len<2)return;
@@ -406,71 +768,263 @@ var Simulasi={a:150,b:200,dragging:null,sc:30,cx:0,cy:0,W:0,H:0,ready:false,
     var dot=(p3.x-mid.x)*nx+(p3.y-mid.y)*ny;
     var dir=dot>0?-1:1;
     var dnx=nx*dir*len,dny=ny*dir*len;
+    ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.lineTo(p2.x+dnx,p2.y+dny);ctx.lineTo(p1.x+dnx,p1.y+dny);ctx.closePath();
+    ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=1.5;ctx.stroke();
+    if(showAr){ctx.fillStyle=stroke;ctx.font='bold 13px JetBrains Mono';ctx.textAlign='center';ctx.fillText(label+' = '+area.toFixed(1),p1.x+dx/2+dnx/2,p1.y+dy/2+dny/2)}
+  }
+};
 
-    ctx.beginPath();
-    ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);
-    ctx.lineTo(p2.x+dnx,p2.y+dny);ctx.lineTo(p1.x+dnx,p1.y+dny);
-    ctx.closePath();
-    ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();
-
-    if(showAr){
-      var cx=(p1.x+p2.x+dnx)/2,cy=(p1.y+p2.y+dny)/2;
-      ctx.font='bold 12px JetBrains Mono';ctx.fillStyle=stroke;
-      ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(label+'='+area.toFixed(1),cx,cy);
+/* ============================================================
+   LATIHAN
+   ============================================================ */
+var Latihan={
+  init:function(){var el=$('latihanContent');el.innerHTML=this.html();this.bindEvents()},
+  html:function(){
+    var s='<div class="tab-bar" id="latTabs">';
+    s+='<button class="tab-btn active" data-tab="kontekstual"><i class="fas '+LAT_DATA.kontekstual.icon+' cyan-text" style="margin-right:4px"></i>'+LAT_DATA.kontekstual.title+'</button>';
+    s+='<button class="tab-btn" data-tab="openended"><i class="fas '+LAT_DATA.openended.icon+' gold-text" style="margin-right:4px"></i>'+LAT_DATA.openended.title+'</button>';
+    s+='<button class="tab-btn" data-tab="buatsoal"><i class="fas '+LAT_DATA.buatsoal.icon+' coral-text" style="margin-right:4px"></i>'+LAT_DATA.buatsoal.title+'</button>';
+    s+='</div><div id="latBody"></div>';
+    return s;
+  },
+  bindEvents:function(){
+    var self=this;
+    $$('#latTabs .tab-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        $$('#latTabs .tab-btn').forEach(function(b){b.classList.remove('active')});
+        btn.classList.add('active');
+        self.showTab(btn.getAttribute('data-tab'));
+      });
+    });
+    this.showTab('kontekstual');
+  },
+  showTab:function(tab){
+    var body=$('latBody');
+    if(tab==='buatsoal'){
+      body.innerHTML='<div class="card"><h3 class="font-bold mb-3"><i class="fas fa-pen-fancy coral-text" style="margin-right:6px"></i>Buat Soal Sendiri</h3><p class="text-sm muted mb-4">Tulis soal Pythagoras beserta jawabannya. Kreativitasmu akan direkam!</p><div class="mb-4"><label class="text-sm font-bold mb-1 block">Soal:</label><textarea class="input-field" id="bsSoal" rows="3" placeholder="Contoh: Sebuah tangga..."></textarea></div><div class="grid-2 gap-4 mb-4"><div><label class="text-sm font-bold mb-1 block">Jawaban:</label><input type="text" class="input-field" id="bsJawab" placeholder="Contoh: 10 m"></div><div><label class="text-sm font-bold mb-1 block">Indikator:</label><select class="input-field" id="bsInd" style="font-family:Space Grotesk"><option value="originality">Originality</option><option value="fluency">Fluency</option><option value="flexibility">Flexibility</option><option value="elaboration">Elaboration</option></select></div></div><button class="btn btn-primary" id="bsSubmit"><i class="fas fa-paper-plane" style="margin-right:6px"></i>Kirim Soal</button><div id="bsRes" style="display:none" class="mt-4"></div></div>';
+      $('bsSubmit').addEventListener('click',function(){
+        var soal=$('bsSoal').value.trim(),jawab=$('bsJawab').value.trim(),ind=$('bsInd').value;
+        if(!soal||!jawab){toast('Isi soal dan jawaban!','error');return}
+        App.addKreativ(ind,5);
+        Records.addLatihan(App.profile.name,{type:'buatsoal',soal:soal,jawab:jawab,ind:ind});
+        var r=$('bsRes');r.style.display='';
+        r.innerHTML='<div class="feedback success"><i class="fas fa-check-circle" style="margin-right:4px"></i>Soal berhasil dikirim! Indikator <strong>'+ind+'</strong> +5 poin.</div>';
+        toast('Soal tersimpan! +5 '+ind,'success');
+      });
+      return;
+    }
+    var data=LAT_DATA[tab];
+    var s='<div class="card"><h3 class="font-bold mb-4"><i class="fas '+data.icon+' cyan-text" style="margin-right:6px"></i>'+data.title+'</h3>';
+    data.problems.forEach(function(prob,idx){
+      s+='<div class="mb-6 p-4 rounded-xl" style="background:var(--bg-elevated);border:1px solid var(--border)"><p class="font-bold mb-2">'+(idx+1)+'. '+prob.q+'</p>';
+      if(prob.hint)s+='<p class="text-xs muted mb-3"><i class="fas fa-lightbulb gold-text" style="margin-right:4px"></i>Petunjuk: '+prob.hint+'</p>';
+      if(prob.text){
+        s+='<textarea class="input-field" id="latAns'+idx+'" rows="3" placeholder="Tulis jawabanmu..."></textarea>';
+        s+='<button class="btn btn-primary btn-sm mt-2" data-idx="'+idx+'" data-tab="'+tab+'" data-text="1">Kirim</button>';
+      }else{
+        s+='<input type="text" class="input-field" id="latAns'+idx+'" placeholder="Jawaban...">';
+        s+='<button class="btn btn-primary btn-sm mt-2" data-idx="'+idx+'" data-tab="'+tab+'">Cek Jawaban</button>';
+      }
+      s+='<div id="latFb'+idx+'" class="mt-2" style="display:none"></div></div>';
+    });
+    s+='</div>';body.innerHTML=s;
+    var self2=this;
+    body.querySelectorAll('button[data-idx]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var i=parseInt(btn.getAttribute('data-idx'));
+        var t=btn.getAttribute('data-tab');
+        var isText=btn.getAttribute('data-text')==='1';
+        self2.checkAnswer(t,i,isText);
+      });
+    });
+  },
+  checkAnswer:function(tab,idx,isText){
+    var data=LAT_DATA[tab];var prob=data.problems[idx];
+    var fb=$('latFb'+idx);fb.style.display='';
+    if(isText){
+      var ans=$('latAns'+idx).value.trim();
+      if(!ans){toast('Tulis jawabanmu!','error');return}
+      App.addKreativ(prob.ind.toLowerCase(),3);
+      Records.addLatihan(App.profile.name,{type:tab,idx:idx,answer:ans,ind:prob.ind});
+      fb.innerHTML='<div class="feedback success"><i class="fas fa-check-circle" style="margin-right:4px"></i>Jawaban diterima! +3 '+prob.ind+'</div>';
+      toast('Jawaban tersimpan!','success');return;
+    }
+    var ans=$('latAns'+idx).value.trim().replace(/\s/g,'');
+    if(!ans){toast('Isi jawaban!','error');return}
+    if(prob.multi){
+      var parts=ans.split(',').map(Number);
+      var valid=prob.valid.some(function(v){return v.length===parts.length&&v.every(function(x,i){return x===parts[i]})});
+      if(valid){
+        fb.innerHTML='<div class="feedback success"><i class="fas fa-check-circle" style="margin-right:4px"></i>Benar! '+prob.step+'</div>';
+        App.addKreativ(prob.ind.toLowerCase(),5);
+        Records.addLatihan(App.profile.name,{type:tab,idx:idx,answer:ans,correct:true,ind:prob.ind});
+      }else{
+        fb.innerHTML='<div class="feedback error"><i class="fas fa-times-circle" style="margin-right:4px"></i>Belum tepat. Coba lagi!</div>';
+      }
+    }else{
+      if(ans===prob.ans.replace(/\s/g,'')){
+        fb.innerHTML='<div class="feedback success"><i class="fas fa-check-circle" style="margin-right:4px"></i>Benar! '+prob.step+'</div>';
+        App.addKreativ(prob.ind.toLowerCase(),5);
+        Records.addLatihan(App.profile.name,{type:tab,idx:idx,answer:ans,correct:true,ind:prob.ind});
+      }else{
+        fb.innerHTML='<div class="feedback error"><i class="fas fa-times-circle" style="margin-right:4px"></i>Salah. Jawaban: '+prob.ans+'</div>';
+        App.addKreativ(prob.ind.toLowerCase(),1);
+        Records.addLatihan(App.profile.name,{type:tab,idx:idx,answer:ans,correct:false,ind:prob.ind});
+      }
     }
   }
 };
 
-/* ==========================================================
-   LATIHAN KREATIF
-   ========================================================== */
-var Latihan={tab:'kontekstual',
-  init:function(){var el=$('latihanContent'),self=this,tabs='<div class="tab-bar">';Object.keys(LAT_DATA).forEach(function(k){var d=LAT_DATA[k];tabs+='<button class="tab-btn'+(self.tab===k?' active':'')+'" data-lt="'+k+'"><i class="fas '+d.icon+' mr-1"></i> '+d.title+'</button>'});tabs+='</div><div id="latBody"></div>';el.innerHTML=tabs;el.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){self.tab=this.getAttribute('data-lt');self.init()})});this.renderBody()},
-  renderBody:function(){var data=LAT_DATA[this.tab];if(data.creator)this.renderCreator();else this.renderProblems(data)},
-  renderProblems:function(data){var body=$('latBody'),html='<div class="space-y-4>',self=this;data.problems.forEach(function(p,i){var ic={Fluency:'#06b6d4',Flexibility:'#f59e0b',Originality:'#ef4444',Elaboration:'#10b981'}[p.ind]||'#06b6d4';html+='<div class="card"><div class="flex items-center gap-3 mb-3"><span class="badge" style="background:'+ic+'20;color:'+ic+'">'+p.ind+'</span><span class="text-xs font-mono muted">Soal '+(i+1)+'</span></div><p class="font-bold mb-2">'+p.q+'</p><p class="text-xs muted mb-3"><i class="fas fa-lightbulb gold-text mr-1"></i>'+p.hint+'</p>';if(p.text){html+='<textarea class="input-field mb-3" rows="3" id="ltT'+i+'" placeholder="Tuliskan penjelasanmu..."></textarea><button class="btn btn-primary btn-sm" data-la="ct" data-li="'+i+'">Kirim Jawaban</button>'}else{html+='<div class="flex gap-2"><input type="text" class="input-field flex-1" id="ltI'+i+'" placeholder="Jawaban..."><button class="btn btn-primary btn-sm" data-la="ck" data-li="'+i+'">Cek</button></div>'}html+='<div id="ltF'+i+'" class="mt-3"></div></div>'});html+='</div>';body.innerHTML=html;body.querySelectorAll('[data-la="ck"]').forEach(function(b){b.addEventListener('click',function(){self.check(parseInt(this.getAttribute('data-li')))})});body.querySelectorAll('[data-la="ct"]').forEach(function(b){b.addEventListener('click',function(){self.checkText(parseInt(this.getAttribute('data-li')))})})},
-  check:function(i){var data=LAT_DATA[this.tab].problems[i],input=$('ltI'+i).value.trim(),fb=$('ltF'+i);if(!input){fb.innerHTML='<div class="feedback error">Silakan isi jawaban</div>';return}if(data.multi){var nums=input.replace(/[\[\]\(\)\s]/g,'').split(',').map(Number).filter(function(n){return!isNaN(n)}),found=data.valid.some(function(ans){return ans.every(function(v,j){return Math.abs(v-nums[j])<.5})});if(found){fb.innerHTML='<div class="feedback success"><i class="fas fa-check-circle mr-1"></i><strong>Benar!</strong></div>';App.addKreatif('fluency',10)}else fb.innerHTML='<div class="feedback error"><i class="fas fa-times-circle mr-1"></i>Belum tepat.</div>'}else{if(Math.abs(parseFloat(input)-parseFloat(data.ans))<.5){fb.innerHTML='<div class="feedback success"><i class="fas fa-check-circle mr-1"></i><strong>Benar!</strong> '+data.step+'</div>';App.addKreatif('elaboration',10)}else fb.innerHTML='<div class="feedback error"><i class="fas fa-times-circle mr-1"></i>Salah. Petunjuk: '+data.hint+'</div>'}},
-  checkText:function(i){var text=$('ltT'+i).value.trim(),fb=$('ltF'+i);if(text.length<20){fb.innerHTML='<div class="feedback error">Jelaskan lebih detail (min 20 karakter)</div>';return}fb.innerHTML='<div class="feedback success"><i class="fas fa-check-circle mr-1"></i><strong>Tersimpan!</strong> Kamu menunjukkan kemampuan yang baik.</div>';App.addKreatif('flexibility',12)},
-  renderCreator:function(){var body=$('latBody');body.innerHTML='<div class="card"><div class="flex items-center gap-3 mb-4"><span class="badge" style="background:rgba(239,68,68,.15);color:var(--accent-coral)">Originality</span></div><p class="muted mb-4">Buat soal Teorema Pythagoras sendiri dari kehidupan sehari-hari!</p><div class="space-y-4"><div><label class="text-sm font-bold mb-1 block">Konteks / Cerita Soal</label><textarea class="input-field" rows="4" id="bsC" placeholder="Contoh: Sebuah pesawat layang terbang setinggi 120 m..."></textarea></div><div class="grid-2 gap-4"><div><label class="text-sm font-bold mb-1 block cyan-text">Sisi a</label><input type="number" class="input-field" id="bsA" placeholder="50" min="0"></div><div><label class="text-sm font-bold mb-1 block gold-text">Sisi b</label><input type="number" class="input-field" id="bsB" placeholder="120" min="0"></div></div><div><label class="text-sm font-bold mb-1 block coral-text">Jawaban (c)</label><input type="number" class="input-field" id="bsAns" placeholder="?" min="0"></div><div><label class="text-sm font-bold mb-1 block">Langkah Penyelesaian</label><textarea class="input-field" rows="3" id="bsL" placeholder="Tuliskan langkah penyelesaian..."></textarea></div><button class="btn btn-primary w-full" id="bsSub"><i class="fas fa-paper-plane mr-2"></i>Simpan Soal</button><div id="bsFb"></div></div></div>';$('bsSub').addEventListener('click',function(){Latihan.submitCreated()})},
-  submitCreated:function(){var c=$('bsC').value.trim(),a=parseFloat($('bsA').value),b=parseFloat($('bsB').value),l=$('bsL').value.trim(),ans=parseFloat($('bsAns').value),fb=$('bsFb');if(!c||isNaN(a)||isNaN(b)||isNaN(ans)||!l){fb.innerHTML='<div class="feedback error"><i class="fas fa-exclamation-triangle mr-1"></i>Lengkapi semua field</div>';return}var exp=Math.sqrt(a*a+b*b);if(Math.abs(ans-exp)<1){fb.innerHTML='<div class="feedback success"><i class="fas fa-star mr-1"></i><strong>Soal Kreatif Tersimpan!</strong> Jawaban ('+ans+') sesuai ('+exp.toFixed(2)+'). Kreativitasmu luar biasa!</div>';App.addKreatif('originality',20);toast('Soal berhasil dibuat!','success')}else{fb.innerHTML='<div class="feedback warning"><i class="fas fa-exclamation-circle mr-1"></i>Tersimpan, tapi jawaban seharusnya ≈'+exp.toFixed(2)+'</div>';App.addKreatif('originality',5)}}
-};
-
-/* ==========================================================
+/* ============================================================
    GAME
-   ========================================================== */
-var Game={tab:'speed',sp:{on:false,sc:0,rd:0,tot:10,tm:30,iv:null,a:0,b:0,ans:''},pz:{on:false,cards:[],sel:null,mt:0,tot:0,sc:0,tm:60,iv:null},
-  init:function(){if(this.sp.on){clearInterval(this.sp.iv);this.sp.on=false}if(this.pz.on){clearInterval(this.pz.iv);this.pz.on=false}var el=$('gameContent'),self=this,tabs='<div class="tab-bar"><button class="tab-btn'+(this.tab==='speed'?' active':'')+'" data-gt="speed"><i class="fas fa-bolt mr-1"></i>Speed Challenge</button><button class="tab-btn'+(this.tab==='puzzle'?' active':'')+'" data-gt="puzzle"><i class="fas fa-puzzle-piece mr-1"></i>Puzzle Match</button></div><div id="gameBody"></div>';el.innerHTML=tabs;el.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){self.tab=this.getAttribute('data-gt');self.init()})});if(this.tab==='speed')this.renderSpeed();else this.renderPuzzle()},
-  renderSpeed:function(){var b=$('gameBody'),s=this.sp;if(!s.on){b.innerHTML='<div class="card text-center" style="padding:3rem"><div class="card-icon gold mb-4" style="width:80px;height:80px;border-radius:24px;font-size:2rem;margin:0 auto"><i class="fas fa-bolt"></i></div><h2 class="text-2xl font-bold mb-2">Speed Challenge</h2><p class="muted mb-6">Hitung hipotenusa secepat mungkin! 10 ronde, 30 detik per ronde.</p><button class="btn btn-primary btn-lg" id="spStart"><i class="fas fa-play mr-2"></i>Mulai</button></div>';$('spStart').addEventListener('click',function(){Game.startSpeed()})}else{b.innerHTML='<div class="card"><div class="flex justify-between items-center mb-4"><div class="flex gap-4"><span class="font-mono font-bold gold-text"><i class="fas fa-star mr-1"></i>'+s.sc+'</span><span class="font-mono text-sm muted">Ronde '+s.rd+'/'+s.tot+'</span></div><div class="font-mono font-bold text-2xl" style="color:'+(s.tm<=10?'var(--accent-coral)':'var(--accent-cyan)')+'">'+s.tm+'s</div></div><div class="progress-bar mb-6"><div class="progress-fill" style="width:'+((s.rd-1)/s.tot*100)+'%"></div></div><div class="text-center" style="padding:2rem 0"><p class="muted mb-2">Hitung c dari segitiga siku-siku:</p><p class="text-4xl font-mono font-bold mb-6"><span class="cyan-text">a = '+s.a+'</span> &nbsp; <span class="gold-text">b = '+s.b+'</span></p><p class="muted mb-4">c = ? <span class="text-xs">(bulatkan 2 desimal)</span></p><div class="flex justify-center gap-3" style="max-width:300px;margin:0 auto"><input type="number" step="any" class="input-field text-center text-2xl" id="spInp" placeholder="?"><button class="btn btn-primary" style="padding:12px 20px" id="spChk"><i class="fas fa-check"></i></button></div><div id="spFb" class="mt-4"></div></div></div>';var inp=$('spInp');if(inp){inp.focus();inp.addEventListener('keydown',function(e){if(e.key==='Enter')Game.checkSpeed()})}$('spChk').addEventListener('click',function(){Game.checkSpeed()})}},
-  startSpeed:function(){var s=this.sp;s.sc=0;s.rd=0;s.on=true;this.nextSpeed()},
-  nextSpeed:function(){var s=this.sp;s.rd++;if(s.rd>s.tot){this.endSpeed();return}s.a=Math.floor(Math.random()*15)+1;s.b=Math.floor(Math.random()*15)+1;s.ans=Math.sqrt(s.a*s.a+s.b*s.b).toFixed(2);s.tm=30;clearInterval(s.iv);var self=this;s.iv=setInterval(function(){s.tm--;if(s.tm<=0){clearInterval(s.iv);self.checkSpeed(true)}else self.renderSpeed()},1000);this.renderSpeed()},
-  checkSpeed:function(to){var s=this.sp;clearInterval(s.iv);var inp=$('spInp'),val=inp?parseFloat(inp.value):NaN,fb=$('spFb');if(to||isNaN(val)){fb.innerHTML='<span class="coral-text">Waktu habis! Jawaban: '+s.ans+'</span>'}else if(Math.abs(val-parseFloat(s.ans))<.05){var bonus=s.tm;s.sc+=10+bonus;fb.innerHTML='<span class="mint-text"><i class="fas fa-check-circle mr-1"></i>Benar! +'+(10+bonus)+'</span>'}else{s.sc=Math.max(0,s.sc-5);fb.innerHTML='<span class="coral-text"><i class="fas fa-times-circle mr-1"></i>Salah! Jawaban: '+s.ans+'</span>'}setTimeout(function(){Game.nextSpeed()},1200)},
-  endSpeed:function(){var s=this.sp;s.on=false;clearInterval(s.iv);App.profile.gameScores.push({type:'speed',score:s.sc,date:new Date().toISOString()});App.saveProfile();toast('Skor Speed: '+s.sc+' poin!','success');$('gameBody').innerHTML='<div class="card text-center" style="padding:3rem"><div class="card-icon gold mb-4" style="width:80px;height:80px;border-radius:24px;font-size:2rem;margin:0 auto;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(239,68,68,.2))"><i class="fas fa-trophy"></i></div><h2 class="text-2xl font-bold mb-2">Selesai!</h2><p class="text-4xl font-mono font-bold my-4 gold-text">'+s.sc+'</p><p class="muted mb-6">Total poin dari '+s.tot+' ronde</p><div class="flex justify-center gap-3"><button class="btn btn-primary" id="spAgain"><i class="fas fa-redo mr-2"></i>Main Lagi</button><button class="btn btn-outline" id="spProf"><i class="fas fa-chart-line mr-2"></i>Lihat Skor</button></div></div>';$('spAgain').addEventListener('click',function(){Game.startSpeed()});$('spProf').addEventListener('click',function(){App.go('profil')})},
-  renderPuzzle:function(){var b=$('gameBody'),p=this.pz;if(!p.on){b.innerHTML='<div class="card text-center" style="padding:3rem"><div class="card-icon mint mb-4" style="width:80px;height:80px;border-radius:24px;font-size:2rem;margin:0 auto"><i class="fas fa-puzzle-piece"></i></div><h2 class="text-2xl font-bold mb-2">Puzzle Match</h2><p class="muted mb-6">Cocokkan segitiga dengan hipotenusa yang benar! 8 pasangan, 60 detik.</p><button class="btn btn-primary btn-lg" id="pzStart"><i class="fas fa-play mr-2"></i>Mulai</button></div>';$('pzStart').addEventListener('click',function(){Game.startPuzzle()})}else this.drawPuzzle()},
-  startPuzzle:function(){var p=this.pz;p.on=true;p.sc=0;p.mt=0;p.sel=null;p.tm=60;var pairs=[],used={};while(pairs.length<8){var a=Math.floor(Math.random()*14)+1,b=Math.floor(Math.random()*14)+1,key=Math.min(a,b)+','+Math.max(a,b);if(!used[key]){used[key]=true;pairs.push({a:a,b:b,c:Math.sqrt(a*a+b*b).toFixed(2),id:pairs.length,matched:false})}}p.cards=pairs;p.tot=pairs.length;clearInterval(p.iv);var self=this;p.iv=setInterval(function(){p.tm--;var te=$('pzTm');if(te){te.textContent=p.tm+'s';te.style.color=p.tm<=10?'var(--accent-coral)':'var(--accent-cyan)'}if(p.tm<=0){clearInterval(p.iv);Game.endPuzzle()}},1000);this.drawPuzzle()},
-  drawPuzzle:function(){var p=this.pz,b=$('gameBody'),self=this,shuffled=p.cards.slice().sort(function(){return Math.random()-.5}),h='<div class="card"><div class="flex justify-between items-center mb-4"><span class="font-mono font-bold gold-text"><i class="fas fa-star mr-1"></i>'+p.sc+'</span><span class="font-mono text-sm muted">Cocokkan: '+p.mt+'/'+p.tot+'</span><div class="font-mono font-bold text-xl" id="pzTm" style="color:var(--accent-cyan)">'+p.tm+'s</div></div><div class="grid-2 gap-4"><div class="space-y-3"><p class="text-sm font-bold text-center muted">Segitiga (a, b)</p>';p.cards.forEach(function(c){h+='<button class="option-btn'+(c.matched?' correct':'')+(p.sel&&p.sel.t==='l'&&p.sel.id===c.id?' selected':'')+'" '+(c.matched?'disabled':'')+' data-pz="l" data-pi="'+c.id+'"><span class="font-mono">a='+c.a+', b='+c.b+'</span></button>'});h+='</div><div class="space-y-3"><p class="text-sm font-bold text-center muted">Hipotenusa (c)</p>';shuffled.forEach(function(c){h+='<button class="option-btn'+(c.matched?' correct':'')+(p.sel&&p.sel.t==='r'&&p.sel.id===c.id?' selected':'')+'" '+(c.matched?'disabled':'')+' data-pz="r" data-pi="'+c.id+'"><span class="font-mono">c = '+c.c+'</span></button>'});h+='</div></div></div>';b.innerHTML=h;b.querySelectorAll('[data-pz]').forEach(function(btn){btn.addEventListener('click',function(){var t=this.getAttribute('data-pz'),id=parseInt(this.getAttribute('data-pi'));self.pzClick(t,id)})})},
-  pzClick:function(t,id){var p=this.pz;if(!p.sel){p.sel={t:t,id:id};this.drawPuzzle()}else{if(p.sel.t===t){p.sel={t:t,id:id};this.drawPuzzle()}else{if(p.sel.id===id){p.cards[id].matched=true;p.mt++;p.sc+=Math.max(5,p.tm);App.addKreatif('fluency',3);p.sel=null;if(p.mt>=p.tot){clearInterval(p.iv);setTimeout(function(){Game.endPuzzle()},400)}this.drawPuzzle()}else{p.sc=Math.max(0,p.sc-3);p.sel=null;this.drawPuzzle();toast('Tidak cocok! -3 poin','error')}}}},
-  endPuzzle:function(){var p=this.pz;p.on=false;clearInterval(p.iv);App.profile.gameScores.push({type:'puzzle',score:p.sc,matched:p.mt,total:p.tot,date:new Date().toISOString()});App.saveProfile();toast('Puzzle selesai! Skor: '+p.sc,'success');$('gameBody').innerHTML='<div class="card text-center" style="padding:3rem"><div class="card-icon mint mb-4" style="width:80px;height:80px;border-radius:24px;font-size:2rem;margin:0 auto;background:linear-gradient(135deg,rgba(16,185,129,.2),rgba(6,182,212,.2))"><i class="fas fa-puzzle-piece"></i></div><h2 class="text-2xl font-bold mb-2">Puzzle Selesai!</h2><p class="text-4xl font-mono font-bold my-4 mint-text">'+p.sc+'</p><p class="muted mb-2">'+p.mt+'/'+p.tot+' pasangan cocok</p><p class="muted mb-6">Sisa waktu: '+p.tm+' detik</p><div class="flex justify-center gap-3"><button class="btn btn-primary" id="pzAgain"><i class="fas fa-redo mr-2"></i>Main Lagi</button><button class="btn btn-outline" id="pzProf"><i class="fas fa-chart-line mr-2"></i>Lihat Skor</button></div></div>';$('pzAgain').addEventListener('click',function(){Game.startPuzzle()});$('pzProf').addEventListener('click',function(){App.go('profil')})}
+   ============================================================ */
+var Game={score:0,timeLeft:60,running:false,interval:null,currentQ:null,
+  init:function(){var el=$('gameContent');el.innerHTML=this.html();this.bindEvents()},
+  html:function(){
+    return'<div class="card text-center" id="gameArea"><h3 class="font-bold mb-2"><i class="fas fa-gamepad mint-text" style="margin-right:6px"></i>Pythagoras Speed Challenge</h3><p class="text-sm muted mb-4">Temukan sisi yang hilang sebelum waktu habis!</p><div id="gameStart"><button class="btn btn-primary btn-lg" id="gameStartBtn"><i class="fas fa-play" style="margin-right:8px"></i>Mulai Game</button></div><div id="gamePlay" style="display:none"><div class="flex justify-between mb-4"><div class="stat-card flex-1"><div class="stat-icon" style="background:var(--glow);color:var(--accent-cyan)"><i class="fas fa-star"></i></div><div><div class="stat-value" id="gScore">0</div><div class="stat-label">Skor</div></div></div><div class="stat-card flex-1"><div class="stat-icon" style="background:rgba(239,68,68,.12);color:var(--accent-coral)"><i class="fas fa-clock"></i></div><div><div class="stat-value" id="gTime">60</div><div class="stat-label">Detik</div></div></div></div><div class="progress-bar mb-4"><div class="progress-fill" id="gProg" style="width:100%"></div></div><div class="formula-box mb-4"><p class="text-lg font-bold" id="gQ"></p></div><input type="text" class="input-field mb-3" id="gAns" placeholder="Jawaban..." style="text-align:center;font-size:1.2rem"><button class="btn btn-primary w-full" id="gSubmitBtn">Jawab</button><div id="gFb" class="mt-2"></div></div><div id="gameEnd" style="display:none"><div class="formula-box mb-4"><p class="text-sm muted">Skor Akhir</p><p class="text-4xl font-bold mint-text" id="gFinal">0</p></div><p class="text-sm muted mb-4" id="gMsg"></p><button class="btn btn-primary btn-lg" id="gRetryBtn"><i class="fas fa-redo" style="margin-right:8px"></i>Main Lagi</button></div></div>';
+  },
+  bindEvents:function(){
+    var self=this;
+    $('gameStartBtn').addEventListener('click',function(){self.start()});
+    $('gSubmitBtn').addEventListener('click',function(){self.answer()});
+    $('gRetryBtn').addEventListener('click',function(){self.start()});
+    $('gAns').addEventListener('keydown',function(e){if(e.key==='Enter')self.answer()});
+  },
+  start:function(){
+    this.score=0;this.timeLeft=60;this.running=true;
+    $('gameStart').style.display='none';$('gamePlay').style.display='block';$('gameEnd').style.display='none';
+    $('gScore').textContent='0';$('gTime').textContent='60';$('gProg').style.width='100%';$('gFb').innerHTML='';
+    this.nextQ();var self=this;
+    this.interval=setInterval(function(){
+      self.timeLeft--;$('gTime').textContent=self.timeLeft;$('gProg').style.width=(self.timeLeft/60*100)+'%';
+      if(self.timeLeft<=0)self.end();
+    },1000);
+  },
+  nextQ:function(){
+    var type=Math.floor(Math.random()*3);
+    var a,b,c;
+    if(type===0){a=Math.floor(Math.random()*15)+3;b=Math.floor(Math.random()*15)+3;c=Math.sqrt(a*a+b*b);this.currentQ={q:'a = '+a+', b = '+b+', c = ?',ans:c.toFixed(2)}}
+    else if(type===1){var t=TRIPLES[Math.floor(Math.random()*TRIPLES.length)];a=t[0];b=t[1];c=t[2];var missing=Math.floor(Math.random()*3);if(missing===0)this.currentQ={q:'b = '+b+', c = '+c+', a = ?',ans:a.toString()};else if(missing===1)this.currentQ={q:'a = '+a+', c = '+c+', b = ?',ans:b.toString()};else this.currentQ={q:'a = '+a+', b = '+b+', c = ?',ans:c.toString()}}
+    else{a=Math.floor(Math.random()*12)+3;b=Math.floor(Math.random()*12)+3;c=Math.sqrt(a*a+b*b);this.currentQ={q:'a = '+a+', b = '+b+', c = ?',ans:c.toFixed(2)}}
+    $('gQ').textContent=this.currentQ.q;$('gAns').value='';$('gFb').innerHTML='';$('gAns').focus();
+  },
+  answer:function(){
+    if(!this.running)return;
+    var val=parseFloat($('gAns').value);
+    if(isNaN(val))return;
+    var correct=Math.abs(val-parseFloat(this.currentQ.ans))<0.5;
+    if(correct){this.score+=10;$('gScore').textContent=this.score;$('gFb').innerHTML='<div class="feedback success"><i class="fas fa-check" style="margin-right:4px"></i>Benar! +10</div>';this.nextQ()}
+    else{$('gFb').innerHTML='<div class="feedback error"><i class="fas fa-times" style="margin-right:4px"></i>Salah! Jawaban: '+this.currentQ.ans+'</div>'}
+  },
+  end:function(){
+    this.running=false;clearInterval(this.interval);
+    $('gamePlay').style.display='none';$('gameEnd').style.display='block';
+    $('gFinal').textContent=this.score;
+    var msg=this.score>=100?'Luar biasa!':this.score>=50?'Bagus!':'Terus berlatih!';
+    $('gMsg').textContent=msg;
+    App.profile.gameScores.push({score:this.score,date:nowStr()});App.saveProfile();
+    Records.addGame(App.profile.name,this.score,'speed challenge');
+    toast('Game selesai! Skor: '+this.score,'info');
+  }
 };
 
-/* ==========================================================
+/* ============================================================
    QUIZ
-   ========================================================== */
-var Quiz={cur:0,ans:[],sub:false,start:0,
-  init:function(){this.cur=0;this.ans=[];this.sub=false;var el=$('quizContent');el.innerHTML='<div class="card text-center" style="padding:3rem"><div class="card-icon purple-text mb-4" style="width:80px;height:80px;border-radius:24px;font-size:2rem;margin:0 auto;background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(6,182,212,.15))"><i class="fas fa-clipboard-check"></i></div><h2 class="text-2xl font-bold mb-2">Quiz Teorema Pythagoras</h2><p class="muted mb-4">10 soal: pilihan ganda, isian, HOTS</p><div class="flex justify-center gap-3 mb-6"><span class="badge" style="background:rgba(6,182,212,.12);color:var(--accent-cyan)">LOTS</span><span class="badge" style="background:rgba(245,158,11,.12);color:var(--accent-gold)">MOTS</span><span class="badge" style="background:rgba(239,68,68,.12);color:var(--accent-coral)">HOTS</span></div><button class="btn btn-primary btn-lg" id="qStart"><i class="fas fa-play mr-2"></i>Mulai Quiz</button></div>';$('qStart').addEventListener('click',function(){Quiz.start=Date.now();Quiz.renderQ()})},
-  renderQ:function(){var q=QUIZ_DATA[this.cur],n=this.cur+1,tot=QUIZ_DATA.length,dc={LOTS:'var(--accent-cyan)',MOTS:'var(--accent-gold)',HOTS:'var(--accent-coral)'}[q.diff]||'var(--text-muted)',h='<div class="card mb-4"><div class="flex justify-between items-center mb-4"><div class="flex items-center gap-3"><span class="font-mono font-bold">'+n+'/'+tot+'</span><span class="badge" style="background:'+dc+'20;color:'+dc+'">'+q.diff+'</span></div><div class="progress-bar" style="width:120px"><div class="progress-fill" style="width:'+(n/tot*100)+'%"></div></div></div><p class="font-bold text-lg mb-4">'+q.q+'</p>';if(q.type==='mc')q.opts.forEach(function(o,i){h+='<button class="option-btn mb-2" data-qa="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>'});else h+='<input type="text" class="input-field text-lg" id="qFill" placeholder="Tulis jawaban...">';h+='</div><div class="flex justify-between">'+(this.cur>0?'<button class="btn btn-secondary" id="qPrev"><i class="fas fa-arrow-left mr-2"></i>Sebelumnya</button>':'<div></div>');if(this.cur<tot-1)h+='<button class="btn btn-primary" id="qNext">Selanjutnya <i class="fas fa-arrow-right ml-2"></i></button>';else h+='<button class="btn btn-primary" id="qSub"><i class="fas fa-paper-plane mr-2"></i>Selesai</button>';h+='</div>';$('quizContent').innerHTML=h;var self=this;if(q.type==='mc'){if(this.ans[this.cur]!==undefined)$$('[data-qa]').forEach(function(b){if(parseInt(b.getAttribute('data-qa'))===self.ans[self.cur])b.classList.add('selected')});$$('[data-qa]').forEach(function(b){b.addEventListener('click',function(){$$('[data-qa]').forEach(function(x){x.classList.remove('selected')});this.classList.add('selected');self.ans[self.cur]=parseInt(this.getAttribute('data-qa'))})})}else{var fi=$('qFill');if(fi){if(this.ans[this.cur]!==undefined)fi.value=this.ans[this.cur];fi.focus();fi.addEventListener('input',function(){self.ans[self.cur]=this.value.trim()})}}var pv=$('qPrev');if(pv)pv.addEventListener('click',function(){self.cur--;self.renderQ()});var nx=$('qNext');if(nx)nx.addEventListener('click',function(){self.cur++;self.renderQ()});var sb=$('qSub');if(sb)sb.addEventListener('click',function(){self.submit()})},
-  submit:function(){var un=[];for(var i=0;i<QUIZ_DATA.length;i++){if(this.ans[i]===undefined||this.ans[i]==='')un.push(i+1)}if(un.length>0&&!confirm('Soal '+un.join(', ')+' belum dijawab. Lanjutkan?'))return;this.sub=true;var elapsed=Math.round((Date.now()-this.start)/1000),score=0,results=[];QUIZ_DATA.forEach(function(q,i){var u=Quiz.ans[i],ok=false;if(q.type==='mc')ok=u===q.ans;else ok=u!==undefined&&Math.abs(parseFloat(u)-parseFloat(q.ans))<.5;if(ok)score+=10;results.push({q:q,userAns:u,correct:ok})});App.profile.quizHistory.push({score:score,total:QUIZ_DATA.length*10,time:elapsed,date:new Date().toISOString(),details:results.map(function(r){return r.correct})});App.saveProfile();var hc=results.filter(function(r,i){return r.correct&&QUIZ_DATA[i].diff==='HOTS'}).length;if(hc>0)App.addKreatif('elaboration',hc*5);App.addKreatif('fluency',score>60?10:3);this.showResults(score,elapsed,results)},
-  showResults:function(score,elapsed,results){var tot=QUIZ_DATA.length*10,pct=Math.round(score/tot*100),grade=pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'E',gc=pct>=80?'var(--accent-mint)':pct>=60?'var(--accent-gold)':'var(--accent-coral)',h='<div class="card text-center mb-6" style="padding:2rem"><p class="text-sm muted mb-2">Quiz Selesai</p><p class="text-5xl font-mono font-bold mb-2" style="color:'+gc+'">'+score+'/'+tot+'</p><p class="text-2xl font-bold mb-2">Grade: <span style="color:'+gc+'">'+grade+'</span></p><p class="muted">Waktu: '+elapsed+' detik</p><div class="progress-bar mt-4" style="max-width:300px;margin:1rem auto"><div class="progress-fill" style="width:'+pct+'%;background:'+gc+'"></div></div></div><h3 class="font-bold mb-4">Pembahasan</h3><div class="space-y-4>';results.forEach(function(r,i){var q=r.q,dc={LOTS:'var(--accent-cyan)',MOTS:'var(--accent-gold)',HOTS:'var(--accent-coral)'}[q.diff],icon=r.correct?'<i class="fas fa-check-circle mint-text"></i>':'<i class="fas fa-times-circle coral-text"></i>';h+='<div class="card" style="padding:1rem"><div class="flex items-center gap-2 mb-2">'+icon+'<span class="text-sm font-mono muted">Soal '+(i+1)+'</span><span class="badge text-xs" style="background:'+dc+'20;color:'+dc+'">'+q.diff+'</span></div><p class="text-sm font-bold mb-2">'+q.q+'</p>';if(q.type==='mc'){var ut=r.userAns!==undefined?q.opts[r.userAns]:'Tidak dijawab';h+='<p class="text-sm muted">Jawabanmu: <strong>'+ut+'</strong></p>';if(!r.correct)h+='<p class="text-sm mint-text">Benar: <strong>'+q.opts[q.ans]+'</strong></p>'}else{h+='<p class="text-sm muted">Jawabanmu: <strong>'+(r.userAns||'Tidak dijawab')+'</strong></p>';if(!r.correct)h+='<p class="text-sm mint-text">Benar: <strong>'+q.ans+'</strong></p>'}h+='<p class="text-xs muted mt-2"><i class="fas fa-lightbulb gold-text mr-1"></i>'+q.exp+'</p></div>'});h+='</div><div class="flex justify-center gap-3 mt-6 mb-6"><button class="btn btn-primary" id="qRetry"><i class="fas fa-redo mr-2"></i>Coba Lagi</button><button class="btn btn-outline" id="qProf"><i class="fas fa-chart-line mr-2"></i>Lihat Statistik</button></div>';$('quizContent').innerHTML=h;$('qRetry').addEventListener('click',function(){Quiz.init()});$('qProf').addEventListener('click',function(){App.go('profil')});toast('Quiz selesai! Nilai: '+score+'/'+tot,score>=70?'success':'info')}
+   ============================================================ */
+var Quiz={idx:0,score:0,answered:false,
+  init:function(){this.idx=0;this.score=0;this.answered=false;var el=$('quizContent');el.innerHTML=this.html();this.showQ()},
+  html:function(){
+    return'<div class="card mb-4"><div class="flex justify-between items-center mb-3"><span class="font-bold">Soal <span id="qNum">1</span>/'+QUIZ_DATA.length+'</span><span class="badge badge-cyan" id="qDiff">LOTS</span></div><div class="progress-bar mb-4"><div class="progress-fill" id="qProg" style="width:0%"></div></div><p class="text-lg font-bold mb-4" id="qQ"></p><div id="qOpts" class="space-y-3"></div><div id="qFb" style="display:none"></div><div class="flex gap-3 mt-4"><button class="btn btn-primary" id="qNext" style="display:none">Selanjutnya <i class="fas fa-arrow-right" style="margin-left:6px"></i></button></div></div><div class="card text-center" id="qResult" style="display:none"><h2 class="font-bold text-2xl mb-2">Hasil Quiz</h2><p class="text-4xl font-bold mint-text mb-2" id="qScore"></p><p class="muted mb-4" id="qMsg"></p><button class="btn btn-primary" id="qRetry"><i class="fas fa-redo" style="margin-right:6px"></i>Coba Lagi</button></div>';
+  },
+  showQ:function(){
+    if(this.idx>=QUIZ_DATA.length){this.showResult();return}
+    var d=QUIZ_DATA[this.idx];this.answered=false;
+    $('qNum').textContent=this.idx+1;$('qDiff').textContent=d.diff;
+    $('qProg').style.width=(this.idx/QUIZ_DATA.length*100)+'%';
+    $('qQ').textContent=d.q;$('qFb').style.display='none';$('qNext').style.display='none';
+    var opts=$('qOpts');opts.innerHTML='';
+    if(d.type==='mc'){
+      d.opts.forEach(function(o,i){
+        var btn=document.createElement('button');btn.className='option-btn';btn.textContent=o;
+        btn.addEventListener('click',function(){Quiz.selectMc(i)});
+        opts.appendChild(btn);
+      });
+    }else{
+      opts.innerHTML='<input type="text" class="input-field" id="qFill" placeholder="Jawaban..."><button class="btn btn-primary btn-sm mt-2" id="qFillBtn">Jawab</button>';
+      $('qFillBtn').addEventListener('click',function(){Quiz.checkFill()});
+      $('qFill').addEventListener('keydown',function(e){if(e.key==='Enter')Quiz.checkFill()});
+    }
+  },
+  selectMc:function(i){
+    if(this.answered)return;this.answered=true;
+    var d=QUIZ_DATA[this.idx];var opts=$('qOpts').querySelectorAll('.option-btn');
+    opts.forEach(function(o,j){o.disabled=true;if(j===d.ans)o.classList.add('correct');if(j===i&&j!==d.ans)o.classList.add('wrong')});
+    var correct=i===d.ans;if(correct)this.score++;
+    this.showFeedback(correct,d.exp);
+  },
+  checkFill:function(){
+    if(this.answered)return;this.answered=true;
+    var d=QUIZ_DATA[this.idx];var val=$('qFill').value.trim();
+    var correct=val===d.ans;if(correct)this.score++;
+    $('qFill').disabled=true;$('qFillBtn').disabled=true;
+    if(!correct){$('qFill').style.borderColor='var(--accent-coral)'}else{$('qFill').style.borderColor='var(--accent-mint)'}
+    this.showFeedback(correct,d.exp);
+  },
+  showFeedback:function(correct,exp){
+    var fb=$('qFb');fb.style.display='';
+    fb.innerHTML='<div class="feedback '+(correct?'success':'error')+'"><i class="fas fa-'+(correct?'check':'times')+'-circle" style="margin-right:4px"></i>'+(correct?'Benar!':'Salah!')+' '+exp+'</div>';
+    $('qNext').style.display='inline-flex';
+    var self=this;
+    $('qNext').onclick=function(){self.idx++;self.showQ()};
+  },
+  showResult:function(){
+    $('qProg').style.width='100%';
+    var pct=Math.round(this.score/QUIZ_DATA.length*100);
+    $('qScore').textContent=this.score+'/'+QUIZ_DATA.length+' ('+pct+'%)';
+    $('qMsg').textContent=pct>=80?'Hebat! Pemahamanmu sangat baik!':pct>=60?'Bagus! Terus tingkatkan!':'Terus berlatih ya!';
+    $('qResult').style.display='block';$('qNext').style.display='none';
+    App.profile.quizHistory.push({score:this.score,total:QUIZ_DATA.length,date:nowStr()});App.saveProfile();
+    Records.addQuiz(App.profile.name,this.score,QUIZ_DATA.length,'interactive quiz');
+    var self2=this;
+    $('qRetry').addEventListener('click',function(){self2.idx=0;self2.score=0;self2.answered=false;var el=$('quizContent');el.innerHTML=self2.html();self2.showQ()});
+    toast('Quiz selesai! Skor: '+this.score+'/'+QUIZ_DATA.length,'info');
+  }
 };
 
-/* ==========================================================
-   PROFIL / DASHBOARD
-   ========================================================== */
-var Profil={chartQ:null,chartC:null,
-  init:function(){if(this.chartQ){this.chartQ.destroy();this.chartQ=null}if(this.chartC){this.chartC.destroy();this.chartC=null}var p=App.profile,thq=p.quizHistory.reduce(function(s,q){return s+q.score},0),thm=p.quizHistory.reduce(function(s,q){return s+q.total},0),avg=p.quizHistory.length?Math.round(thq/thm*100):0,bestG=p.gameScores.length?Math.max.apply(null,p.gameScores.map(function(g){return g.score})):0,tk=p.kreativitas.fluency+p.kreativitas.flexibility+p.kreativitas.originality+p.kreativitas.elaboration;var h='<div class="card mb-6"><div class="flex items-center gap-4 flex-wrap"><div style="width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,#06b6d4,#f59e0b);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;font-weight:800;flex-shrink:0">'+(p.name||'P')[0].toUpperCase()+'</div><div class="flex-1"><input type="text" class="text-xl font-bold bg-transparent border-b-2 outline-none w-full" style="border-color:var(--border);color:var(--text-primary);padding:4px 0" value="'+(p.name||'Peserta')+'" id="pName"><p class="text-xs muted mt-1">Klik nama untuk mengedit</p></div><span class="badge" style="background:rgba(6,182,212,.12);color:var(--accent-cyan);font-size:.85rem"><i class="fas fa-fire mr-1"></i>'+p.quizHistory.length+' quiz</span></div></div>';h+='<div class="grid-4 mb-6"><div class="stat-card"><div class="stat-icon" style="background:var(--glow);color:var(--accent-cyan)"><i class="fas fa-clipboard-check"></i></div><div><div class="stat-value">'+p.quizHistory.length+'</div><div class="stat-label">Quiz Dikerjakan</div></div></div><div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--accent-gold)"><i class="fas fa-percentage"></i></div><div><div class="stat-value">'+avg+'%</div><div class="stat-label">Rata-rata</div></div></div><div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,.12);color:var(--accent-coral)"><i class="fas fa-gamepad"></i></div><div><div class="stat-value">'+bestG+'</div><div class="stat-label">Skor Game Tertinggi</div></div></div><div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,.12);color:var(--accent-mint)"><i class="fas fa-brain"></i></div><div><div class="stat-value">'+tk+'</div><div class="stat-label">Poin Kreativitas</div></div></div></div>';h+='<div class="grid-2 mb-6"><div class="card"><h3 class="font-bold mb-4">Riwayat Skor Quiz</h3><div style="position:relative;height:220px"><canvas id="chQ"></canvas></div>'+(p.quizHistory.length===0?'<p class="text-center muted text-sm mt-4">Belum ada data</p>':'')+'</div><div class="card"><h3 class="font-bold mb-4">Performa per Tingkat</h3><div style="position:relative;height:220px"><canvas id="chC"></canvas></div></div></div>';var ks=[{k:'fluency',l:'Fluency (Kelancaran)',c:'#06b6d4',d:'Menghasilkan banyak jawaban'},{k:'flexibility',l:'Flexibility (Keluwesan)',c:'#f59e0b',d:'Menggunakan berbagai metode'},{k:'originality',l:'Originality (Keunikan)',c:'#ef4444',d:'Menciptakan soal sendiri'},{k:'elaboration',l:'Elaboration (Elaborasi)',c:'#10b981',d:'Menjelaskan langkah secara rinci'}];h+='<div class="card mb-6"><h3 class="font-bold mb-4">Indikator Berpikir Kreatif</h3><div class="space-y-4">';ks.forEach(function(k){var v=p.kreativitas[k.k]||0;h+='<div><div class="flex justify-between mb-1"><span class="text-sm font-bold" style="color:'+k.c+'">'+k.l+'</span><span class="text-sm font-mono font-bold">'+v+'/100</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+v+'%;background:'+k.c+'"></div></div><p class="text-xs muted mt-1">'+k.d+'</p></div>'});h+='</div></div>';h+='<div class="card"><h3 class="font-bold mb-4"><i class="fas fa-trophy gold-text mr-2"></i>Leaderboard Game</h3>';if(p.gameScores.length===0)h+='<p class="text-center muted text-sm">Belum ada skor game.</p>';else{var sorted=p.gameScores.slice().sort(function(a,b){return b.score-a.score}).slice(0,10);h+='<div class="space-y-2">';sorted.forEach(function(g,i){var rc=i===0?'gold':i===1?'silver':i===2?'bronze':'normal',tl=g.type==='speed'?'Speed Challenge':'Puzzle Match',dt=new Date(g.date),ds=dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();h+='<div class="lb-row"><div class="lb-rank '+rc+'">'+(i+1)+'</div><div class="flex-1"><div class="text-sm font-bold">'+tl+'</div><div class="text-xs muted">'+ds+(g.matched?' — '+g.matched+'/'+g.total+' cocok':'')+'</div></div><div class="font-mono font-bold gold-text">'+g.score+'</div></div>'});h+='</div>'}h+='</div>';$('profilContent').innerHTML=h;$('pName').addEventListener('change',function(){App.profile.name=this.value||'Peserta';App.saveProfile();toast('Nama disimpan!','success')});this.charts(p)},
-  charts:function(p){var isDk=App.theme==='dark',gc=isDk?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)',tc=isDk?'#8b9bb4':'#5a6b7f';var c1=$('chQ');if(c1&&p.quizHistory.length>0){this.chartQ=new Chart(c1,{type:'bar',data:{labels:p.quizHistory.map(function(q,i){return 'Quiz '+(i+1)}),datasets:[{label:'Skor',data:p.quizHistory.map(function(q){return q.score}),backgroundColor:'rgba(6,182,212,0.6)',borderColor:'#06b6d4',borderWidth:2,borderRadius:6},{label:'Maks',data:p.quizHistory.map(function(q){return q.total}),backgroundColor:'rgba(245,158,11,0.15)',borderColor:'#f59e0b',borderWidth:1,borderRadius:6,borderDash:[4,4]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tc,font:{family:'Space Grotesk'}}}},scales:{x:{ticks:{color:tc},grid:{color:gc}},y:{ticks:{color:tc},grid:{color:gc},beginAtZero:true}}}})}var c2=$('chC');if(c2){var lC=0,lT=0,mC=0,mT=0,hC=0,hT=0,diffMap=['LOTS','LOTS','LOTS','MOTS','MOTS','MOTS','MOTS','HOTS','HOTS','HOTS'];p.quizHistory.forEach(function(q){if(q.details)q.details.forEach(function(ok,i){var d=diffMap[i]||'LOTS';if(d==='LOTS'){lT++;if(ok)lC++}if(d==='MOTS'){mT++;if(ok)mC++}if(d==='HOTS'){hT++;if(ok)hC++}})});this.chartC=new Chart(c2,{type:'radar',data:{labels:['LOTS','MOTS','HOTS'],datasets:[{label:'Akurasi (%)',data:[lT?Math.round(lC/lT*100):0,mT?Math.round(mC/mT*100):0,hT?Math.round(hC/hT*100):0],backgroundColor:'rgba(6,182,212,0.15)',borderColor:'#06b6d4',borderWidth:2,pointBackgroundColor:['#06b6d4','#f59e0b','#ef4444'],pointBorderColor:'#fff',pointRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tc,font:{family:'Space Grotesk'}}}},scales:{r:{beginAtZero:true,max:100,ticks:{color:tc,backdropColor:'transparent',stepSize:25},grid:{color:gc},pointLabels:{color:tc,font:{size:14,family:'Space Grotesk',weight:'600'}}}}}})}}
+/* ============================================================
+   PROFIL
+   ============================================================ */
+var Profil={chart:null,
+  init:function(){var el=$('profilContent');el.innerHTML=this.html();this.drawChart()},
+  html:function(){
+    var p=App.profile;var k=p.kreativitas;
+    var totalQ=p.quizHistory.length,totalG=p.gameScores.length;
+    var lastQ=totalQ>0?p.quizHistory[totalQ-1]:null;
+    var lastG=totalG>0?p.gameScores[totalG-1]:null;
+    var bestG=totalG>0?Math.max.apply(null,p.gameScores.map(function(g){return g.score})):0;
+    return'<div class="mb-6"><p class="text-sm muted mb-2">Selamat datang, <strong class="cyan-text">'+p.name+'</strong></p></div>'+
+    '<div class="grid-4 mb-6">'+
+      '<div class="stat-card"><div class="stat-icon" style="background:var(--glow);color:var(--accent-cyan)"><i class="fas fa-clipboard-check"></i></div><div><div class="stat-value">'+totalQ+'</div><div class="stat-label">Quiz Selesai</div></div></div>'+
+      '<div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--accent-gold)"><i class="fas fa-star"></i></div><div><div class="stat-value">'+bestG+'</div><div class="stat-label">Skor Game Tertinggi</div></div></div>'+
+      '<div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,.12);color:var(--accent-coral)"><i class="fas fa-gamepad"></i></div><div><div class="stat-value">'+totalG+'</div><div class="stat-label">Game Dimainkan</div></div></div>'+
+      '<div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,.12);color:var(--accent-mint)"><i class="fas fa-brain"></i></div><div><div class="stat-value">'+(k.fluency+k.flexibility+k.originality+k.elaboration)+'</div><div class="stat-label">Total Kreativitas</div></div></div>'+
+    '</div>'+
+    '<div class="grid-2 mb-6"><div class="card"><h3 class="font-bold mb-3"><i class="fas fa-chart-bar cyan-text" style="margin-right:6px"></i>Kreativitas</h3><div style="height:240px"><canvas id="profilChart"></canvas></div></div>'+
+    '<div class="card"><h3 class="font-bold mb-3"><i class="fas fa-trophy gold-text" style="margin-right:6px"></i>Detail</h3><div class="space-y-3 text-sm"><div class="flex justify-between items-center p-2 rounded-lg" style="background:var(--bg-elevated)"><span>Fluency</span><span class="font-bold cyan-text">'+k.fluency+'</span></div><div class="flex justify-between items-center p-2 rounded-lg" style="background:var(--bg-elevated)"><span>Flexibility</span><span class="font-bold gold-text">'+k.flexibility+'</span></div><div class="flex justify-between items-center p-2 rounded-lg" style="background:var(--bg-elevated)"><span>Originality</span><span class="font-bold coral-text">'+k.originality+'</span></div><div class="flex justify-between items-center p-2 rounded-lg" style="background:var(--bg-elevated)"><span>Elaboration</span><span class="font-bold mint-text">'+k.elaboration+'</span></div></div>'+(lastQ?'<div class="mt-4 p-3 rounded-lg" style="background:var(--bg-elevated)"><p class="text-xs muted">Quiz terakhir: <strong>'+lastQ.score+'/'+lastQ.total+'</strong></p></div>':'')+(lastG?'<div class="mt-2 p-3 rounded-lg" style="background:var(--bg-elevated)"><p class="text-xs muted">Game terakhir: <strong>'+lastG.score+'</strong> poin</p></div>':'')+
+    '</div></div>';
+  },
+  drawChart:function(){
+    var cvs=$('profilChart');if(!cvs)return;
+    var k=App.profile.kreativitas;
+    if(this.chart){this.chart.destroy()}
+    this.chart=new Chart(cvs,{type:'radar',data:{labels:['Fluency','Flexibility','Originality','Elaboration'],datasets:[{label:'Kreativitas',data:[k.fluency,k.flexibility,k.originality,k.elaboration],backgroundColor:'rgba(6,182,212,0.15)',borderColor:'#06b6d4',borderWidth:2,pointBackgroundColor:'#06b6d4',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{beginAtZero:true,max:100,ticks:{stepSize:20,font:{size:10}},grid:{color:'rgba(255,255,255,0.06)'},pointLabels:{font:{size:12,weight:'600'}}}},plugins:{legend:{display:false}}}});
+  }
 };
 
-document.addEventListener('DOMContentLoaded',function(){App.init()});
+/* ============================================================
+   INIT
+   ============================================================ */
+App.init();
 </script>
 </body>
 </html>
